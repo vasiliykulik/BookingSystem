@@ -10,6 +10,8 @@ public class Room {
     private boolean isBooked;
     private long userBookedId;
 
+    public Room() { }
+
     public Room(long id, int price, int person, boolean isBooked, long userBookedId) {
         this.id = id;
         this.price = price;
@@ -78,10 +80,6 @@ public class Room {
 
     public void setBooked(boolean booked) {
         isBooked = booked;
-    }
-
-    public void setUserBookedId(long userBookedId) {
-        this.userBookedId = userBookedId;
     }
 
     @Override
