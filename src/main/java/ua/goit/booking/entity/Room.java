@@ -10,7 +10,9 @@ public class Room {
     private boolean isBooked;
     private long userBookedId;
 
-    public Room() { }
+    public Room() {
+
+    }
 
     public Room(long id, int price, int person, boolean isBooked, long userBookedId) {
         this.id = id;
@@ -43,10 +45,6 @@ public class Room {
         this.price = price;
         this.person = person;
         this.isBooked = isBooked;
-    }
-
-    public Room() {
-
     }
 
     public long getId() {

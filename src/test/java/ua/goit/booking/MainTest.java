@@ -1,3 +1,5 @@
+package ua.goit.booking;
+
 import ua.goit.booking.entity.Hotel;
 import ua.goit.booking.entity.Room;
 import java.io.File;
