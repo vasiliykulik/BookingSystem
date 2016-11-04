@@ -104,21 +104,12 @@ public class Room {
 
         Room room = (Room) o;
 
-        if (id != room.id) return false;
-        if (price != room.price) return false;
-        if (person != room.person) return false;
-        if (hotelName != null ? !hotelName.equals(room.hotelName) : room.hotelName != null) return false;
-        return cityName != null ? cityName.equals(room.cityName) : room.cityName == null;
+        return id == room.id;
 
     }
 
     @Override
     public int hashCode() {
-        int result = (int) (id ^ (id >>> 32));
-        result = 31 * result + price;
-        result = 31 * result + person;
-        result = 31 * result + (hotelName != null ? hotelName.hashCode() : 0);
-        result = 31 * result + (cityName != null ? cityName.hashCode() : 0);
-        return result;
+        return (int) (id ^ (id >>> 32));
     }
 }

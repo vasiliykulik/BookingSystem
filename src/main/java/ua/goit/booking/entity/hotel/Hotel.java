@@ -50,17 +50,12 @@ public class Hotel {
 
         Hotel hotel = (Hotel) o;
 
-        if (id != hotel.id) return false;
-        if (hotelName != null ? !hotelName.equals(hotel.hotelName) : hotel.hotelName != null) return false;
-        return cityName != null ? cityName.equals(hotel.cityName) : hotel.cityName == null;
+        return id == hotel.id;
 
     }
 
     @Override
     public int hashCode() {
-        int result = (int) (id ^ (id >>> 32));
-        result = 31 * result + (hotelName != null ? hotelName.hashCode() : 0);
-        result = 31 * result + (cityName != null ? cityName.hashCode() : 0);
-        return result;
+        return (int) (id ^ (id >>> 32));
     }
 }
