@@ -8,9 +8,17 @@ public class Room {
     private int price;
     private int person;
     private boolean isBooked;
-    private User userBooked;
+    private long userBookedId;
 
-    public Room(int price, int person, boolean isBooked, User userBooked) {
+    public Room(long id, int price, int person, boolean isBooked, long userBookedId) {
+        this.id = id;
+        this.price = price;
+        this.person = person;
+        this.isBooked = isBooked;
+        this.userBookedId = userBookedId;
+    }
+
+    /*public Room(int price, int person, boolean isBooked, User userBooked) {
         long newId = UUID.randomUUID().getLeastSignificantBits();
         if (newId <= 0) {
             this.id = newId * -1;
@@ -21,7 +29,7 @@ public class Room {
         this.person = person;
         this.isBooked = isBooked;
         this.userBooked = userBooked;
-    }
+    }*/
 
     public Room(int price, int person, boolean isBooked) {
         long newId = UUID.randomUUID().getLeastSignificantBits();
@@ -94,7 +102,7 @@ public class Room {
         if (price != room.price) return false;
         if (person != room.person) return false;
         if (isBooked != room.isBooked) return false;
-        return userBooked != null ? userBooked.equals(room.userBooked) : room.userBooked == null;
+        return userBookedId == room.userBookedId;
 
     }
 
@@ -104,7 +112,7 @@ public class Room {
         result = 31 * result + price;
         result = 31 * result + person;
         result = 31 * result + (isBooked ? 1 : 0);
-        result = 31 * result + (userBooked != null ? userBooked.hashCode() : 0);
+        result = 31 * result + (int) (userBookedId ^ (userBookedId >>> 32));
         return result;
     }
 }

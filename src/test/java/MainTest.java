@@ -23,8 +23,8 @@ public class MainTest {
         ObjectMapper mapper = new ObjectMapper();
 
         List<Room> rooms = new ArrayList<Room>();
-        rooms.add(new Room(1l, 100, 2, false, 0));
-        rooms.add(new Room(2l, 120, 3, false, 0));
+        rooms.add(new Room(1l, 100, 2, false, 1l));
+        rooms.add(new Room(2l, 368, 3, false, 1l));
 
         Hotel hotel = new Hotel(1l, "Radison", "Kiyv", rooms);
 
@@ -45,8 +45,6 @@ public class MainTest {
         try {
             Hotel hotel = mapper.readValue(new File("/home/taras/Documents/Java/BookingSystem/static/info.json"), Hotel.class);
             System.out.println(hotel);
-
-
         } catch (JsonGenerationException e) {
             e.printStackTrace();
         } catch (JsonMappingException e) {

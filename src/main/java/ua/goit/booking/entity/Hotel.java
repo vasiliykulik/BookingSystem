@@ -14,6 +14,14 @@ public class Hotel {
     private List<Room> rooms;
     // private DAO dao
 
+
+    public Hotel(long id, String hotelName, String cityName, List<Room> rooms) {
+        this.id = id;
+        this.hotelName = hotelName;
+        this.cityName = cityName;
+        this.rooms = rooms;
+    }
+
     public Hotel(String hotelName, String cityName, List<Room> rooms) {
         long newId = UUID.randomUUID().getLeastSignificantBits();
         if (newId <= 0) {
