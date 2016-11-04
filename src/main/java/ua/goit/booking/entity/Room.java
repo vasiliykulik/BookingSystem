@@ -37,6 +37,37 @@ public class Room {
         return userBookedId;
     }
 
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    public void setPerson(int person) {
+        this.person = person;
+    }
+
+    public void setBooked(boolean booked) {
+        isBooked = booked;
+    }
+
+    public void setUserBookedId(long userBookedId) {
+        this.userBookedId = userBookedId;
+    }
+
+    @Override
+    public String toString() {
+        return "Room{" +
+                "id=" + id +
+                ", price=" + price +
+                ", person=" + person +
+                ", isBooked=" + isBooked +
+                ", userBookedId=" + userBookedId +
+                '}';
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

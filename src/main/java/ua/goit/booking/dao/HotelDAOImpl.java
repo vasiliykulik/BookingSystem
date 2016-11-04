@@ -7,7 +7,7 @@ import ua.goit.booking.entity.Hotel;
 /**
  * Created by taras on 04.11.16.
  */
-public class AbstractDAOImpl implements AbstractDAO {
+public class HotelDAOImpl implements HotelDAO {
 
     public List<Hotel> findHotelByName(String name) {
         return null;
@@ -25,7 +25,7 @@ public class AbstractDAOImpl implements AbstractDAO {
 
     }
 
-    public List<ua.goit.booking.entity.Hotel> findRoom(Map<String, String> params) {
+    public List<Hotel> findRoom(Map<String, String> params) {
         return null;
     }
 }

@@ -7,7 +7,7 @@ import java.util.Map;
 /**
  * Created by taras on 04.11.16.
  */
-public interface AbstractDAO {
+public interface HotelDAO {
 
     List<Hotel> findHotelByName(String name);
     List<Hotel> findHotelDyCity(String city);

@@ -1,14 +1,14 @@
-import ua.goit.booking.entity.hotel.Hotel;
+import jdk.nashorn.internal.parser.JSONParser;
+import ua.goit.booking.entity.Hotel;
+import ua.goit.booking.entity.Room;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import ua.goit.booking.entity.room.Room;
 
 /**
  * Created by taras on 03.11.16.
@@ -16,7 +16,7 @@ import ua.goit.booking.entity.room.Room;
 public class MainTest {
 
     public static void main(String[] args) {
-
+        readFromJson();
     }
 
     private static void writeInJson() {
@@ -40,7 +40,20 @@ public class MainTest {
     }
 
     private static void readFromJson() {
+        ObjectMapper mapper = new ObjectMapper();
 
+        try {
+            Hotel hotel = mapper.readValue(new File("/home/taras/Documents/Java/BookingSystem/static/info.json"), Hotel.class);
+            System.out.println(hotel);
+
+
+        } catch (JsonGenerationException e) {
+            e.printStackTrace();
+        } catch (JsonMappingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }

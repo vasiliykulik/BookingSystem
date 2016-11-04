@@ -35,9 +35,35 @@ public class Hotel {
         return rooms;
     }
 
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public void setHotelName(String hotelName) {
+        this.hotelName = hotelName;
+    }
+
+    public void setCityName(String cityName) {
+        this.cityName = cityName;
+    }
+
+    public void setRooms(List<Room> rooms) {
+        this.rooms = rooms;
+    }
+
     /* public RoomDAO getRoomDAO() {
         return roomDAO;
     }*/
+
+    @Override
+    public String toString() {
+        return "Hotel{" +
+                "id=" + id +
+                ", hotelName='" + hotelName + '\'' +
+                ", cityName='" + cityName + '\'' +
+                ", rooms=" + rooms +
+                '}';
+    }
 
     @Override
     public boolean equals(Object o) {
