@@ -76,10 +76,6 @@ public class Room {
         isBooked = booked;
     }
 
-    public void setUserBookedId(long userBookedId) {
-        this.userBookedId = userBookedId;
-    }
-
     @Override
     public String toString() {
         return "Room{" +
