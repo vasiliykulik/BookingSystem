@@ -1,6 +1,6 @@
-package hotel;
+package ua.goit.booking.entity.room;
 
-import users.User;
+import ua.goit.booking.entity.user.User;
 
 import java.util.Date;
 import java.util.List;
