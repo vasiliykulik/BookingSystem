@@ -1,6 +1,5 @@
-package hotel;
+package ua.goit.booking.entity.hotel;
 
-import java.util.List;
 
 public class Hotel {
     private long id;
