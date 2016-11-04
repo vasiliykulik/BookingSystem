@@ -1,5 +1,6 @@
 package ua.goit.booking.entity;
 
+import java.lang.reflect.Field;
 import java.util.Date;
 import java.util.UUID;
 
@@ -75,6 +76,10 @@ public class Room {
 
     public long getUserBookedId() {
         return userBookedId;
+    }
+
+    public static Field[] getFieldsName() {
+        return Room.class.getDeclaredFields();
     }
 
     @Override

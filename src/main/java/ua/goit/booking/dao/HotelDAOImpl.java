@@ -2,9 +2,8 @@ package ua.goit.booking.dao;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.lang.reflect.Field;
+import java.util.*;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -127,6 +126,35 @@ public class HotelDAOImpl implements HotelDAO {
     }
 
     public List<Hotel> findRoom(Map<String, String> params) {
-        return null;
+        Set<Hotel> result = new HashSet<>();
+
+        for (String key : params.keySet()) {
+            for (Field field : Room.getFieldsName()) {
+                if (field.getName().equals(key)) {
+                    String value = params.get(key);
+                    for (Hotel hotel : getAllHotels()) {
+                        for (Room room : hotel.getRooms()) {
+                            Field f = null;
+                            try {
+                                f = room.getClass().getDeclaredField(key);
+                            } catch (NoSuchFieldException e) {
+                                e.printStackTrace();
+                            }
+                            if (f != null) {
+                                f.setAccessible(true);
+                            }
+                            try {
+                                if (f != null && f.get(room).toString().equals(value)) {
+                                    result.add(hotel);
+                                }
+                            } catch (IllegalAccessException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return new ArrayList<Hotel>(result);
     }
 }
