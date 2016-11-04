@@ -1,9 +1,8 @@
 package ua.goit.booking.dao;
 
-import ua.goit.booking.entity.hotel.Hotel;
-
 import java.util.List;
 import java.util.Map;
+import ua.goit.booking.entity.Hotel;
 
 /**
  * Created by taras on 04.11.16.
@@ -26,7 +25,7 @@ public class AbstractDAOImpl implements AbstractDAO {
 
     }
 
-    public List<Hotel> findRoom(Map<String, String> params) {
+    public List<ua.goit.booking.entity.Hotel> findRoom(Map<String, String> params) {
         return null;
     }
 }

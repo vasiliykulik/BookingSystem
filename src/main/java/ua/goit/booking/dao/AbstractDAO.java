@@ -1,6 +1,6 @@
 package ua.goit.booking.dao;
 
-import ua.goit.booking.entity.hotel.Hotel;
+import ua.goit.booking.entity.Hotel;
 import java.util.List;
 import java.util.Map;
 

@@ -1,4 +1,4 @@
-package ua.goit.booking.entity.user;
+package ua.goit.booking.entity;
 
 public class User {
     private long id;

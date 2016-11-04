@@ -1,6 +1,6 @@
-package ua.goit.booking.entity.hotel;
+package ua.goit.booking.entity;
 
-import ua.goit.booking.entity.room.Room;
+import ua.goit.booking.entity.Room;
 import java.util.ArrayList;
 import java.util.List;
 

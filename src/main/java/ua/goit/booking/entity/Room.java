@@ -1,4 +1,4 @@
-package ua.goit.booking.entity.room;
+package ua.goit.booking.entity;
 
 import java.util.Date;
 
