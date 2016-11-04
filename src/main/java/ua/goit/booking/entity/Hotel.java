@@ -1,4 +1,4 @@
-package ua.goit.booking.entity.hotel;
+package ua.goit.booking.entity;
 
 
 public class Hotel {

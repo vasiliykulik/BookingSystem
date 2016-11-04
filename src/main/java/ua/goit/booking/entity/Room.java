@@ -1,9 +1,6 @@
-package ua.goit.booking.entity.room;
-
-import ua.goit.booking.entity.user.User;
+package ua.goit.booking.entity;
 
 import java.util.Date;
-import java.util.List;
 
 public class Room {
     private long id;
