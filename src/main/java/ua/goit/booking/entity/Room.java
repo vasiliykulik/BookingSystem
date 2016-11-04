@@ -18,7 +18,7 @@ public class Room {
         this.userBookedId = userBookedId;
     }
 
-    /*public Room(int price, int person, boolean isBooked, User userBooked) {
+    public Room(int price, int person, boolean isBooked, long userBookedId) {
         long newId = UUID.randomUUID().getLeastSignificantBits();
         if (newId <= 0) {
             this.id = newId * -1;
@@ -28,8 +28,8 @@ public class Room {
         this.price = price;
         this.person = person;
         this.isBooked = isBooked;
-        this.userBooked = userBooked;
-    }*/
+        this.userBookedId = userBookedId;
+    }
 
     public Room(int price, int person, boolean isBooked) {
         long newId = UUID.randomUUID().getLeastSignificantBits();
