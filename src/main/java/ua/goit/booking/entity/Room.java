@@ -1,20 +1,38 @@
 package ua.goit.booking.entity;
 
 import java.util.Date;
+import java.util.UUID;
 
 public class Room {
     private long id;
     private int price;
     private int person;
     private boolean isBooked;
-    private long userBookedId;
+    private User userBooked;
 
-    public Room(long id, int price, int person, boolean isBooked, long userBookedId) {
-        this.id = id;
+    public Room(int price, int person, boolean isBooked, User userBooked) {
+        long newId = UUID.randomUUID().getLeastSignificantBits();
+        if (newId <= 0) {
+            this.id = newId * -1;
+        } else {
+            this.id = newId;
+        }
         this.price = price;
         this.person = person;
         this.isBooked = isBooked;
-        this.userBookedId = userBookedId;
+        this.userBooked = userBooked;
+    }
+
+    public Room(int price, int person, boolean isBooked) {
+        long newId = UUID.randomUUID().getLeastSignificantBits();
+        if (newId <= 0) {
+            this.id = newId * -1;
+        } else {
+            this.id = newId;
+        }
+        this.price = price;
+        this.person = person;
+        this.isBooked = isBooked;
     }
 
     public long getId() {
@@ -33,9 +51,6 @@ public class Room {
         return isBooked;
     }
 
-    public long getUserBookedId() {
-        return userBookedId;
-    }
 
     public void setId(long id) {
         this.id = id;
@@ -75,11 +90,21 @@ public class Room {
 
         Room room = (Room) o;
 
-        return id == room.id;
+        if (id != room.id) return false;
+        if (price != room.price) return false;
+        if (person != room.person) return false;
+        if (isBooked != room.isBooked) return false;
+        return userBooked != null ? userBooked.equals(room.userBooked) : room.userBooked == null;
+
     }
 
     @Override
     public int hashCode() {
-        return (int) (id ^ (id >>> 32));
+        int result = (int) (id ^ (id >>> 32));
+        result = 31 * result + price;
+        result = 31 * result + person;
+        result = 31 * result + (isBooked ? 1 : 0);
+        result = 31 * result + (userBooked != null ? userBooked.hashCode() : 0);
+        return result;
     }
 }

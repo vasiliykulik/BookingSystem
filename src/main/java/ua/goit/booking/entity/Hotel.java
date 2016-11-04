@@ -1,8 +1,10 @@
 package ua.goit.booking.entity;
 
 import ua.goit.booking.entity.Room;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 
 public class Hotel {
@@ -12,8 +14,13 @@ public class Hotel {
     private List<Room> rooms;
     // private DAO dao
 
-    public Hotel(long id, String hotelName, String cityName, List<Room> rooms) {
-        this.id = id;
+    public Hotel(String hotelName, String cityName, List<Room> rooms) {
+        long newId = UUID.randomUUID().getLeastSignificantBits();
+        if (newId <= 0) {
+            this.id = newId * -1;
+        } else {
+            this.id = newId;
+        }
         this.hotelName = hotelName;
         this.cityName = cityName;
         this.rooms = rooms;
@@ -72,11 +79,19 @@ public class Hotel {
 
         Hotel hotel = (Hotel) o;
 
-        return id == hotel.id;
+        if (id != hotel.id) return false;
+        if (hotelName != null ? !hotelName.equals(hotel.hotelName) : hotel.hotelName != null) return false;
+        if (cityName != null ? !cityName.equals(hotel.cityName) : hotel.cityName != null) return false;
+        return rooms != null ? rooms.equals(hotel.rooms) : hotel.rooms == null;
+
     }
 
     @Override
     public int hashCode() {
-        return (int) (id ^ (id >>> 32));
+        int result = (int) (id ^ (id >>> 32));
+        result = 31 * result + (hotelName != null ? hotelName.hashCode() : 0);
+        result = 31 * result + (cityName != null ? cityName.hashCode() : 0);
+        result = 31 * result + (rooms != null ? rooms.hashCode() : 0);
+        return result;
     }
 }
