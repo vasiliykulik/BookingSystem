@@ -14,14 +14,6 @@ public class Room {
 
     }
 
-    public Room(long id, int price, int person, boolean isBooked, long userBookedId) {
-        this.id = id;
-        this.price = price;
-        this.person = person;
-        this.isBooked = isBooked;
-        this.userBookedId = userBookedId;
-    }
-
     public Room(int price, int person, boolean isBooked, long userBookedId) {
         long newId = UUID.randomUUID().getLeastSignificantBits();
         if (newId <= 0) {
@@ -62,7 +54,6 @@ public class Room {
     public boolean isBooked() {
         return isBooked;
     }
-
 
     public void setId(long id) {
         this.id = id;

@@ -18,13 +18,6 @@ public class Hotel {
 
     }
 
-    public Hotel(long id, String hotelName, String cityName, List<Room> rooms) {
-        this.id = id;
-        this.hotelName = hotelName;
-        this.cityName = cityName;
-        this.rooms = rooms;
-    }
-
     public Hotel(String hotelName, String cityName, List<Room> rooms) {
         long newId = UUID.randomUUID().getLeastSignificantBits();
         if (newId <= 0) {
