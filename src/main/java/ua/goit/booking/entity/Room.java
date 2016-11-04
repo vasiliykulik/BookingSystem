@@ -10,9 +10,7 @@ public class Room {
     private boolean isBooked;
     private long userBookedId;
 
-    public Room() {
-
-    }
+    public Room() {}
 
     public Room(int price, int person, boolean isBooked, long userBookedId) {
         long newId = UUID.randomUUID().getLeastSignificantBits();
@@ -69,6 +67,14 @@ public class Room {
 
     public void setBooked(boolean booked) {
         isBooked = booked;
+    }
+
+    public void setUserBookedId(long userBookedId) {
+        this.userBookedId = userBookedId;
+    }
+
+    public long getUserBookedId() {
+        return userBookedId;
     }
 
     @Override
