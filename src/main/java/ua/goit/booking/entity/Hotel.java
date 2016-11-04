@@ -14,6 +14,9 @@ public class Hotel {
     private List<Room> rooms;
     // private DAO dao
 
+    public Hotel() {
+
+    }
 
     public Hotel(long id, String hotelName, String cityName, List<Room> rooms) {
         this.id = id;

@@ -1,8 +1,6 @@
-import jdk.nashorn.internal.parser.JSONParser;
 import ua.goit.booking.entity.Hotel;
 import ua.goit.booking.entity.Room;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,8 +41,9 @@ public class MainTest {
         ObjectMapper mapper = new ObjectMapper();
 
         try {
-            Hotel hotel = mapper.readValue(new File("/home/taras/Documents/Java/BookingSystem/static/info.json"), Hotel.class);
-            System.out.println(hotel);
+            Hotel hotel = mapper.readValue(new File("static/info.json"), Hotel.class);
+            hotel.getRooms().forEach(System.out::println);
+
         } catch (JsonGenerationException e) {
             e.printStackTrace();
         } catch (JsonMappingException e) {

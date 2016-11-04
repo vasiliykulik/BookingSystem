@@ -43,6 +43,10 @@ public class Room {
         this.isBooked = isBooked;
     }
 
+    public Room() {
+
+    }
+
     public long getId() {
         return id;
     }
