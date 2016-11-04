@@ -8,6 +8,8 @@ public class User {
     private String lastName;
     private String emailAddress;
 
+    public User() { }
+
     public User(String firstName, String lastName, String emailAddress) {
         long newId = UUID.randomUUID().getLeastSignificantBits();
         if (newId <= 0) {
