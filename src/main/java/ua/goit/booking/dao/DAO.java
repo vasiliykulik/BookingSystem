@@ -10,7 +10,10 @@ public interface DAO<T> {
 
     List<T> getAll();
 
-    T getByID(long id);
+    T getById(long id);
+
+    List<T> getAllById(List<Long> ids);
 
     void update(List<T> list);
+
 }
