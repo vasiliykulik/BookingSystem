@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Created by Dima on 05.11.16.
  */
-public class RoomDaoImpl extends AbstractDaoImp<Room> implements IRoomDao {
+public class RoomDaoImpl extends AbstractDaoImp<Room> implements RoomDao {
 
     public RoomDaoImpl() {
         super(new File("static/rooms.json"), new TypeReference<List<Room>>() {

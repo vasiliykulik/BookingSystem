@@ -63,7 +63,7 @@ public class HotelController {
     }
 
     public void cancelReservation(long roomId, long userId, long hotelId) {
-        IHotelDao dao = new HotelDaoImpl();
+        HotelDao dao = new HotelDaoImpl();
         List<Hotel> hotels = dao.getAll();
         for (Hotel hotel : hotels) {
             if (hotelId == hotel.getId()) {
@@ -71,7 +71,7 @@ public class HotelController {
                     if (roomId == room.getId()) {
                         if (room.isBooked()) {
                             if (room.getUserId() == userId){
-                                IUserDao userDao = new UserDaoImpl();
+                                UserDao userDao = new UserDaoImpl();
                                 room.setBooked(false);
                                 room.setUserId(userId);
                                 System.out.println("Success! " + room + " reservation was canceled!");
