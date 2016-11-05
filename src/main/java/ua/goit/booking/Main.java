@@ -1,6 +1,6 @@
 package ua.goit.booking;
 
-import ua.goit.booking.dao.HotelDAOImpl;
+import ua.goit.booking.dao.HotelDAO;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -8,7 +8,7 @@ import java.util.Map;
 public class Main {
 
     public static void main(String[] args) {
-        HotelDAOImpl hotelDAO = new HotelDAOImpl();
+        HotelDAO hotelDAO = new HotelDAO();
 //        hotelDAO.findHotelByName("Plaza").forEach(System.out::println);
 //        hotelDAO.findHotelDyCity("Kiyv").forEach(System.out::println);
 //        hotelDAO.bookRoom(6675363734328343759l, 1, 8577383723364764120l);
@@ -18,7 +18,7 @@ public class Main {
         Map<String, String> map = new HashMap<>();
         map.put("price", "334");
         map.put("person", "3");
-        System.out.println(hotelDAO.findRoom(map));
+//        System.out.println(hotelDAO.findRoom(map));
 
     }
 }

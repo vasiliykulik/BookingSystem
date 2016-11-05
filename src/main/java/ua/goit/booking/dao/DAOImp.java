@@ -1,28 +1,33 @@
 package ua.goit.booking.dao;
 
-import java.io.File;
-import java.io.IOException;
-import java.lang.reflect.Field;
-import java.util.*;
-
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import ua.goit.booking.entity.Hotel;
-import ua.goit.booking.entity.Room;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * Created by taras on 04.11.16.
+ * Created by Dima on 05.11.16.
  */
-public class HotelDAOImpl implements HotelDAO {
+public class DAOImp<T> implements DAO<T> {
+
+    private File fileToSave;
+
+    public DAOImp(File fileToSave) {
+        this.fileToSave = fileToSave;
+    }
 
     @Override
-    public List<Hotel> getAllHotels() {
+    public List<T> getAll() {
         ObjectMapper mapper = new ObjectMapper();
-        List<Hotel> hotels = new ArrayList<>();
+        List<T> list = new ArrayList<>();
         try {
-            hotels = mapper.readValue(new File("static/info.json"), new TypeReference<ArrayList<Hotel>>(){});
+            list = mapper.readValue(fileToSave, new TypeReference<ArrayList<T>>() {
+            });
         } catch (JsonGenerationException e) {
             e.printStackTrace();
         } catch (JsonMappingException e) {
@@ -30,14 +35,14 @@ public class HotelDAOImpl implements HotelDAO {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return hotels;
+        return list;
     }
 
     @Override
-    public void update(List<Hotel> hotels) {
+    public void update(List<T> list) {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
-            objectMapper.writeValue(new File("static/info.json"), hotels);
+            objectMapper.writeValue(fileToSave, list);
         } catch (JsonGenerationException e) {
             e.printStackTrace();
         } catch (JsonMappingException e) {
@@ -46,5 +51,4 @@ public class HotelDAOImpl implements HotelDAO {
             e.printStackTrace();
         }
     }
-
 }

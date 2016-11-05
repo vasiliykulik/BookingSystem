@@ -1,7 +1,7 @@
 package ua.goit.booking.controller;
 
+import ua.goit.booking.dao.DAO;
 import ua.goit.booking.dao.HotelDAO;
-import ua.goit.booking.dao.HotelDAOImpl;
 import ua.goit.booking.entity.Hotel;
 import ua.goit.booking.entity.Room;
 
@@ -15,8 +15,8 @@ public class MainController {
 
     public List<Hotel> findHotelByName(String name) {
         List<Hotel> result = new ArrayList<>();
-        HotelDAO dao = new HotelDAOImpl();
-        for (Hotel hotel : dao.getAllHotels()) {
+        DAO<Hotel> dao = new HotelDAO();
+        for (Hotel hotel : dao.getAll()) {
             if (hotel.getHotelName().equals(name)) {
                 result.add(hotel);
             }
@@ -26,8 +26,8 @@ public class MainController {
 
     public List<Hotel> findHotelDyCity(String city) {
         List<Hotel> result = new ArrayList<>();
-        HotelDAO dao = new HotelDAOImpl();
-        for (Hotel hotel : dao.getAllHotels()) {
+        DAO<Hotel> dao = new HotelDAO();
+        for (Hotel hotel : dao.getAll()) {
             if (hotel.getCityName().equals(city)) {
                 result.add(hotel);
             }
@@ -36,8 +36,8 @@ public class MainController {
     }
 
     public void bookRoom(long roomId, long userId, long hotelId) {
-        HotelDAO dao = new HotelDAOImpl();
-        List<Hotel> hotels = dao.getAllHotels();
+        DAO<Hotel> dao = new HotelDAO();
+        List<Hotel> hotels = dao.getAll();
         for (Hotel hotel : hotels) {
             if (hotelId == hotel.getId()) {
                 for (Room room : hotel.getRooms()) {
@@ -64,8 +64,8 @@ public class MainController {
     }
 
     public void cancelReservation(long roomId, long userId, long hotelId) {
-        HotelDAO dao = new HotelDAOImpl();
-        List<Hotel> hotels = dao.getAllHotels();
+        DAO<Hotel> dao = new HotelDAO();
+        List<Hotel> hotels = dao.getAll();
         for (Hotel hotel : hotels) {
             if (hotelId == hotel.getId()) {
                 for (Room room : hotel.getRooms()) {
@@ -99,13 +99,13 @@ public class MainController {
 
     public List<Hotel> findRoom(Map<String, String> params) {
         Set<Hotel> result = new HashSet<>();
-        HotelDAO dao = new HotelDAOImpl();
+        DAO<Hotel> dao = new HotelDAO();
 
         for (String key : params.keySet()) {
             for (Field field : Room.getFieldsName()) {
                 if (field.getName().equals(key)) {
                     String value = params.get(key);
-                    for (Hotel hotel : dao.getAllHotels()) {
+                    for (Hotel hotel : dao.getAll()) {
                         for (Room room : hotel.getRooms()) {
                             Field f = null;
                             try {
