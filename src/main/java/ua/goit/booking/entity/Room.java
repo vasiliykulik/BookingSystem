@@ -4,7 +4,7 @@ import java.lang.reflect.Field;
 import java.util.Date;
 import java.util.UUID;
 
-public class Room {
+public class Room implements Identity {
     private long id;
     private int price;
     private int person;
@@ -38,6 +38,7 @@ public class Room {
         this.isBooked = isBooked;
     }
 
+    @Override
     public long getId() {
         return id;
     }

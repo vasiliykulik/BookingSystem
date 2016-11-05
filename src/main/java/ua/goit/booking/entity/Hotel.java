@@ -1,13 +1,10 @@
 package ua.goit.booking.entity;
 
-import ua.goit.booking.entity.Room;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 
-public class Hotel {
+public class Hotel implements Identity{
     private long id;
     private String hotelName;
     private String cityName;
@@ -30,6 +27,7 @@ public class Hotel {
         this.rooms = rooms;
     }
 
+    @Override
     public long getId() {
         return id;
     }

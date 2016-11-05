@@ -2,7 +2,7 @@ package ua.goit.booking.entity;
 
 import java.util.UUID;
 
-public class User {
+public class User implements Identity {
     private long id;
     private String firstName;
     private String lastName;
@@ -22,6 +22,7 @@ public class User {
         this.emailAddress = emailAddress;
     }
 
+    @Override
     public long getId() {
         return id;
     }
