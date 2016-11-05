@@ -1,4 +1,4 @@
-package ua.goit.booking.entity;
+package ua.goit.booking.dao;
 
 public interface Identity {
     long getId();

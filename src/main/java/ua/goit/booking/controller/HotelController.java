@@ -1,7 +1,6 @@
 package ua.goit.booking.controller;
 
-import ua.goit.booking.dao.DAO;
-import ua.goit.booking.dao.HotelDAO;
+import ua.goit.booking.dao.*;
 import ua.goit.booking.entity.Hotel;
 import ua.goit.booking.entity.Room;
 
@@ -11,11 +10,11 @@ import java.util.*;
 /**
  * Created by taras on 05.11.16.
  */
-public class MainController {
+public class HotelController {
 
     public List<Hotel> findHotelByName(String name) {
         List<Hotel> result = new ArrayList<>();
-        DAO<Hotel> dao = new HotelDAO();
+        AbstractDao<Hotel> dao = new HotelDaoImpl();
         for (Hotel hotel : dao.getAll()) {
             if (hotel.getHotelName().equals(name)) {
                 result.add(hotel);
@@ -26,7 +25,7 @@ public class MainController {
 
     public List<Hotel> findHotelDyCity(String city) {
         List<Hotel> result = new ArrayList<>();
-        DAO<Hotel> dao = new HotelDAO();
+        AbstractDao<Hotel> dao = new HotelDaoImpl();
         for (Hotel hotel : dao.getAll()) {
             if (hotel.getCityName().equals(city)) {
                 result.add(hotel);
@@ -36,7 +35,7 @@ public class MainController {
     }
 
     public void bookRoom(long roomId, long userId, long hotelId) {
-        DAO<Hotel> dao = new HotelDAO();
+        AbstractDao<Hotel> dao = new HotelDaoImpl();
         List<Hotel> hotels = dao.getAll();
         for (Hotel hotel : hotels) {
             if (hotelId == hotel.getId()) {
@@ -44,7 +43,7 @@ public class MainController {
                     if (roomId == room.getId()) {
                         if (!room.isBooked()) {
                             room.setBooked(true);
-                            room.setUserBookedId(userId);
+                            room.setUserId(userId);
                             System.out.println("Success! " + room + " was booked!");
                             dao.update(hotels);
                             return;
@@ -64,16 +63,17 @@ public class MainController {
     }
 
     public void cancelReservation(long roomId, long userId, long hotelId) {
-        DAO<Hotel> dao = new HotelDAO();
+        IHotelDao dao = new HotelDaoImpl();
         List<Hotel> hotels = dao.getAll();
         for (Hotel hotel : hotels) {
             if (hotelId == hotel.getId()) {
                 for (Room room : hotel.getRooms()) {
                     if (roomId == room.getId()) {
                         if (room.isBooked()) {
-                            if (room.getUserBookedId() == userId){
+                            if (room.getUserId() == userId){
+                                IUserDao userDao = new UserDaoImpl();
                                 room.setBooked(false);
-                                room.setUserBookedId(0l);
+                                room.setUserId(userId);
                                 System.out.println("Success! " + room + " reservation was canceled!");
                                 dao.update(hotels);
                                 return;
@@ -99,7 +99,7 @@ public class MainController {
 
     public List<Hotel> findRoom(Map<String, String> params) {
         Set<Hotel> result = new HashSet<>();
-        DAO<Hotel> dao = new HotelDAO();
+        AbstractDao<Hotel> dao = new HotelDaoImpl();
 
         for (String key : params.keySet()) {
             for (Field field : Room.getFieldsName()) {

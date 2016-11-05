@@ -1,5 +1,7 @@
 package ua.goit.booking.entity;
 
+import ua.goit.booking.dao.Identity;
+
 import java.util.UUID;
 
 public class User implements Identity {

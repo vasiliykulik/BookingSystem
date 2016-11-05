@@ -1,18 +1,22 @@
 package ua.goit.booking.entity;
 
+import ua.goit.booking.dao.Identity;
+import ua.goit.booking.dao.UserDaoImpl;
+
 import java.lang.reflect.Field;
 import java.util.UUID;
 
 public class Room implements Identity {
     private long id;
     private int price;
-    private int person;
+    private int numberOfVisitors;
     private boolean isBooked;
-    private long userBookedId;
+    private long userId;
+    private long hotelId;
 
     public Room() {}
 
-    public Room(int price, int person, boolean isBooked, long userBookedId) {
+    public Room(int price, int numberOfVisitors, boolean isBooked, long userId) {
         long newId = UUID.randomUUID().getLeastSignificantBits();
         if (newId <= 0) {
             this.id = newId * -1;
@@ -20,12 +24,12 @@ public class Room implements Identity {
             this.id = newId;
         }
         this.price = price;
-        this.person = person;
+        this.numberOfVisitors = numberOfVisitors;
         this.isBooked = isBooked;
-        this.userBookedId = userBookedId;
+        this.userId = userId;
     }
 
-    public Room(int price, int person, boolean isBooked) {
+    public Room(int price, int numberOfVisitors, boolean isBooked) {
         long newId = UUID.randomUUID().getLeastSignificantBits();
         if (newId <= 0) {
             this.id = newId * -1;
@@ -33,7 +37,7 @@ public class Room implements Identity {
             this.id = newId;
         }
         this.price = price;
-        this.person = person;
+        this.numberOfVisitors = numberOfVisitors;
         this.isBooked = isBooked;
     }
 
@@ -46,8 +50,20 @@ public class Room implements Identity {
         return price;
     }
 
-    public int getPerson() {
-        return person;
+    public int getNumberOfVisitors() {
+        return numberOfVisitors;
+    }
+
+    public long getUserId() {
+        return userId;
+    }
+
+    public User getUser() {
+        return new UserDaoImpl().getById(userId);
+    }
+
+    public long getHotelId() {
+        return hotelId;
     }
 
     public boolean isBooked() {
@@ -62,20 +78,24 @@ public class Room implements Identity {
         this.price = price;
     }
 
-    public void setPerson(int person) {
-        this.person = person;
+    public void setNumberOfVisitors(int numberOfVisitors) {
+        this.numberOfVisitors = numberOfVisitors;
     }
 
     public void setBooked(boolean booked) {
         isBooked = booked;
     }
 
-    public void setUserBookedId(long userBookedId) {
-        this.userBookedId = userBookedId;
+    public void setUserId(long userId) {
+        this.userId = userId;
     }
 
-    public long getUserBookedId() {
-        return userBookedId;
+    public void setUser(User user) {
+        this.userId = user.getId();
+    }
+
+    public void setHotelId(long hotelId) {
+        this.hotelId = hotelId;
     }
 
     public static Field[] getFieldsName() {
@@ -87,9 +107,9 @@ public class Room implements Identity {
         return "\n" + "Room{" +
                 "id=" + id +
                 ", price=" + price +
-                ", person=" + person +
+                ", numberOfVisitors=" + numberOfVisitors +
                 ", isBooked=" + isBooked +
-                ", userBookedId=" + userBookedId +
+                ", userId=" + userId +
                 '}';
     }
 
@@ -102,9 +122,9 @@ public class Room implements Identity {
 
         if (id != room.id) return false;
         if (price != room.price) return false;
-        if (person != room.person) return false;
+        if (numberOfVisitors != room.numberOfVisitors) return false;
         if (isBooked != room.isBooked) return false;
-        return userBookedId == room.userBookedId;
+        return userId == room.userId;
 
     }
 
@@ -112,9 +132,9 @@ public class Room implements Identity {
     public int hashCode() {
         int result = (int) (id ^ (id >>> 32));
         result = 31 * result + price;
-        result = 31 * result + person;
+        result = 31 * result + numberOfVisitors;
         result = 31 * result + (isBooked ? 1 : 0);
-        result = 31 * result + (int) (userBookedId ^ (userBookedId >>> 32));
+        result = 31 * result + (int) (userId ^ (userId >>> 32));
         return result;
     }
 }

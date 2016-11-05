@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import ua.goit.booking.entity.Identity;
 
 import java.io.File;
 import java.io.IOException;
@@ -16,12 +15,12 @@ import java.util.stream.Collectors;
  * Created by taras on 04.11.16.
  * Refactored by Dima on 05.11.16.
  */
-public class DAOImp<T extends Identity> implements DAO<T> {
+public class AbstractDaoImp<T extends Identity> implements AbstractDao<T> {
 
     private File file;
-    private TypeReference<ArrayList<T>> typeReference;
+    private TypeReference<List<T>> typeReference;
 
-    public DAOImp(File file, TypeReference typeReference) {
+    public AbstractDaoImp(File file, TypeReference typeReference) {
         this.file = file;
         this.typeReference = typeReference;
     }

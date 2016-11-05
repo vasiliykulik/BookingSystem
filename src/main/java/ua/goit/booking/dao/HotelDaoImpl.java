@@ -4,16 +4,16 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import ua.goit.booking.entity.Hotel;
 
 import java.io.File;
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by taras on 04.11.16.
  * Refactored by Dima on 05.11.16.
  */
-public class HotelDAO extends DAOImp<Hotel> {
+public class HotelDaoImpl extends AbstractDaoImp<Hotel> implements IHotelDao {
 
-    public HotelDAO() {
-        super(new File("static/hotels.json"), new TypeReference<ArrayList<Hotel>>() {
+    public HotelDaoImpl() {
+        super(new File("static/hotels.json"), new TypeReference<List<Hotel>>() {
         });
     }
 

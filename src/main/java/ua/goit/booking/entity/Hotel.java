@@ -1,7 +1,7 @@
 package ua.goit.booking.entity;
 
-import ua.goit.booking.dao.DAO;
-import ua.goit.booking.dao.RoomDAO;
+import ua.goit.booking.dao.Identity;
+import ua.goit.booking.dao.RoomDaoImpl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,10 +65,7 @@ public class Hotel implements Identity {
     }
 
     public List<Room> getRooms() {
-        List<Room> res = new ArrayList<>();
-        DAO roomDAO = new RoomDAO();
-        res.addAll(roomDAO.getAllById(roomsId));
-        return res;
+        return new RoomDaoImpl().getAllById(roomsId);
     }
 
     public void setId(long id) {

@@ -6,7 +6,7 @@ import java.util.List;
  * Created by taras on 04.11.16.
  * Refactored by Dima on 05.11.16.
  */
-public interface DAO<T> {
+public interface AbstractDao<T> {
 
     List<T> getAll();
 
