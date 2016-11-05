@@ -33,19 +33,19 @@ public class Hotel implements Identity {
         this.cityName = cityName;
         this.roomsId = new ArrayList<>();
     }
-//
-//    public Hotel(String hotelName, String cityName, List<Room> roomsId) {
-//        long newId = UUID.randomUUID().getLeastSignificantBits();
-//        if (newId <= 0) {
-//            this.id = newId * -1;
-//        } else {
-//            this.id = newId;
-//        }
-//        this.hotelName = hotelName;
-//        this.cityName = cityName;
-//        this.roomsId = new ArrayList<>();
-//        setRooms(roomsId);
-//    }
+
+    public Hotel(String hotelName, String cityName, List<Room> roomsId) {
+        long newId = UUID.randomUUID().getLeastSignificantBits();
+        if (newId <= 0) {
+            this.id = newId * -1;
+        } else {
+            this.id = newId;
+        }
+        this.hotelName = hotelName;
+        this.cityName = cityName;
+        this.roomsId = new ArrayList<>();
+        setRooms(roomsId);
+    }
 
     @Override
     public Long getId() {
