@@ -10,5 +10,7 @@ public interface DAO<T> {
 
     List<T> getAll();
 
+    T getByID(long id);
+
     void update(List<T> list);
 }

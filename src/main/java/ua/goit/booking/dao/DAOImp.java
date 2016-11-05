@@ -16,10 +16,12 @@ import java.util.List;
  */
 public class DAOImp<T> implements DAO<T> {
 
-    private File fileToSave;
+    private File file;
+    private TypeReference<ArrayList<T>> typeReference;
 
-    public DAOImp(File fileToSave) {
-        this.fileToSave = fileToSave;
+    public DAOImp(File file, TypeReference typeReference) {
+        this.file = file;
+        this.typeReference = typeReference;
     }
 
     @Override
@@ -27,8 +29,7 @@ public class DAOImp<T> implements DAO<T> {
         ObjectMapper mapper = new ObjectMapper();
         List<T> list = new ArrayList<>();
         try {
-            list = mapper.readValue(fileToSave, new TypeReference<ArrayList<T>>() {
-            });
+            list = mapper.readValue(file, typeReference);
         } catch (JsonGenerationException e) {
             e.printStackTrace();
         } catch (JsonMappingException e) {
@@ -40,10 +41,15 @@ public class DAOImp<T> implements DAO<T> {
     }
 
     @Override
+    public T getByID(long id) {
+        return null;
+    }
+
+    @Override
     public void update(List<T> list) {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
-            objectMapper.writeValue(fileToSave, list);
+            objectMapper.writeValue(file, list);
         } catch (JsonGenerationException e) {
             e.printStackTrace();
         } catch (JsonMappingException e) {
