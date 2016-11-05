@@ -17,7 +17,8 @@ import ua.goit.booking.entity.Room;
  */
 public class HotelDAOImpl implements HotelDAO {
 
-    private List<Hotel> getAllHotels() {
+    @Override
+    public List<Hotel> getAllHotels() {
         ObjectMapper mapper = new ObjectMapper();
         List<Hotel> hotels = new ArrayList<>();
         try {
@@ -32,7 +33,8 @@ public class HotelDAOImpl implements HotelDAO {
         return hotels;
     }
 
-    private void updateFile(List<Hotel> hotels) {
+    @Override
+    public void update(List<Hotel> hotels) {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
             objectMapper.writeValue(new File("static/info.json"), hotels);
@@ -45,116 +47,4 @@ public class HotelDAOImpl implements HotelDAO {
         }
     }
 
-    public List<Hotel> findHotelByName(String name) {
-        List<Hotel> result = new ArrayList<>();
-        for (Hotel hotel : getAllHotels()) {
-            if (hotel.getHotelName().equals(name)) {
-                result.add(hotel);
-            }
-        }
-        return result;
-    }
-
-    public List<Hotel> findHotelDyCity(String city) {
-        List<Hotel> result = new ArrayList<>();
-        for (Hotel hotel : getAllHotels()) {
-            if (hotel.getCityName().equals(city)) {
-                result.add(hotel);
-            }
-        }
-        return result;
-    }
-
-    public void bookRoom(long roomId, long userId, long hotelId) {
-        List<Hotel> hotels = getAllHotels();
-        for (Hotel hotel : hotels) {
-            if (hotelId == hotel.getId()) {
-                for (Room room : hotel.getRooms()) {
-                    if (roomId == room.getId()) {
-                        if (!room.isBooked()) {
-                            room.setBooked(true);
-                            room.setUserBookedId(userId);
-                            System.out.println("Success! " + room + " was booked!");
-                            updateFile(hotels);
-                            return;
-                        }
-                        else {
-                            System.out.println("Sorry! " + room + " is already booked!");
-                            return;
-                        }
-                    }
-                }
-                System.out.println("Sorry! No such room in the hotel.");
-                return;
-            }
-        }
-        System.out.println("Sorry! No such hotel.");
-        return;
-    }
-
-    public void cancelReservation(long roomId, long userId, long hotelId) {
-        List<Hotel> hotels = getAllHotels();
-        for (Hotel hotel : hotels) {
-            if (hotelId == hotel.getId()) {
-                for (Room room : hotel.getRooms()) {
-                    if (roomId == room.getId()) {
-                        if (room.isBooked()) {
-                            if (room.getUserBookedId() == userId){
-                                room.setBooked(false);
-                                room.setUserBookedId(0l);
-                                System.out.println("Success! " + room + " reservation was canceled!");
-                                updateFile(hotels);
-                                return;
-                            }
-                            else {
-                                System.out.println("Sorry! You did not booked this room!");
-                                return;
-                            }
-                        }
-                        else {
-                            System.out.println("Sorry! " + room + " is not booked!");
-                            return;
-                        }
-                    }
-                }
-                System.out.println("Sorry! No such room in the hotel.");
-                return;
-            }
-        }
-        System.out.println("Sorry! No such hotel.");
-        return;
-    }
-
-    public List<Hotel> findRoom(Map<String, String> params) {
-        Set<Hotel> result = new HashSet<>();
-
-        for (String key : params.keySet()) {
-            for (Field field : Room.getFieldsName()) {
-                if (field.getName().equals(key)) {
-                    String value = params.get(key);
-                    for (Hotel hotel : getAllHotels()) {
-                        for (Room room : hotel.getRooms()) {
-                            Field f = null;
-                            try {
-                                f = room.getClass().getDeclaredField(key);
-                            } catch (NoSuchFieldException e) {
-                                e.printStackTrace();
-                            }
-                            if (f != null) {
-                                f.setAccessible(true);
-                            }
-                            try {
-                                if (f != null && f.get(room).toString().equals(value)) {
-                                    result.add(hotel);
-                                }
-                            } catch (IllegalAccessException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        return new ArrayList<Hotel>(result);
-    }
 }

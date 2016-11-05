@@ -9,10 +9,7 @@ import java.util.Map;
  */
 public interface HotelDAO {
 
-    List<Hotel> findHotelByName(String name);
-    List<Hotel> findHotelDyCity(String city);
-    void bookRoom(long roomId, long userId, long hotelId);
-    void cancelReservation(long roomId, long userId, long hotelId);
-    List<Hotel> findRoom(Map<String, String> params);
+    List<Hotel> getAllHotels();
 
+    void update(List<Hotel> hotels);
 }
