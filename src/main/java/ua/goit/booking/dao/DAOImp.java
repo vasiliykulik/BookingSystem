@@ -11,7 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Dima on 05.11.16.
+ * Created by taras on 04.11.16.
+ * Refactored by Dima on 05.11.16.
  */
 public class DAOImp<T> implements DAO<T> {
 
