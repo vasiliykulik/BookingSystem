@@ -93,12 +93,12 @@ public class Hotel implements Identity {
 
     @Override
     public String toString() {
-        return "Hotel{" +
+        return "\n" + "Hotel{" +
                 "id=" + id +
                 ", hotelName='" + hotelName + '\'' +
                 ", cityName='" + cityName + '\'' +
                 ", roomsId=" + roomsId +
-                '}' + "\n";
+                '}';
     }
 
     @Override

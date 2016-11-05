@@ -84,13 +84,13 @@ public class Room implements Identity {
 
     @Override
     public String toString() {
-        return "Room{" +
+        return "\n" + "Room{" +
                 "id=" + id +
                 ", price=" + price +
                 ", person=" + person +
                 ", isBooked=" + isBooked +
                 ", userBookedId=" + userBookedId +
-                '}' + "\n";
+                '}';
     }
 
     @Override
