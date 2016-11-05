@@ -5,7 +5,7 @@ import ua.goit.booking.dao.Identity;
 import java.util.UUID;
 
 public class User implements Identity {
-    private long id;
+    private Long id;
     private String firstName;
     private String lastName;
     private String emailAddress;
@@ -25,7 +25,7 @@ public class User implements Identity {
     }
 
     @Override
-    public long getId() {
+    public Long getId() {
         return id;
     }
 

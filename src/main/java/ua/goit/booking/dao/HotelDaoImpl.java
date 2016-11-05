@@ -17,4 +17,14 @@ public class HotelDaoImpl extends AbstractDaoImp<Hotel> implements HotelDao {
         });
     }
 
+    @Override
+    public Hotel save(Hotel hotel) {
+        //TODO Logic
+        return null;
+    }
+
+    @Override
+    public void delete(Hotel hotel) {
+        //TODO Logic
+    }
 }

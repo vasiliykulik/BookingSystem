@@ -15,4 +15,15 @@ public class UserDaoImpl extends AbstractDaoImp<User> implements UserDao {
         super(new File("static/users.json"), new TypeReference<List<User>>() {
         });
     }
+
+    @Override
+    public User save(User user) {
+        //TODO Logic
+        return null;
+    }
+
+    @Override
+    public void delete(User user) {
+        //TODO Logic
+    }
 }

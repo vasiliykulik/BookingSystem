@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
  * Created by taras on 04.11.16.
  * Refactored by Dima on 05.11.16.
  */
-public class AbstractDaoImp<T extends Identity> implements AbstractDao<T> {
+public abstract class AbstractDaoImp<T extends Identity> implements AbstractDao<T> {
 
     private File file;
     private TypeReference<List<T>> typeReference;
@@ -56,6 +56,12 @@ public class AbstractDaoImp<T extends Identity> implements AbstractDao<T> {
                 .collect(Collectors.toList());
         return res;
     }
+
+    @Override
+    public abstract T save(T t);
+
+    @Override
+    public abstract void delete(T t);
 
     @Override
     public void update(List<T> list) {

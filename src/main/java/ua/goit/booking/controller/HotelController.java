@@ -23,9 +23,9 @@ public class HotelController {
         return result;
     }
 
-    public List<Hotel> findHotelDyCity(String city) {
+    public List<Hotel> findHotelByCity(String city) {
         List<Hotel> result = new ArrayList<>();
-        AbstractDao<Hotel> dao = new HotelDaoImpl();
+        HotelDao dao = new HotelDaoImpl();
         for (Hotel hotel : dao.getAll()) {
             if (hotel.getCityName().equals(city)) {
                 result.add(hotel);
@@ -35,7 +35,7 @@ public class HotelController {
     }
 
     public void bookRoom(long roomId, long userId, long hotelId) {
-        AbstractDao<Hotel> dao = new HotelDaoImpl();
+        HotelDao dao = new HotelDaoImpl();
         List<Hotel> hotels = dao.getAll();
         for (Hotel hotel : hotels) {
             if (hotelId == hotel.getId()) {
@@ -47,8 +47,7 @@ public class HotelController {
                             System.out.println("Success! " + room + " was booked!");
                             dao.update(hotels);
                             return;
-                        }
-                        else {
+                        } else {
                             System.out.println("Sorry! " + room + " is already booked!");
                             return;
                         }
@@ -70,25 +69,26 @@ public class HotelController {
                 for (Room room : hotel.getRooms()) {
                     if (roomId == room.getId()) {
                         if (room.isBooked()) {
-                            if (room.getUserId() == userId){
-                                UserDao userDao = new UserDaoImpl();
+                            if (room.getUserId() == userId) {
                                 room.setBooked(false);
-                                room.setUserId(userId);
+                                room.setUserId(null);
+                                //TODO Exception
                                 System.out.println("Success! " + room + " reservation was canceled!");
                                 dao.update(hotels);
                                 return;
-                            }
-                            else {
+                            } else {
+                                //TODO Exception
                                 System.out.println("Sorry! You did not booked this room!");
                                 return;
                             }
-                        }
-                        else {
+                        } else {
+                            //TODO Exception
                             System.out.println("Sorry! " + room + " is not booked!");
                             return;
                         }
                     }
                 }
+                //TODO Exception
                 System.out.println("Sorry! No such room in the hotel.");
                 return;
             }
@@ -99,7 +99,7 @@ public class HotelController {
 
     public List<Hotel> findRoom(Map<String, String> params) {
         Set<Hotel> result = new HashSet<>();
-        AbstractDao<Hotel> dao = new HotelDaoImpl();
+        HotelDao dao = new HotelDaoImpl();
 
         for (String key : params.keySet()) {
             for (Field field : Room.getFieldsName()) {

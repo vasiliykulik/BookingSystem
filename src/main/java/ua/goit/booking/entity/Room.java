@@ -7,16 +7,16 @@ import java.lang.reflect.Field;
 import java.util.UUID;
 
 public class Room implements Identity {
-    private long id;
+    private Long id;
     private int price;
     private int numberOfVisitors;
     private boolean isBooked;
-    private long userId;
-    private long hotelId;
+    private Long userId;
+    private Long hotelId;
 
     public Room() {}
 
-    public Room(int price, int numberOfVisitors, boolean isBooked, long userId) {
+    public Room(int price, int numberOfVisitors, boolean isBooked, Long userId, Long hotelId) {
         long newId = UUID.randomUUID().getLeastSignificantBits();
         if (newId <= 0) {
             this.id = newId * -1;
@@ -27,6 +27,7 @@ public class Room implements Identity {
         this.numberOfVisitors = numberOfVisitors;
         this.isBooked = isBooked;
         this.userId = userId;
+        this.hotelId = hotelId;
     }
 
     public Room(int price, int numberOfVisitors, boolean isBooked) {
@@ -42,7 +43,7 @@ public class Room implements Identity {
     }
 
     @Override
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
@@ -54,7 +55,7 @@ public class Room implements Identity {
         return numberOfVisitors;
     }
 
-    public long getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
@@ -62,7 +63,7 @@ public class Room implements Identity {
         return new UserDaoImpl().getById(userId);
     }
 
-    public long getHotelId() {
+    public Long getHotelId() {
         return hotelId;
     }
 
@@ -70,7 +71,7 @@ public class Room implements Identity {
         return isBooked;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -86,7 +87,7 @@ public class Room implements Identity {
         isBooked = booked;
     }
 
-    public void setUserId(long userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 
@@ -94,7 +95,7 @@ public class Room implements Identity {
         this.userId = user.getId();
     }
 
-    public void setHotelId(long hotelId) {
+    public void setHotelId(Long hotelId) {
         this.hotelId = hotelId;
     }
 
@@ -109,6 +110,7 @@ public class Room implements Identity {
                 ", price=" + price +
                 ", numberOfVisitors=" + numberOfVisitors +
                 ", isBooked=" + isBooked +
+                ", userId=" + userId +
                 ", userId=" + userId +
                 '}';
     }

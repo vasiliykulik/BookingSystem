@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
  * Refactored by Dima on 05.11.16.
  */
 public class Hotel implements Identity {
-    private long id;
+    private Long id;
     private String hotelName;
     private String cityName;
     private List<Long> roomsId;
@@ -48,7 +48,7 @@ public class Hotel implements Identity {
 //    }
 
     @Override
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
@@ -68,7 +68,7 @@ public class Hotel implements Identity {
         return new RoomDaoImpl().getAllById(roomsId);
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -82,6 +82,10 @@ public class Hotel implements Identity {
 
     public void setRooms(List<Room> rooms) {
         this.roomsId = rooms.stream().map(Room::getId).collect(Collectors.toList());
+    }
+
+    public void addRoom(Room room) {
+        //TODO
     }
 
     /* public RoomDAO getRoomDAO() {
