@@ -6,6 +6,7 @@ import ua.goit.booking.entity.Room;
 
 import java.lang.reflect.Field;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Created by taras on 05.11.16.
@@ -15,11 +16,7 @@ public class HotelController {
     public List<Hotel> findHotelByName(String name) {
         List<Hotel> result = new ArrayList<>();
         AbstractDao<Hotel> dao = new HotelDaoImpl();
-        for (Hotel hotel : dao.getAll()) {
-            if (hotel.getHotelName().equals(name)) {
-                result.add(hotel);
-            }
-        }
+        result.addAll(dao.getAll().stream().filter(hotel -> hotel.getHotelName().equals(name)).collect(Collectors.toList()));
         return result;
     }
 
