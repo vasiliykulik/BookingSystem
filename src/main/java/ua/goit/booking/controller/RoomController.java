@@ -102,7 +102,7 @@ public class RoomController {
         return result;
     }
 
-    // повертає масив усіх номерів, зарезервованих користувачем з ім'ям (firstName) та прізвищем (lastName)
+    // повертає масив усіх номерів, зарезервованих на ім'я (firstName) та прізвище (lastName)
     public List<Room> getAllRoomsReservedByUser(String firstName, String lastName) {
         List<Room> result = new ArrayList<>();
         List<Room> rooms = new ArrayList<>();
