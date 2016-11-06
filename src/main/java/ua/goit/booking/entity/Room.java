@@ -114,6 +114,32 @@ public class Room implements Identity {
                 ", userId=" + userId +
                 '}';
     }
+//
+//    @Override
+//    public boolean equals(Object o) {
+//        if (this == o) return true;
+//        if (o == null || getClass() != o.getClass()) return false;
+//
+//        Room room = (Room) o;
+//
+//        if (id != room.id) return false;
+//        if (price != room.price) return false;
+//        if (numberOfVisitors != room.numberOfVisitors) return false;
+//        if (isBooked != room.isBooked) return false;
+//        return userId == room.userId;
+//
+//    }
+//
+//    @Override
+//    public int hashCode() {
+//        int result = (int) (id ^ (id >>> 32));
+//        result = 31 * result + price;
+//        result = 31 * result + numberOfVisitors;
+//        result = 31 * result + (isBooked ? 1 : 0);
+//        result = 31 * result + (int) (userId ^ (userId >>> 32));
+//        return result;
+//    }
+
 
     @Override
     public boolean equals(Object o) {
@@ -122,21 +148,23 @@ public class Room implements Identity {
 
         Room room = (Room) o;
 
-        if (id != room.id) return false;
         if (price != room.price) return false;
         if (numberOfVisitors != room.numberOfVisitors) return false;
         if (isBooked != room.isBooked) return false;
-        return userId == room.userId;
+        if (id != null ? !id.equals(room.id) : room.id != null) return false;
+        if (userId != null ? !userId.equals(room.userId) : room.userId != null) return false;
+        return hotelId != null ? hotelId.equals(room.hotelId) : room.hotelId == null;
 
     }
 
     @Override
     public int hashCode() {
-        int result = (int) (id ^ (id >>> 32));
+        int result = id != null ? id.hashCode() : 0;
         result = 31 * result + price;
         result = 31 * result + numberOfVisitors;
         result = 31 * result + (isBooked ? 1 : 0);
-        result = 31 * result + (int) (userId ^ (userId >>> 32));
+        result = 31 * result + (userId != null ? userId.hashCode() : 0);
+        result = 31 * result + (hotelId != null ? hotelId.hashCode() : 0);
         return result;
     }
 }
