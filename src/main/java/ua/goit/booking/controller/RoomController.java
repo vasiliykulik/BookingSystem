@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class RoomController {
+    // повертає масив усіх номерів
     public List<Room> getAllRooms() {
         List<Room> result = new ArrayList<>();
         AbstractDao<Room> roomDao = new RoomDaoImpl();
@@ -17,6 +18,7 @@ public class RoomController {
         return result;
     }
 
+    // повертає масив усіх незайнятих номерів
     public List<Room> getFreeRooms() {
         List<Room> result = new ArrayList<>();
         AbstractDao<Room> roomDao = new RoomDaoImpl();
@@ -25,6 +27,7 @@ public class RoomController {
         return result;
     }
 
+    // повертає масив усіх номерів, оренда яких не дорожча за (budget)
     public List<Room> getCheaperRooms(int budget) {
         List<Room> result = new ArrayList<>();
         AbstractDao<Room> roomDao = new RoomDaoImpl();
@@ -33,6 +36,7 @@ public class RoomController {
         return result;
     }
 
+    // повертає масив усіх незайнятих номерів, оренда яких не дорожча за (budget)
     public List<Room> getFreeCheaperRooms(int budget) {
         List<Room> result = new ArrayList<>();
         AbstractDao<Room> roomDao = new RoomDaoImpl();
@@ -41,6 +45,7 @@ public class RoomController {
         return result;
     }
 
+    // повертає масив усіх (nPersons)-вмісних номерів
     public List<Room> getRoomsForNPersons(int nPersons) {
         List<Room> result = new ArrayList<>();
         AbstractDao<Room> roomDao = new RoomDaoImpl();
@@ -50,6 +55,7 @@ public class RoomController {
         return result;
     }
 
+    // повертає масив усіх незайнятих (nPersons)-вмісних номерів
     public List<Room> getFreeRoomsForNPersons(int nPersons) {
         List<Room> result = new ArrayList<>();
         AbstractDao<Room> roomDao = new RoomDaoImpl();
@@ -59,6 +65,7 @@ public class RoomController {
         return result;
     }
 
+    // повертає масив усіх номерів міста (theCity)
     public List<Room> getRoomsOfTheCity(String theCity) {
         List<Room> result = new ArrayList<>();
         List<Hotel> hotels = new ArrayList<>();
@@ -71,6 +78,7 @@ public class RoomController {
         return result;
     }
 
+    // повертає масив усіх незайнятих номерів міста (theCity)
     public List<Room> getFreeRoomsOfTheCity(String theCity) {
         List<Room> result = new ArrayList<>();
         List<Room> rooms = new ArrayList<>();
@@ -85,6 +93,7 @@ public class RoomController {
         return result;
     }
 
+    // повертає масив усіх номерів, зарезервованих користувачем з id (userId)
     public List<Room> getAllRoomsReservedByUser(Long userId) {
         List<Room> result = new ArrayList<>();
         AbstractDao<Room> roomDao = new RoomDaoImpl();
@@ -93,6 +102,7 @@ public class RoomController {
         return result;
     }
 
+    // повертає масив усіх номерів, зарезервованих користувачем з ім'ям (firstName) та прізвищем (lastName)
     public List<Room> getAllRoomsReservedByUser(String firstName, String lastName) {
         List<Room> result = new ArrayList<>();
         List<Room> rooms = new ArrayList<>();
@@ -111,4 +121,33 @@ public class RoomController {
         return result;
     }
 
+    // за даним id (roomId) номеру повертає масив усіх номерів з його готелю
+    public List<Room> getAllRoomsFromThisHotel(Long roomId){
+        List<Room> result = new ArrayList<>();
+        List<Room> rooms = new ArrayList<>();
+        List<User> users = new ArrayList<>();
+        List<Hotel> hotels = new ArrayList<>();
+        AbstractDao<Room> roomDao = new RoomDaoImpl();
+        AbstractDao<User> userDao = new UserDaoImpl();
+        AbstractDao<Hotel> hotelDao = new HotelDaoImpl();
+
+        //...
+
+        return result;
+    }
+
+    // за даним id (roomId) номеру повертає масив усіх незайнятих номерів з його готелю
+    public List<Room> getAllFreeRoomsFromThisHotel(Long roomId){
+        List<Room> result = new ArrayList<>();
+        List<Room> rooms = new ArrayList<>();
+        List<User> users = new ArrayList<>();
+        List<Hotel> hotels = new ArrayList<>();
+        AbstractDao<Room> roomDao = new RoomDaoImpl();
+        AbstractDao<User> userDao = new UserDaoImpl();
+        AbstractDao<Hotel> hotelDao = new HotelDaoImpl();
+
+        //...
+
+        return result;
+    }
 }
