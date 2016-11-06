@@ -1,5 +1,6 @@
 package ua.goit.booking.controller;
 
+import ua.goit.booking.entity.Hotel;
 import ua.goit.booking.entity.Room;
 import ua.goit.booking.dao.*;
 
@@ -57,10 +58,17 @@ public class RoomController {
         return result;
     }
 
-//    public List<Room> getRoomsOfTheCity(String theCity) {
-//        List<Room> result = new ArrayList<>();
-//        //...
-//        return result;
-//    }
+    public List<Room> getRoomsOfTheCity(String theCity) {
+        List<Room> result = new ArrayList<>();
+        List<Hotel> hotels = new ArrayList<>();
+        AbstractDao<Room> roomDao = new RoomDaoImpl();
+        AbstractDao<Hotel> hotelDao = new HotelDaoImpl();
+        hotels.addAll(hotelDao.getAll().stream()
+                .filter(hotel -> (hotel.getCityName().equals(theCity))).collect(Collectors.toList()));
+        for (Hotel hotel : hotels) {
+            result.addAll(hotel.getRooms());
+        }
+        return result;
+    }
 
 }
