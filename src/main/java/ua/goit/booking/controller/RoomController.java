@@ -142,14 +142,17 @@ public class RoomController {
     public List<Room> getAllFreeRoomsFromThisHotel(Long roomId) {
         List<Room> result = new ArrayList<>();
         List<Room> rooms = new ArrayList<>();
-        List<User> users = new ArrayList<>();
-        List<Hotel> hotels = new ArrayList<>();
         AbstractDao<Room> roomDao = new RoomDaoImpl();
-        AbstractDao<User> userDao = new UserDaoImpl();
         AbstractDao<Hotel> hotelDao = new HotelDaoImpl();
-
-        //...
-
+        Room room;
+        rooms.addAll(roomDao.getAll());
+        room = roomDao.getById(roomId);
+        if (!rooms.contains(room)) {
+            //  System.out.println("There's no room with such (roomId) in DB!");
+            return null;
+        }
+        rooms = hotelDao.getById(room.getHotelId()).getRooms();
+        result.addAll(rooms.stream().filter(room1 -> (!room1.isBooked())).collect(Collectors.toList()));
         return result;
     }
 }
