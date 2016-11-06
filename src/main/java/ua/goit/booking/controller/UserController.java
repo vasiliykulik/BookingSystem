@@ -24,7 +24,7 @@ public class UserController {
         return result;
     }
 
-    // за даним id готелю(hotelId) повертає масив усіх зареєстрованих у ньому користувачів (без дублювання)
+    // за даним id готелю (hotelId) повертає масив усіх зареєстрованих у ньому користувачів (без дублювання)
     public List<User> getAllUsersFromHotel(long hotelId) {
         List<User> result = new ArrayList<>();
         List<Hotel> hotels = new ArrayList<>();
@@ -45,7 +45,7 @@ public class UserController {
         return result;
     }
 
-    // за даною назвою готелю(hotelName) повертає масив усіх зареєстрованих у ньому користувачів (без дублювання)
+    // за даною назвою готелю (hotelName) повертає масив усіх зареєстрованих у ньому користувачів (без дублювання)
     public List<User> getAllUsersFromHotel(String hotelName) {
         List<User> result = new ArrayList<>();
         List<Hotel> hotels = new ArrayList<>();
