@@ -16,18 +16,16 @@ public class HotelController {
     public List<Hotel> findHotelByName(String name) {
         List<Hotel> result = new ArrayList<>();
         AbstractDao<Hotel> dao = new HotelDaoImpl();
-        result.addAll(dao.getAll().stream().filter(hotel -> hotel.getHotelName().equals(name)).collect(Collectors.toList()));
+        result.addAll(dao.getAll().stream()
+                .filter(hotel -> hotel.getHotelName().equals(name)).collect(Collectors.toList()));
         return result;
     }
 
     public List<Hotel> findHotelByCity(String city) {
         List<Hotel> result = new ArrayList<>();
         HotelDao dao = new HotelDaoImpl();
-        for (Hotel hotel : dao.getAll()) {
-            if (hotel.getCityName().equals(city)) {
-                result.add(hotel);
-            }
-        }
+        result.addAll(dao.getAll().stream()
+                .filter(hotel -> hotel.getCityName().equals(city)).collect(Collectors.toList()));
         return result;
     }
 
