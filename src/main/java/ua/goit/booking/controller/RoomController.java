@@ -85,7 +85,7 @@ public class RoomController {
         return result;
     }
 
-    public List<Room> getAllRoomsReservedByUser(Long userId){
+    public List<Room> getAllRoomsReservedByUser(Long userId) {
         List<Room> result = new ArrayList<>();
         AbstractDao<Room> roomDao = new RoomDaoImpl();
         result.addAll(roomDao.getAll().stream()
@@ -93,11 +93,20 @@ public class RoomController {
         return result;
     }
 
-    public List<Room> getAllRoomsReservedByUser(String firstName, String lastName){
-        List<Room> result = new ArrayList<>();
-
-
-        return result;
-    }
+//    public List<Room> getAllRoomsReservedByUser(String firstName, String lastName) {
+//        List<Room> result = new ArrayList<>();
+//        List<Room> rooms = new ArrayList<>();
+//        List<User> users = new ArrayList<>();
+//        AbstractDao<Room> roomDao = new RoomDaoImpl();
+//        AbstractDao<User> userDao = new UserDaoImpl();
+//        users.addAll(userDao.getAll().stream()
+//                .filter(user -> (user.getFirstName().equals(firstName)
+//                        & user.getLastName().equals(lastName))).collect(Collectors.toList()));
+//
+//        rooms.addAll(roomDao.getAll().stream()
+//                .filter(room -> ()).collect(Collectors.toList()));
+//
+//        return result;
+//    }
 
 }
