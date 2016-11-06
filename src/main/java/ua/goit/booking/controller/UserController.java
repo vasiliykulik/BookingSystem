@@ -2,6 +2,7 @@ package ua.goit.booking.controller;
 
 import ua.goit.booking.dao.AbstractDao;
 import ua.goit.booking.dao.HotelDaoImpl;
+import ua.goit.booking.dao.RoomDaoImpl;
 import ua.goit.booking.dao.UserDaoImpl;
 import ua.goit.booking.entity.Hotel;
 import ua.goit.booking.entity.Room;
@@ -67,6 +68,34 @@ public class UserController {
         }
         rooms.addAll(ourHotel.getRooms());
         userSet.addAll(rooms.stream().map(Room::getUser).collect(Collectors.toList()));
+        result.addAll(userSet);
+        return result;
+    }
+
+    // за даною назвою міста (theCity) повертає масив усіх зареєстрованих у ньому користувачів (без дублювання)
+    public List<User> getAllUsersFromCity(String theCity) {
+        List<User> result = new ArrayList<>();
+        List<Hotel> hotels = new ArrayList<>();
+        List<Room> rooms = new ArrayList<>();
+        List<Long> roomsIds = new ArrayList<>();
+        List<Long> usersIds = new ArrayList<>();
+        AbstractDao<Hotel> hotelDao = new HotelDaoImpl();
+        AbstractDao<Room> roomDao = new RoomDaoImpl();
+        AbstractDao<User> userDao = new UserDaoImpl();
+        Set<User> userSet = new HashSet<>();
+
+        hotels.addAll(hotelDao.getAll().stream()
+                .filter(hotel -> (hotel.getCityName().equals(theCity))).collect(Collectors.toList()));
+        if (hotels.isEmpty()) {
+            //  System.out.println("There's no such city in DB!");
+            return null;
+        }
+        for (Hotel hotel : hotels) {
+            roomsIds.addAll(hotel.getRoomsId());
+        }
+        rooms.addAll(roomDao.getAllById(roomsIds));
+        usersIds.addAll(rooms.stream().map(Room::getUserId).collect(Collectors.toList()));
+        userSet.addAll(userDao.getAllById(usersIds));
         result.addAll(userSet);
         return result;
     }
