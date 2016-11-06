@@ -10,7 +10,8 @@ public class User implements Identity {
     private String lastName;
     private String emailAddress;
 
-    public User() { }
+    public User() {
+    }
 
     public User(String firstName, String lastName, String emailAddress) {
         long newId = UUID.randomUUID().getLeastSignificantBits();

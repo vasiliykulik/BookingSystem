@@ -1,8 +1,11 @@
 package ua.goit.booking.controller;
 
+import ua.goit.booking.dao.AbstractDao;
+import ua.goit.booking.dao.HotelDaoImpl;
+import ua.goit.booking.dao.RoomDaoImpl;
+import ua.goit.booking.dao.UserDaoImpl;
 import ua.goit.booking.entity.Hotel;
 import ua.goit.booking.entity.Room;
-import ua.goit.booking.dao.*;
 import ua.goit.booking.entity.User;
 
 import java.util.ArrayList;
@@ -131,7 +134,7 @@ public class RoomController {
         rooms.addAll(roomDao.getAll());
         room = roomDao.getById(roomId);
         if (!rooms.contains(room)) {
-            //  System.out.println("There's no room with such (roomId) in DB!");
+            //  System.out.println("There's no room with such ID in DB!");
             return null;
         }
         result = hotelDao.getById(room.getHotelId()).getRooms();

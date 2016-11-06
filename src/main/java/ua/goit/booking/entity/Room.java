@@ -14,7 +14,8 @@ public class Room implements Identity {
     private Long userId;
     private Long hotelId;
 
-    public Room() {}
+    public Room() {
+    }
 
     public Room(int price, int numberOfVisitors, boolean isBooked, Long userId, Long hotelId) {
         long newId = UUID.randomUUID().getLeastSignificantBits();
