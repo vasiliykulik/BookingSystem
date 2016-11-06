@@ -37,7 +37,7 @@ public class RoomController {
         List<Room> result = new ArrayList<>();
         AbstractDao<Room> roomDao = new RoomDaoImpl();
         result.addAll(roomDao.getAll().stream()
-                .filter(room -> (room.getPrice() <= budget) & (!room.isBooked())).collect(Collectors.toList()));
+                .filter(room -> (room.getPrice() <= budget) && (!room.isBooked())).collect(Collectors.toList()));
         return result;
     }
 
@@ -54,7 +54,7 @@ public class RoomController {
         List<Room> result = new ArrayList<>();
         AbstractDao<Room> roomDao = new RoomDaoImpl();
         result.addAll(roomDao.getAll().stream()
-                .filter(room -> (room.getNumberOfVisitors() == nPersons) & (!room.isBooked()))
+                .filter(room -> (room.getNumberOfVisitors() == nPersons) && (!room.isBooked()))
                 .collect(Collectors.toList()));
         return result;
     }
