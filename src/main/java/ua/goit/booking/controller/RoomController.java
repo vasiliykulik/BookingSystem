@@ -70,6 +70,18 @@ public class RoomController {
         return result;
     }
 
-
+    public List<Room> getFreeRoomsOfTheCity(String theCity) {
+        List<Room> rooms = new ArrayList<>();
+        List<Room> result = new ArrayList<>();
+        List<Hotel> hotels = new ArrayList<>();
+        AbstractDao<Hotel> hotelDao = new HotelDaoImpl();
+        hotels.addAll(hotelDao.getAll().stream()
+                .filter(hotel -> (hotel.getCityName().equals(theCity))).collect(Collectors.toList()));
+        for (Hotel hotel : hotels) {
+            rooms.addAll(hotel.getRooms());
+        }
+        result.addAll(rooms.stream().filter(room -> (!room.isBooked())).collect(Collectors.toList()));
+        return result;
+    }
 
 }
