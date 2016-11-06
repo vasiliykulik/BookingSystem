@@ -8,10 +8,17 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class RoomController {
-    public List<Room> getAllFreeRooms(){
+    public List<Room> getAllFreeRooms() {
         List<Room> result = new ArrayList<>();
         AbstractDao<Room> dao = new RoomDaoImpl();
         result.addAll(dao.getAll().stream().filter(room -> !room.isBooked()).collect(Collectors.toList()));
+        return result;
+    }
+
+    public List<Room> getAllCheaperRooms(int budget) {
+        List<Room> result = new ArrayList<>();
+        AbstractDao<Room> dao = new RoomDaoImpl();
+        result.addAll(dao.getAll().stream().filter(room -> room.getPrice() <= budget).collect(Collectors.toList()));
         return result;
     }
 }
