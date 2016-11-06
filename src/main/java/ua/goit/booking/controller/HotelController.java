@@ -8,9 +8,6 @@ import java.lang.reflect.Field;
 import java.util.*;
 import java.util.stream.Collectors;
 
-/**
- * Created by taras on 05.11.16.
- */
 public class HotelController {
 
     public List<Hotel> findHotelByName(String name) {
