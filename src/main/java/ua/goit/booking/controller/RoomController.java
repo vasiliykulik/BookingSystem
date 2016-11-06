@@ -3,6 +3,7 @@ package ua.goit.booking.controller;
 import ua.goit.booking.entity.Hotel;
 import ua.goit.booking.entity.Room;
 import ua.goit.booking.dao.*;
+import ua.goit.booking.entity.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,8 +72,8 @@ public class RoomController {
     }
 
     public List<Room> getFreeRoomsOfTheCity(String theCity) {
-        List<Room> rooms = new ArrayList<>();
         List<Room> result = new ArrayList<>();
+        List<Room> rooms = new ArrayList<>();
         List<Hotel> hotels = new ArrayList<>();
         AbstractDao<Hotel> hotelDao = new HotelDaoImpl();
         hotels.addAll(hotelDao.getAll().stream()
@@ -81,6 +82,21 @@ public class RoomController {
             rooms.addAll(hotel.getRooms());
         }
         result.addAll(rooms.stream().filter(room -> (!room.isBooked())).collect(Collectors.toList()));
+        return result;
+    }
+
+    public List<Room> getAllRoomsReservedByUser(Long userId){
+        List<Room> result = new ArrayList<>();
+        AbstractDao<Room> roomDao = new RoomDaoImpl();
+        result.addAll(roomDao.getAll().stream()
+                .filter(room -> (room.getUserId().equals(userId))).collect(Collectors.toList()));
+        return result;
+    }
+
+    public List<Room> getAllRoomsReservedByUser(String firstName, String lastName){
+        List<Room> result = new ArrayList<>();
+
+
         return result;
     }
 
