@@ -114,32 +114,6 @@ public class Room implements Identity {
                 ", userId=" + userId +
                 '}';
     }
-//
-//    @Override
-//    public boolean equals(Object o) {
-//        if (this == o) return true;
-//        if (o == null || getClass() != o.getClass()) return false;
-//
-//        Room room = (Room) o;
-//
-//        if (id != room.id) return false;
-//        if (price != room.price) return false;
-//        if (numberOfVisitors != room.numberOfVisitors) return false;
-//        if (isBooked != room.isBooked) return false;
-//        return userId == room.userId;
-//
-//    }
-//
-//    @Override
-//    public int hashCode() {
-//        int result = (int) (id ^ (id >>> 32));
-//        result = 31 * result + price;
-//        result = 31 * result + numberOfVisitors;
-//        result = 31 * result + (isBooked ? 1 : 0);
-//        result = 31 * result + (int) (userId ^ (userId >>> 32));
-//        return result;
-//    }
-
 
     @Override
     public boolean equals(Object o) {

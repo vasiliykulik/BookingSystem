@@ -109,7 +109,7 @@ public class Hotel implements Identity {
 
         Hotel hotel = (Hotel) o;
 
-        if (id != hotel.id) return false;
+        if (id != null ? !id.equals(hotel.id) : hotel.id != null) return false;
         if (hotelName != null ? !hotelName.equals(hotel.hotelName) : hotel.hotelName != null) return false;
         if (cityName != null ? !cityName.equals(hotel.cityName) : hotel.cityName != null) return false;
         return roomsId != null ? roomsId.equals(hotel.roomsId) : hotel.roomsId == null;
@@ -118,7 +118,7 @@ public class Hotel implements Identity {
 
     @Override
     public int hashCode() {
-        int result = (int) (id ^ (id >>> 32));
+        int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (hotelName != null ? hotelName.hashCode() : 0);
         result = 31 * result + (cityName != null ? cityName.hashCode() : 0);
         result = 31 * result + (roomsId != null ? roomsId.hashCode() : 0);
