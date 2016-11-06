@@ -26,4 +26,5 @@ public class UserDaoImpl extends AbstractDaoImp<User> implements UserDao {
     public void delete(User user) {
         //TODO Logic
     }
+
 }
