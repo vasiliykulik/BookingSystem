@@ -67,9 +67,9 @@ public class RoomController {
         for (Hotel hotel : hotels) {
             result.addAll(hotel.getRooms());
         }
-
-
         return result;
     }
+
+
 
 }
