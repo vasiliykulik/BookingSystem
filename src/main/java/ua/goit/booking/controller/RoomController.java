@@ -93,20 +93,22 @@ public class RoomController {
         return result;
     }
 
-//    public List<Room> getAllRoomsReservedByUser(String firstName, String lastName) {
-//        List<Room> result = new ArrayList<>();
-//        List<Room> rooms = new ArrayList<>();
-//        List<User> users = new ArrayList<>();
-//        AbstractDao<Room> roomDao = new RoomDaoImpl();
-//        AbstractDao<User> userDao = new UserDaoImpl();
-//        users.addAll(userDao.getAll().stream()
-//                .filter(user -> (user.getFirstName().equals(firstName)
-//                        & user.getLastName().equals(lastName))).collect(Collectors.toList()));
-//
-//        rooms.addAll(roomDao.getAll().stream()
-//                .filter(room -> ()).collect(Collectors.toList()));
-//
-//        return result;
-//    }
+    public List<Room> getAllRoomsReservedByUser(String firstName, String lastName) {
+        List<Room> result = new ArrayList<>();
+        List<Room> rooms = new ArrayList<>();
+        List<User> users = new ArrayList<>();
+        AbstractDao<Room> roomDao = new RoomDaoImpl();
+        AbstractDao<User> userDao = new UserDaoImpl();
+        users.addAll(userDao.getAll().stream()
+                .filter(user -> (user.getFirstName().equals(firstName)
+                        & user.getLastName().equals(lastName))).collect(Collectors.toList()));
+        rooms.addAll(roomDao.getAll());
+        for (int i = 0; i < users.size(); i++) {
+            int finalI = i;
+            result.addAll(rooms.stream()
+                    .filter(room -> (room.getUserId().equals(users.get(finalI).getId()))).collect(Collectors.toList()));
+        }
+        return result;
+    }
 
 }
