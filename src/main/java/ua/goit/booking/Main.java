@@ -18,7 +18,7 @@ public class Main {
 //
 //        System.out.println("Rooms\n===");
 //        RoomDao roomDao = new RoomDaoImpl();
-//        List<Room> toUpdate = roomDao.getAll();
+//        List<Room> toUpdate = roomDao.getAll();1
 //        toUpdate.forEach(room -> room.setUserId(null));
 //        roomDao.update(toUpdate);
 //        roomDao.getAll().forEach(System.out::println);
