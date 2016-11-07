@@ -17,17 +17,24 @@ public class HotelController {
 
     public List<Hotel> findHotelByName(String name) {
         List<Hotel> result = new ArrayList<>();
-        AbstractDao<Hotel> dao = new HotelDaoImpl();
-        //      try {
-        result.addAll(dao.getAll().stream()
-                .filter(hotel -> hotel.getHotelName().equals(name)).collect(Collectors.toList()));
+        AbstractDao<Hotel> hotelDao = new HotelDaoImpl();
+        List<Hotel> allHotels = hotelDao.getAll();
+        try {
+            if (hotelDao.isDataCorrupted(allHotels)) {
+                throw new DataCorruptionException("WARNING! List<Hotel> contains corrupted data.");
+            }
+        } catch (DataCorruptionException dce) {
+            dce.printStackTrace();
+        }
+        try {
+            result.addAll(allHotels.stream()
+                    .filter(hotel -> hotel.getHotelName().equals(name)).collect(Collectors.toList()));
+        } catch (RuntimeException re) {
+            re.printStackTrace();
+        }
         if (result.isEmpty()) {
             return null;
         }
-
-        //     } catch (NullPointerException e) {
-        //         System.out.println("Введите существующее навзвание");
-        //      }
         return result;
     }
 
