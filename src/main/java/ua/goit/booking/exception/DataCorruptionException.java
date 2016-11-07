@@ -1,4 +1,4 @@
-package ua.goit.booking.dao.exception;
+package ua.goit.booking.exception;
 
 public class DataCorruptionException extends RuntimeException {
     public DataCorruptionException() {
