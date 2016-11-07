@@ -17,11 +17,25 @@ public class HotelController {
     public List<Hotel> findHotelByName(String name) {
         List<Hotel> result = new ArrayList<>();
         AbstractDao<Hotel> dao = new HotelDaoImpl();
+
   //      try {
             result.addAll(dao.getAll().stream()
                     .filter(hotel -> hotel.getHotelName().equals(name)).collect(Collectors.toList()));
             if (result.isEmpty()) {
-                return null;
+
+                    return null;
+
+                /*По несуществующему запросу "Radiss" метод List<Hotel> findHotelByName(String name) выдает
+                 - NullPointerException - и прямо в методе не catchится,
+                * так как мы заведомо осознанно передаем null:
+                 * 1. можно ловить при вызове в Main
+                  * 2. можно возвращать "по данному запросу ничего не найдено" вместо null
+                  * 3. в методе прописать  - проверку name (есть ли вообще такой отель - или это ошибка ввода) -
+                  * if(dao.getAll().stream()
+                .anyMatch(hotel -> hotel.getHotelName().equals(name))){если да - проводим поиск и возвращаем Отели,
+        } в другом случае {вернуть сообщение " Введите правильно название отеля/Такого отеля нет в нашей БД"
+         (но как это реализовать ? - возвращаемый тип методом
+         (сигнатура метода)это List<Hotel>). */
            }
 
    //     } catch (NullPointerException e) {

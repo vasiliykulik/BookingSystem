@@ -61,6 +61,7 @@ public class Main {
         // Тест Main Василий.Виталий
     // Найте гостиницу по имени
         HotelController hotelController = new HotelController();
+        hotelController.findHotelByName("Radisso").forEach(System.out::println);
         try {
             hotelController.findHotelByName("Radisso").forEach(System.out::println);// По несуществующему запросу "Radiss" - NullPointerException
         }catch(NullPointerException e){
