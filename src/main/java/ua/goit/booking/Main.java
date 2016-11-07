@@ -58,13 +58,35 @@ public class Main {
         map.put("price", "334");
         map.put("person", "3");
 //        System.out.println(hotelDAO.findRoom(map));
+
         // Тест Main Василий.Виталий
     // Найте гостиницу по имени
         HotelController hotelController = new HotelController();
+        hotelController.findHotelByName("Radisso").forEach(System.out::println);
+        // По несуществующему запросу "Radiss" - NullPointerException
         try {
-            hotelController.findHotelByName("Radisso").forEach(System.out::println);// По несуществующему запросу "Radiss" - NullPointerException
+            hotelController.findHotelByName("Radisso").forEach(System.out::println);
         }catch(NullPointerException e){
             System.err.println("Введите существующее навзвание гостиницы. Ошибка "+e);
         }
+        /*
+        Тест Main, метод findHotelByName
+     Найте гостиницу по имени
+     По несуществующему запросу "Radiss" - NullPointerException
+       Решение: Ловить в main
+        try {
+            hotelController.findHotelByName("Radisso").forEach(System.out::println);
+        }catch(NullPointerException e){
+            System.err.println("Введите существующее навзвание гостиницы. Ошибка "+e);
+        }
+        или проверить в самом методе
+        if (result.isEmpty()) {
+            try {
+                throw new Exception("");
+            }catch (Exception e) {
+                System.err.println("Введите существующее навзвание гостиницы. Ошибка "+e);
+            }
+        }
+         */
     }
 }

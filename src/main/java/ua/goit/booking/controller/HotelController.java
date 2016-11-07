@@ -26,6 +26,7 @@ public class HotelController {
         } catch (DataCorruptionException dce) {
             dce.printStackTrace();
         }
+
         try {
             result.addAll(allHotels.stream()
                     .filter(hotel -> hotel.getHotelName().equals(name)).collect(Collectors.toList()));
