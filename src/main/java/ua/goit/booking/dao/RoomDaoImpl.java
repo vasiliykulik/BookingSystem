@@ -2,6 +2,7 @@ package ua.goit.booking.dao;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import ua.goit.booking.entity.DataCorruptionException;
 import ua.goit.booking.entity.Hotel;
 import ua.goit.booking.entity.Room;
 
@@ -10,9 +11,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-/**
- * Created by Dima on 05.11.16.
- */
 public class RoomDaoImpl extends AbstractDaoImp<Room> implements RoomDao {
 
     public RoomDaoImpl() {
@@ -55,4 +53,23 @@ public class RoomDaoImpl extends AbstractDaoImp<Room> implements RoomDao {
     public void delete(Room room) {
         //TODO Logic
     }
+
+    @Override
+    public boolean isDataCorrupted(List<Room> roomList) {
+        Room room;
+        for (Room aRoomList : roomList) {
+            room = aRoomList;
+            if (room == null) {
+                return true;
+            }
+            if (room.getId() == null || room.getPrice() == 0
+                    || room.getNumberOfVisitors() == 0
+                    || room.getUserId() == null || room.getHotelId() == null) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
 }

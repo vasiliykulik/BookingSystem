@@ -1,14 +1,13 @@
 package ua.goit.booking.dao;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import ua.goit.booking.entity.DataCorruptionException;
+import ua.goit.booking.entity.Hotel;
 import ua.goit.booking.entity.User;
 
 import java.io.File;
 import java.util.List;
 
-/**
- * Created by Dima on 05.11.16.
- */
 public class UserDaoImpl extends AbstractDaoImp<User> implements UserDao {
 
     public UserDaoImpl() {
@@ -27,4 +26,19 @@ public class UserDaoImpl extends AbstractDaoImp<User> implements UserDao {
         //TODO Logic
     }
 
+    @Override
+    public boolean isDataCorrupted(List<User> userList) {
+        User user;
+        for (int i = 0; i < userList.size(); i++) {
+            user = userList.get(i);
+            if (user == null) {
+                return true;
+            }
+            if (user.getId() == null || user.getFirstName() == null
+                    || user.getLastName() == null || user.getEmailAddress() == null) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

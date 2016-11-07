@@ -4,6 +4,9 @@ import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import ua.goit.booking.entity.Hotel;
+import ua.goit.booking.entity.Room;
+import ua.goit.booking.entity.User;
 
 import java.io.File;
 import java.io.IOException;
@@ -46,7 +49,7 @@ public abstract class AbstractDaoImp<T extends Identity> implements AbstractDao<
         List<T> res = getAll().stream()
                 .filter(t -> t.getId() == id)
                 .collect(Collectors.toList());
-        return null;
+        return null; // ???
     }
 
     @Override
@@ -75,5 +78,16 @@ public abstract class AbstractDaoImp<T extends Identity> implements AbstractDao<
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+//    public boolean isDataCorrupted(List<User> userList){
+//
+//    }
+
+
+
+    @Override
+    public boolean isDataCorrupted(List<T> list) {
+        return false;
     }
 }

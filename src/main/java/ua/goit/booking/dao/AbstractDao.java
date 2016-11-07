@@ -2,10 +2,6 @@ package ua.goit.booking.dao;
 
 import java.util.List;
 
-/**
- * Created by taras on 04.11.16.
- * Refactored by Dima on 05.11.16.
- */
 public interface AbstractDao<T> {
 
     List<T> getAll();
@@ -19,5 +15,7 @@ public interface AbstractDao<T> {
     void delete(T t);
 
     void update(List<T> list);
+
+    boolean isDataCorrupted(List<T> list);
 
 }
