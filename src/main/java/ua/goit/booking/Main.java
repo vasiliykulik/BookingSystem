@@ -60,14 +60,12 @@ public class Main {
 //        System.out.println(hotelDAO.findRoom(map));
 
         // Тест Main Василий.Виталий
-    // Найте гостиницу по имени
+        // Найте гостиницу по имени
         HotelController hotelController = new HotelController();
         hotelController.findHotelByName("Radisso").forEach(System.out::println);
-        // По несуществующему запросу "Radiss" - NullPointerException
-
         /*
-        При Тесте Main, при вызове метода findHotelByName
-     и передачи ему несуществующего запроса "Radiss" - получаем NullPointerException
+       При Тесте Main, при вызове метода findHotelByName
+       и передачи ему несуществующего запроса "Radiss" - получаем NullPointerException
        Решение: Ловить в main
         try {
             hotelController.findHotelByName("Radisso").forEach(System.out::println);
