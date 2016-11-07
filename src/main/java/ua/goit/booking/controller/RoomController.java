@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 
 public class RoomController {
     // повертає масив усіх номерів
+    // повертає null, якщо в базі немає номерів
     public List<Room> getAllRooms() {
         List<Room> result = new ArrayList<>();
         AbstractDao<Room> roomDao = new RoomDaoImpl();
@@ -26,6 +27,7 @@ public class RoomController {
     }
 
     // повертає масив усіх незайнятих номерів
+    // повертає null, якщо таких номерів не знайдено
     public List<Room> getFreeRooms() {
         List<Room> result = new ArrayList<>();
         AbstractDao<Room> roomDao = new RoomDaoImpl();
@@ -38,6 +40,7 @@ public class RoomController {
     }
 
     // повертає масив усіх номерів, оренда яких не дорожча за (budget)
+    // повертає null, якщо таких номерів не знайдено
     public List<Room> getCheaperRooms(int budget) {
         List<Room> result = new ArrayList<>();
         AbstractDao<Room> roomDao = new RoomDaoImpl();
@@ -50,6 +53,7 @@ public class RoomController {
     }
 
     // повертає масив усіх незайнятих номерів, оренда яких не дорожча за (budget)
+    // повертає null, якщо таких номерів не знайдено
     public List<Room> getFreeCheaperRooms(int budget) {
         List<Room> result = new ArrayList<>();
         AbstractDao<Room> roomDao = new RoomDaoImpl();
@@ -62,6 +66,7 @@ public class RoomController {
     }
 
     // повертає масив усіх (nPersons)-вмісних номерів
+    // повертає null, якщо таких номерів не знайдено
     public List<Room> getRoomsForNPersons(int nPersons) {
         List<Room> result = new ArrayList<>();
         AbstractDao<Room> roomDao = new RoomDaoImpl();
@@ -75,6 +80,7 @@ public class RoomController {
     }
 
     // повертає масив усіх незайнятих (nPersons)-вмісних номерів
+    // повертає null, якщо таких номерів не знайдено
     public List<Room> getFreeRoomsForNPersons(int nPersons) {
         List<Room> result = new ArrayList<>();
         AbstractDao<Room> roomDao = new RoomDaoImpl();
@@ -88,6 +94,7 @@ public class RoomController {
     }
 
     // повертає масив усіх номерів міста (theCity)
+    // повертає null, якщо таких номерів не знайдено
     public List<Room> getRoomsOfTheCity(String theCity) {
         List<Room> result = new ArrayList<>();
         List<Hotel> hotels = new ArrayList<>();
@@ -104,6 +111,7 @@ public class RoomController {
     }
 
     // повертає масив усіх незайнятих номерів міста (theCity)
+    // повертає null, якщо таких номерів не знайдено
     public List<Room> getFreeRoomsOfTheCity(String theCity) {
         List<Room> result = new ArrayList<>();
         List<Room> rooms = new ArrayList<>();
@@ -122,6 +130,7 @@ public class RoomController {
     }
 
     // повертає масив усіх номерів, зарезервованих користувачем з id (userId)
+    // повертає null, якщо таких номерів не знайдено
     public List<Room> getAllRoomsReservedByUser(Long userId) {
         List<Room> result = new ArrayList<>();
         AbstractDao<Room> roomDao = new RoomDaoImpl();
@@ -134,6 +143,7 @@ public class RoomController {
     }
 
     // повертає масив усіх номерів, зарезервованих на користувачів з прізвищем (lastName)
+    // повертає null, якщо таких номерів не знайдено
     public List<Room> getAllRoomsReservedByUser(String lastName) {
         List<Room> result = new ArrayList<>();
         List<Room> rooms = new ArrayList<>();
@@ -156,6 +166,7 @@ public class RoomController {
     }
 
     // повертає масив усіх номерів, зарезервованих на ім'я (firstName) та прізвище (lastName)
+    // повертає null, якщо таких номерів не знайдено
     public List<Room> getAllRoomsReservedByUser(String firstName, String lastName) {
         List<Room> result = new ArrayList<>();
         List<Room> rooms = new ArrayList<>();
@@ -178,7 +189,8 @@ public class RoomController {
         return result;
     }
 
-    // за даним ID (roomId) номеру повертає масив усіх номерів з його готелю
+    // за даним ID (roomId) номеру повертає масив усіх номерів з цього готелю
+    // повертає null, якщо таких номерів не знайдено
     public List<Room> getAllRoomsFromThisHotel(Long roomId) {
         List<Room> result;
         List<Room> rooms = new ArrayList<>();
@@ -198,7 +210,8 @@ public class RoomController {
         return result;
     }
 
-    // за даним ID (roomId) номеру повертає масив усіх незайнятих номерів з його готелю
+    // за даним ID (roomId) номеру повертає масив усіх незайнятих номерів з цього готелю
+    // повертає null, якщо таких номерів не знайдено
     public List<Room> getAllFreeRoomsFromThisHotel(Long roomId) {
         List<Room> result = new ArrayList<>();
         List<Room> rooms = new ArrayList<>();

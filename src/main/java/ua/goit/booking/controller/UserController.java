@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 
 public class UserController {
     // повертає масив усіх користувачів (без дублювання)
+    // повертає null, якщо в базі немає користувачів
     public List<User> getAllUsers() {
         List<User> result = new ArrayList<>();
         AbstractDao<User> userDao = new UserDaoImpl();
@@ -29,6 +30,7 @@ public class UserController {
     }
 
     // за даним id готелю (hotelId) повертає масив усіх зареєстрованих у ньому користувачів (без дублювання)
+    // повертає null, якщо в готелі не зареєстровано жодного користувача
     public List<User> getAllUsersFromHotel(long hotelId) {
         List<User> result = new ArrayList<>();
         List<Hotel> hotels = new ArrayList<>();
@@ -53,6 +55,7 @@ public class UserController {
     }
 
     // за даною назвою готелю (hotelName) повертає масив усіх зареєстрованих у ньому користувачів (без дублювання)
+    // повертає null, якщо в готелі не зареєстровано жодного користувача
     public List<User> getAllUsersFromHotel(String hotelName) {
         List<User> result = new ArrayList<>();
         List<Hotel> hotels = new ArrayList<>();
@@ -82,6 +85,7 @@ public class UserController {
     }
 
     // за даною назвою міста (theCity) повертає масив усіх зареєстрованих у ньому користувачів (без дублювання)
+    // повертає null, якщо таких користувачів не знайдено
     public List<User> getAllUsersFromCity(String theCity) {
         List<User> result = new ArrayList<>();
         List<Hotel> hotels = new ArrayList<>();
