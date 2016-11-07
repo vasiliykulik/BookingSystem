@@ -69,13 +69,15 @@ public class RoomDaoImpl extends AbstractDaoImp<Room> implements RoomDao {
             if (room.getId() == null
                     || room.getPrice() == 0
                     || room.getNumberOfVisitors() == 0
-                    || room.getUserId() == null
                     || room.getHotelId() == null
                     || room.getFromDate() == null
                     || room.getToDate() == null) {
                 return true;
             }
             if (!room.getFromDate().before(room.getToDate())) {
+                return true;
+            }
+            if (room.isBooked() && room.getUserId() == null) {
                 return true;
             }
         }
