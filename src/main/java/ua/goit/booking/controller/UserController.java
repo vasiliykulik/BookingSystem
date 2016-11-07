@@ -34,11 +34,11 @@ public class UserController {
         try {
             userSet.addAll(allUsers);
             result.addAll(userSet);
+            if (result.isEmpty()) {
+                return null;
+            }
         } catch (RuntimeException re) {
             re.printStackTrace();
-        }
-        if (result.isEmpty()) {
-            return null;
         }
         return result;
     }
@@ -74,11 +74,11 @@ public class UserController {
             rooms.addAll(hotel.getRooms());
             userSet.addAll(rooms.stream().map(Room::getUser).collect(Collectors.toList()));
             result.addAll(userSet);
+            if (result.isEmpty()) {
+                return null;
+            }
         } catch (RuntimeException re) {
             re.printStackTrace();
-        }
-        if (result.isEmpty()) {
-            return null;
         }
         return result;
     }
@@ -119,11 +119,11 @@ public class UserController {
             rooms.addAll(ourHotel.getRooms());
             userSet.addAll(rooms.stream().map(Room::getUser).collect(Collectors.toList()));
             result.addAll(userSet);
+            if (result.isEmpty()) {
+                return null;
+            }
         } catch (RuntimeException re) {
             re.printStackTrace();
-        }
-        if (result.isEmpty()) {
-            return null;
         }
         return result;
     }
@@ -182,11 +182,11 @@ public class UserController {
             usersIds.addAll(rooms.stream().map(Room::getUserId).collect(Collectors.toList()));
             userSet.addAll(userDao.getAllById(usersIds));
             result.addAll(userSet);
+            if (result.isEmpty()) {
+                return null;
+            }
         } catch (RuntimeException re) {
             re.printStackTrace();
-        }
-        if (result.isEmpty()) {
-            return null;
         }
         return result;
     }
@@ -207,11 +207,11 @@ public class UserController {
         try {
             rooms.addAll(allRooms.stream()
                     .filter(room -> (room.getUserId().equals(userId))).collect(Collectors.toList()));
+            if (rooms.isEmpty()) {
+                return -1;
+            }
         } catch (RuntimeException re) {
             re.printStackTrace();
-        }
-        if (rooms.isEmpty()) {
-            return -1;
         }
         return rooms.size();
     }
@@ -250,11 +250,11 @@ public class UserController {
                         .filter(room -> (room.getUserId().equals(users.get(finalI).getId())))
                         .collect(Collectors.toList()));
             }
+            if (resultRooms.isEmpty()) {
+                return -1;
+            }
         } catch (RuntimeException re) {
             re.printStackTrace();
-        }
-        if (resultRooms.isEmpty()) {
-            return -1;
         }
         return resultRooms.size();
     }
@@ -294,11 +294,11 @@ public class UserController {
                         .filter(room -> (room.getUserId().equals(users.get(finalI).getId())))
                         .collect(Collectors.toList()));
             }
+            if (resultRooms.isEmpty()) {
+                return -1;
+            }
         } catch (RuntimeException re) {
             re.printStackTrace();
-        }
-        if (resultRooms.isEmpty()) {
-            return -1;
         }
         return resultRooms.size();
     }
@@ -320,14 +320,14 @@ public class UserController {
         try {
             rooms.addAll(allRooms.stream()
                     .filter(room -> (room.getUserId().equals(userId))).collect(Collectors.toList()));
+            if (rooms.isEmpty()) {
+                return -1;
+            }
+            for (Room room : rooms) {
+                budget += room.getPrice();
+            }
         } catch (RuntimeException re) {
             re.printStackTrace();
-        }
-        if (rooms.isEmpty()) {
-            return -1;
-        }
-        for (Room room : rooms) {
-            budget += room.getPrice();
         }
         return budget;
     }
@@ -367,15 +367,14 @@ public class UserController {
                         .filter(room -> (room.getUserId().equals(users.get(finalI).getId())))
                         .collect(Collectors.toList()));
             }
+            if (resultRooms.isEmpty()) {
+                return -1;
+            }
+            for (Room resultRoom : resultRooms) {
+                budget += resultRoom.getPrice();
+            }
         } catch (RuntimeException re) {
             re.printStackTrace();
-        }
-
-        if (resultRooms.isEmpty()) {
-            return -1;
-        }
-        for (Room resultRoom : resultRooms) {
-            budget += resultRoom.getPrice();
         }
         return budget;
     }
@@ -417,14 +416,14 @@ public class UserController {
                         .filter(room -> (room.getUserId().equals(users.get(finalI).getId())))
                         .collect(Collectors.toList()));
             }
+            if (resultRooms.isEmpty()) {
+                return -1;
+            }
+            for (Room resultRoom : resultRooms) {
+                budget += resultRoom.getPrice();
+            }
         } catch (RuntimeException re) {
             re.printStackTrace();
-        }
-        if (resultRooms.isEmpty()) {
-            return -1;
-        }
-        for (Room resultRoom : resultRooms) {
-            budget += resultRoom.getPrice();
         }
         return budget;
     }
