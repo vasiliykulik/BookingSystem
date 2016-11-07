@@ -1,12 +1,7 @@
 package ua.goit.booking.dao;
 
-import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import ua.goit.booking.entity.Hotel;
-import ua.goit.booking.entity.Room;
-import ua.goit.booking.entity.User;
 
 import java.io.File;
 import java.io.IOException;
@@ -14,10 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-/**
- * Created by taras on 04.11.16.
- * Refactored by Dima on 05.11.16.
- */
 public abstract class AbstractDaoImp<T extends Identity> implements AbstractDao<T> {
 
     private File file;
@@ -34,10 +25,6 @@ public abstract class AbstractDaoImp<T extends Identity> implements AbstractDao<
         List<T> list = new ArrayList<>();
         try {
             list = mapper.readValue(file, typeReference);
-        } catch (JsonGenerationException e) {
-            e.printStackTrace();
-        } catch (JsonMappingException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -77,10 +64,6 @@ public abstract class AbstractDaoImp<T extends Identity> implements AbstractDao<
         ObjectMapper objectMapper = new ObjectMapper();
         try {
             objectMapper.writeValue(file, list);
-        } catch (JsonGenerationException e) {
-            e.printStackTrace();
-        } catch (JsonMappingException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -94,8 +77,10 @@ public abstract class AbstractDaoImp<T extends Identity> implements AbstractDao<
         if (list.isEmpty()) {
             return true;
         }
-        for (int i = 0; i < list.size(); i++) {
-
+        for (T aList : list) {
+            if (aList == null) {
+                return true;
+            }
         }
         return false;
     }

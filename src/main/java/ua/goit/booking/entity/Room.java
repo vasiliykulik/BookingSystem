@@ -124,15 +124,14 @@ public class Room implements Identity {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("Room{");
-        sb.append("id=").append(id);
-        sb.append(", price=").append(price);
-        sb.append(", numberOfVisitors=").append(numberOfVisitors);
-        sb.append(", fromDate=").append(fromDate);
-        sb.append(", toDate=").append(toDate);
-        sb.append(", userId=").append(userId);
-        sb.append(", hotelId=").append(hotelId);
-        sb.append('}');
-        return sb.toString();
+        return "Room{" +
+                "id=" + id +
+                ", price=" + price +
+                ", numberOfVisitors=" + numberOfVisitors +
+                ", fromDate=" + fromDate +
+                ", toDate=" + toDate +
+                ", userId=" + userId +
+                ", hotelId=" + hotelId +
+                '}';
     }
 }
