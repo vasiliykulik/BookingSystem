@@ -64,15 +64,10 @@ public class Main {
         HotelController hotelController = new HotelController();
         hotelController.findHotelByName("Radisso").forEach(System.out::println);
         // По несуществующему запросу "Radiss" - NullPointerException
-        try {
-            hotelController.findHotelByName("Radisso").forEach(System.out::println);
-        }catch(NullPointerException e){
-            System.err.println("Введите существующее навзвание гостиницы. Ошибка "+e);
-        }
+
         /*
-        Тест Main, метод findHotelByName
-     Найте гостиницу по имени
-     По несуществующему запросу "Radiss" - NullPointerException
+        При Тесте Main, при вызове метода findHotelByName
+     и передачи ему несуществующего запроса "Radiss" - получаем NullPointerException
        Решение: Ловить в main
         try {
             hotelController.findHotelByName("Radisso").forEach(System.out::println);
@@ -80,11 +75,11 @@ public class Main {
             System.err.println("Введите существующее навзвание гостиницы. Ошибка "+e);
         }
         или проверить в самом методе
-        if (result.isEmpty()) {
+       if (result.isEmpty()) {
             try {
-                throw new Exception("");
+                throw new Exception("Введите существующее навзвание гостиницы. Ошибка ");
             }catch (Exception e) {
-                System.err.println("Введите существующее навзвание гостиницы. Ошибка "+e);
+                System.err.println("e.getMessage() = "+ e.getMessage());
             }
         }
          */
