@@ -17,11 +17,16 @@ public class HotelController {
     public List<Hotel> findHotelByName(String name) {
         List<Hotel> result = new ArrayList<>();
         AbstractDao<Hotel> dao = new HotelDaoImpl();
-        result.addAll(dao.getAll().stream()
-                .filter(hotel -> hotel.getHotelName().equals(name)).collect(Collectors.toList()));
-        if (result.isEmpty()) {
-            return null;
-        }
+  //      try {
+            result.addAll(dao.getAll().stream()
+                    .filter(hotel -> hotel.getHotelName().equals(name)).collect(Collectors.toList()));
+            if (result.isEmpty()) {
+                return null;
+           }
+
+   //     } catch (NullPointerException e) {
+   //         System.out.println("Введите существующее навзвание");
+  //      }
         return result;
     }
 

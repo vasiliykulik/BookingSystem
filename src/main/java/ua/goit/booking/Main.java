@@ -1,5 +1,6 @@
 package ua.goit.booking;
 
+import ua.goit.booking.controller.HotelController;
 import ua.goit.booking.controller.RoomController;
 import ua.goit.booking.controller.UserController;
 import ua.goit.booking.dao.*;
@@ -32,11 +33,11 @@ public class Main {
 //        userDao.getAll().forEach(System.out::println);
 
 //        UserController userController = new UserController();
-//        userController.getAllUsers().forEach(System.out::println);test push fr Vasiliy1
+//        userController.getAllUsers().forEach(System.out::println);
 
 
         Date currentDate = Calendar.getInstance().getTime();
-        RoomController roomController = new RoomController();
+ /*       RoomController roomController = new RoomController();
 //        List<Room> rooms = roomController.getAllRooms();
 //        for (Room room : rooms) {
 //            room.setToDate(currentDate);
@@ -44,7 +45,7 @@ public class Main {
 //        }
 //        RoomDao roomDao = new RoomDaoImpl();
 //        roomDao.update(rooms);
-        roomController.getFreeRooms().forEach(System.out::println);
+        roomController.getFreeRooms().forEach(System.out::println);*/
 
 
 //        hotelDAO.findHotelByName("Plaza").forEach(System.out::println);
@@ -57,6 +58,13 @@ public class Main {
         map.put("price", "334");
         map.put("person", "3");
 //        System.out.println(hotelDAO.findRoom(map));
-    // Поиск
+        // Тест Main Василий.Виталий
+    // Найте гостиницу по имени
+        HotelController hotelController = new HotelController();
+        try {
+            hotelController.findHotelByName("Radisso").forEach(System.out::println);// По несуществующему запросу "Radiss" - NullPointerException
+        }catch(NullPointerException e){
+            System.err.println("Введите существующее навзвание гостиницы. Ошибка "+e);
+        }
     }
 }
