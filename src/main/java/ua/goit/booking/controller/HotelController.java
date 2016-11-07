@@ -1,6 +1,8 @@
 package ua.goit.booking.controller;
 
-import ua.goit.booking.dao.*;
+import ua.goit.booking.dao.AbstractDao;
+import ua.goit.booking.dao.HotelDao;
+import ua.goit.booking.dao.HotelDaoImpl;
 import ua.goit.booking.entity.Hotel;
 import ua.goit.booking.entity.Room;
 
@@ -57,7 +59,6 @@ public class HotelController {
             }
         }
         System.out.println("Sorry! No such hotel.");
-        return;
     }
 
     public void cancelReservation(long roomId, long userId, long hotelId) {
@@ -92,7 +93,6 @@ public class HotelController {
             }
         }
         System.out.println("Sorry! No such hotel.");
-        return;
     }
 
     public List<Hotel> findRoom(Map<String, String> params) {

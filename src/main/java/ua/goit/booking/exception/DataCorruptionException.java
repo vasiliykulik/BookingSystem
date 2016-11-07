@@ -1,6 +1,6 @@
 package ua.goit.booking.exception;
 
-public class DataCorruptionException extends RuntimeException {
+public class DataCorruptionException extends Exception {
     public DataCorruptionException() {
     }
 
@@ -16,7 +16,4 @@ public class DataCorruptionException extends RuntimeException {
         super(cause);
     }
 
-    public DataCorruptionException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
-        super(message, cause, enableSuppression, writableStackTrace);
-    }
 }
