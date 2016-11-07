@@ -6,6 +6,8 @@ import ua.goit.booking.dao.Identity;
 import ua.goit.booking.dao.UserDaoImpl;
 
 import java.lang.reflect.Field;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.UUID;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -13,14 +15,15 @@ public class Room implements Identity {
     private Long id;
     private int price;
     private int numberOfVisitors;
-    private boolean isBooked;
+    private Date fromDate;
+    private Date toDate;
     private Long userId;
     private Long hotelId;
 
     public Room() {
     }
 
-    public Room(int price, int numberOfVisitors, boolean isBooked, Long userId, Long hotelId) {
+    public Room(int price, int numberOfVisitors, Long hotelId) {
         long newId = UUID.randomUUID().getLeastSignificantBits();
         if (newId <= 0) {
             this.id = newId * -1;
@@ -29,21 +32,7 @@ public class Room implements Identity {
         }
         this.price = price;
         this.numberOfVisitors = numberOfVisitors;
-        this.isBooked = isBooked;
-        this.userId = userId;
         this.hotelId = hotelId;
-    }
-
-    public Room(int price, int numberOfVisitors, boolean isBooked) {
-        long newId = UUID.randomUUID().getLeastSignificantBits();
-        if (newId <= 0) {
-            this.id = newId * -1;
-        } else {
-            this.id = newId;
-        }
-        this.price = price;
-        this.numberOfVisitors = numberOfVisitors;
-        this.isBooked = isBooked;
     }
 
     @Override
@@ -72,8 +61,12 @@ public class Room implements Identity {
         return hotelId;
     }
 
-    public boolean isBooked() {
-        return isBooked;
+    public Date getFromDate() {
+        return fromDate;
+    }
+
+    public Date getToDate() {
+        return toDate;
     }
 
     public void setId(Long id) {
@@ -88,10 +81,6 @@ public class Room implements Identity {
         this.numberOfVisitors = numberOfVisitors;
     }
 
-    public void setBooked(boolean booked) {
-        isBooked = booked;
-    }
-
     public void setUserId(Long userId) {
         this.userId = userId;
     }
@@ -104,8 +93,22 @@ public class Room implements Identity {
         this.hotelId = hotelId;
     }
 
+    public void setFromDate(Date fromDate) {
+        this.fromDate = fromDate;
+    }
+
+    public void setToDate(Date toDate) {
+        this.toDate = toDate;
+    }
+
     public static Field[] getFieldsName() {
         return Room.class.getDeclaredFields();
+    }
+
+    @JsonIgnore
+    public boolean isBooked() {
+        Date currentDate = Calendar.getInstance().getTime();
+        return toDate.after(currentDate) && fromDate.before(currentDate);
     }
 
     @Override
@@ -126,14 +129,15 @@ public class Room implements Identity {
 
     @Override
     public String toString() {
-        return "Room{" +
-                "id=" + id +
-                ", price=" + price +
-                ", numberOfVisitors=" + numberOfVisitors +
-                ", isBooked=" + isBooked +
-                ", userId=" + userId +
-                ", hotelId=" + hotelId +
-                '}';
+        final StringBuilder sb = new StringBuilder("Room{");
+        sb.append("id=").append(id);
+        sb.append(", price=").append(price);
+        sb.append(", numberOfVisitors=").append(numberOfVisitors);
+        sb.append(", fromDate=").append(fromDate);
+        sb.append(", toDate=").append(toDate);
+        sb.append(", userId=").append(userId);
+        sb.append(", hotelId=").append(hotelId);
+        sb.append('}');
+        return sb.toString();
     }
-
 }

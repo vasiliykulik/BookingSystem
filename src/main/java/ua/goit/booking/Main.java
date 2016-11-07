@@ -1,36 +1,51 @@
 package ua.goit.booking;
 
+import ua.goit.booking.controller.RoomController;
+import ua.goit.booking.controller.UserController;
 import ua.goit.booking.dao.*;
 import ua.goit.booking.entity.Room;
 import ua.goit.booking.entity.User;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Main {
 
     public static void main(String[] args) {
 
-        System.out.println("Hotels\n===");
-        HotelDao hotelDAO = new HotelDaoImpl();
-        hotelDAO.getAll().forEach(System.out::println);
+//        System.out.println("Hotels\n===");
+//        HotelDao hotelDAO = new HotelDaoImpl();
+//        hotelDAO.getAll().forEach(System.out::println);
+//
+//        System.out.println("Rooms\n===");
+//        RoomDao roomDao = new RoomDaoImpl();
+//        List<Room> toUpdate = roomDao.getAll();
+//        toUpdate.forEach(room -> room.setUserId(null));
+//        roomDao.update(toUpdate);
+//        roomDao.getAll().forEach(System.out::println);
+//
+//        System.out.println("Users\n===");
+//        UserDao userDao = new UserDaoImpl();
+//        User user = new User("Oleg", "Orlov", "olegik.orlov@gmail.com");
+//        List<User> users = new ArrayList<>();
+//        users.add(user);
+//        userDao.update(users); //
+//        userDao.getAll().forEach(System.out::println);
 
-        System.out.println("Rooms\n===");
-        RoomDao roomDao = new RoomDaoImpl();
-        List<Room> toUpdate = roomDao.getAll();
-        toUpdate.forEach(room -> room.setUserId(null));
-        roomDao.update(toUpdate);
-        roomDao.getAll().forEach(System.out::println);
+//        UserController userController = new UserController();
+//        userController.getAllUsers().forEach(System.out::println);
 
-        System.out.println("Users\n===");
-        UserDao userDao = new UserDaoImpl();
-        User user = new User("Oleg", "Orlov", "olegik.orlov@gmail.com");
-        List<User> users = new ArrayList<>();
-        users.add(user);
-        userDao.update(users); //
-        userDao.getAll().forEach(System.out::println);
+        Date currentDate = Calendar.getInstance().getTime();
+        RoomController roomController = new RoomController();
+//        List<Room> rooms = roomController.getAllRooms();
+//        for (Room room : rooms) {
+//            room.setToDate(currentDate);
+//            room.setFromDate(currentDate);
+//        }
+//        RoomDao roomDao = new RoomDaoImpl();
+//        roomDao.update(rooms);
+        roomController.getFreeRooms().forEach(System.out::println);
+
+
 //        hotelDAO.findHotelByName("Plaza").forEach(System.out::println);
 //        hotelDAO.findHotelDyCity("Kiyv").forEach(System.out::println);
 //        hotelDAO.bookRoom(6675363734328343759l, 1, 8577383723364764120l);

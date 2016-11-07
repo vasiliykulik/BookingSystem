@@ -52,7 +52,6 @@ public class User implements Identity {
         User user = (User) o;
 
         return id != null ? id.equals(user.id) : user.id == null;
-
     }
 
     @Override

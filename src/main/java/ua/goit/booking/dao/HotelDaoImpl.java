@@ -1,14 +1,10 @@
 package ua.goit.booking.dao;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import ua.goit.booking.entity.DataCorruptionException;
 import ua.goit.booking.entity.Hotel;
 import ua.goit.booking.entity.Room;
-import ua.goit.booking.entity.User;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public class HotelDaoImpl extends AbstractDaoImp<Hotel> implements HotelDao {
@@ -52,4 +48,9 @@ public class HotelDaoImpl extends AbstractDaoImp<Hotel> implements HotelDao {
         return false;
     }
 
+    @Override
+    public Room addRoom(Hotel hotel, Room room) {
+        //TODO Logic
+        return null;
+    }
 }

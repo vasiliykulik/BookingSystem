@@ -46,18 +46,24 @@ public abstract class AbstractDaoImp<T extends Identity> implements AbstractDao<
 
     @Override
     public T getById(long id) {
-        List<T> res = getAll().stream()
+        List<T> result = getAll().stream()
                 .filter(t -> t.getId() == id)
                 .collect(Collectors.toList());
-        return null; // ???
+        if (result.isEmpty()) {
+            return null;
+        }
+        return result.get(0);
     }
 
     @Override
     public List<T> getAllById(List<Long> ids) {
-        List<T> res = getAll().stream()
+        List<T> result = getAll().stream()
                 .filter(t -> ids.stream().anyMatch(id -> id.equals(t.getId())))
                 .collect(Collectors.toList());
-        return res;
+        if (result.isEmpty()) {
+            return null;
+        }
+        return result;
     }
 
     @Override

@@ -2,11 +2,9 @@ package ua.goit.booking.dao;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import ua.goit.booking.entity.DataCorruptionException;
 import ua.goit.booking.entity.Hotel;
 import ua.goit.booking.entity.Room;
 
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;

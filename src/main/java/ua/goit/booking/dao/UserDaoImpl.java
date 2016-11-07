@@ -1,8 +1,6 @@
 package ua.goit.booking.dao;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import ua.goit.booking.entity.DataCorruptionException;
-import ua.goit.booking.entity.Hotel;
 import ua.goit.booking.entity.User;
 
 import java.io.File;

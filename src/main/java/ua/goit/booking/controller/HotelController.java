@@ -26,7 +26,7 @@ public class HotelController {
         return result;
     }
 
-    public void bookRoom(long roomId, long userId, long hotelId) {
+    public void bookRoom(long roomId, long userId, long hotelId, Date fromDate, Date toDate) {
         HotelDao dao = new HotelDaoImpl();
         List<Hotel> hotels = dao.getAll();
         for (Hotel hotel : hotels) {
@@ -34,7 +34,8 @@ public class HotelController {
                 for (Room room : hotel.getRooms()) {
                     if (roomId == room.getId()) {
                         if (!room.isBooked()) {
-                            room.setBooked(true);
+                            room.setFromDate(fromDate);
+                            room.setToDate(toDate);
                             room.setUserId(userId);
                             System.out.println("Success! " + room + " was booked!");
                             dao.update(hotels);
@@ -62,9 +63,8 @@ public class HotelController {
                     if (roomId == room.getId()) {
                         if (room.isBooked()) {
                             if (room.getUserId() == userId) {
-                                room.setBooked(false);
+                                room.setToDate(room.getFromDate());
                                 room.setUserId(null);
-                                //TODO Exception
                                 System.out.println("Success! " + room + " reservation was canceled!");
                                 dao.update(hotels);
                                 return;
@@ -121,6 +121,18 @@ public class HotelController {
             }
         }
         return new ArrayList<Hotel>(result);
+    }
+
+    public List<Room> getAllFreeRooms(Long hotelId) {
+        HotelDao hotelDao = new HotelDaoImpl();
+        Date currentDate = Calendar.getInstance().getTime();
+        List<Room> result = hotelDao.getById(hotelId).getRooms().stream()
+                .filter(room -> !(room.getToDate().after(currentDate) && room.getFromDate().before(currentDate)))
+                .collect(Collectors.toList());
+        if (result.isEmpty()) {
+            return null;
+        }
+        return result;
     }
 
 }
