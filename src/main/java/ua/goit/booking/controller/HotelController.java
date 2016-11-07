@@ -5,6 +5,8 @@ import ua.goit.booking.dao.HotelDao;
 import ua.goit.booking.dao.HotelDaoImpl;
 import ua.goit.booking.entity.Hotel;
 import ua.goit.booking.entity.Room;
+import ua.goit.booking.exception.OperationFailException;
+import ua.goit.booking.exception.OperationSuccessException;
 
 import java.lang.reflect.Field;
 import java.util.*;
@@ -50,20 +52,36 @@ public class HotelController {
                             room.setFromDate(fromDate);
                             room.setToDate(toDate);
                             room.setUserId(userId);
-                            System.out.println("Success! " + room + " was booked!");
+                            try {
+                                throw new OperationSuccessException("Success! " + room + " has been booked!");
+                            } catch (OperationSuccessException ose) {
+                                ose.printStackTrace();
+                            }
                             dao.update(hotels);
                             return;
                         } else {
-                            System.out.println("Sorry! " + room + " is already booked!");
+                            try {
+                                throw new OperationFailException("Sorry! " + room + " has already booked!");
+                            } catch (OperationFailException ope) {
+                                ope.printStackTrace();
+                            }
                             return;
                         }
                     }
                 }
-                System.out.println("Sorry! No such room in the hotel.");
+                try {
+                    throw new OperationFailException("Sorry! There's no such room in the hotel.");
+                } catch (OperationFailException ope) {
+                    ope.printStackTrace();
+                }
                 return;
             }
         }
-        System.out.println("Sorry! No such hotel.");
+        try {
+            throw new OperationFailException("Sorry! There's no such hotels.");
+        } catch (OperationFailException ofe) {
+            ofe.printStackTrace();
+        }
     }
 
     public void cancelReservation(long roomId, long userId, long hotelId) {
@@ -77,23 +95,37 @@ public class HotelController {
                             if (room.getUserId() == userId) {
                                 room.setToDate(room.getFromDate());
                                 room.setUserId(null);
-                                System.out.println("Success! " + room + " reservation was canceled!");
+                                try {
+                                    throw new OperationSuccessException("Success! "
+                                            + room + " reservation has been canceled!");
+                                } catch (OperationSuccessException ose) {
+                                    ose.printStackTrace();
+                                }
                                 dao.update(hotels);
                                 return;
                             } else {
-                                //TODO Exception
-                                System.out.println("Sorry! You did not booked this room!");
+                                try {
+                                    throw new OperationFailException("Sorry! You haven't booked this room!");
+                                } catch (OperationFailException ofe) {
+                                    ofe.printStackTrace();
+                                }
                                 return;
                             }
                         } else {
-                            //TODO Exception
-                            System.out.println("Sorry! " + room + " is not booked!");
+                            try {
+                                throw new OperationFailException("Sorry! " + room + " has not booked!");
+                            } catch (OperationFailException ofe) {
+                                ofe.printStackTrace();
+                            }
                             return;
                         }
                     }
                 }
-                //TODO Exception
-                System.out.println("Sorry! No such room in the hotel.");
+                try {
+                    throw new OperationFailException("Sorry! There's no such room in the hotel.");
+                } catch (OperationFailException ofe) {
+                    ofe.printStackTrace();
+                }
                 return;
             }
         }
