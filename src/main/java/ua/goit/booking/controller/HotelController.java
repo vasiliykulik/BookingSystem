@@ -35,7 +35,6 @@ public class HotelController {
         } catch (RuntimeException re) {
             re.printStackTrace();
         }
-
         return result;
     }
 
@@ -176,7 +175,7 @@ public class HotelController {
     }
 
     public List<Hotel> findRoom(Map<String, String> params) {
-        List<Hotel> result;
+        List<Hotel> result = null;
         Set<Hotel> hotels = new HashSet<>();
         HotelDao hotelDao = new HotelDaoImpl();
         try {
@@ -214,12 +213,12 @@ public class HotelController {
                     }
                 }
             }
+            result = new ArrayList<Hotel>(hotels);
+            if (result.isEmpty()) {
+                return null;
+            }
         } catch (RuntimeException re) {
             re.printStackTrace();
-        }
-        result = new ArrayList<Hotel>(hotels);
-        if (result.isEmpty()) {
-            return null;
         }
         return result;
     }
@@ -239,11 +238,11 @@ public class HotelController {
             result = hotelDao.getById(hotelId).getRooms().stream()
                     .filter(room -> !(room.getToDate().after(currentDate) && room.getFromDate().before(currentDate)))
                     .collect(Collectors.toList());
+            if (result.isEmpty()) {
+                return null;
+            }
         } catch (RuntimeException re) {
             re.printStackTrace();
-        }
-        if (result.isEmpty()) {
-            return null;
         }
         return result;
     }
