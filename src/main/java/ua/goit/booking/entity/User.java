@@ -49,19 +49,12 @@ public class User implements Identity {
 
         User user = (User) o;
 
-        if (id != null ? !id.equals(user.id) : user.id != null) return false;
-        if (firstName != null ? !firstName.equals(user.firstName) : user.firstName != null) return false;
-        if (lastName != null ? !lastName.equals(user.lastName) : user.lastName != null) return false;
-        return emailAddress != null ? emailAddress.equals(user.emailAddress) : user.emailAddress == null;
+        return id != null ? id.equals(user.id) : user.id == null;
 
     }
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
-        result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
-        result = 31 * result + (emailAddress != null ? emailAddress.hashCode() : 0);
-        return result;
+        return id != null ? id.hashCode() : 0;
     }
 }

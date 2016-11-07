@@ -123,23 +123,12 @@ public class Room implements Identity {
 
         Room room = (Room) o;
 
-        if (price != room.price) return false;
-        if (numberOfVisitors != room.numberOfVisitors) return false;
-        if (isBooked != room.isBooked) return false;
-        if (id != null ? !id.equals(room.id) : room.id != null) return false;
-        if (userId != null ? !userId.equals(room.userId) : room.userId != null) return false;
-        return hotelId != null ? hotelId.equals(room.hotelId) : room.hotelId == null;
+        return id != null ? id.equals(room.id) : room.id == null;
 
     }
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + price;
-        result = 31 * result + numberOfVisitors;
-        result = 31 * result + (isBooked ? 1 : 0);
-        result = 31 * result + (userId != null ? userId.hashCode() : 0);
-        result = 31 * result + (hotelId != null ? hotelId.hashCode() : 0);
-        return result;
+        return id != null ? id.hashCode() : 0;
     }
 }
