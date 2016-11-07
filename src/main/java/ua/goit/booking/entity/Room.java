@@ -1,11 +1,14 @@
 package ua.goit.booking.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import ua.goit.booking.dao.Identity;
 import ua.goit.booking.dao.UserDaoImpl;
 
 import java.lang.reflect.Field;
 import java.util.UUID;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Room implements Identity {
     private Long id;
     private int price;
@@ -60,6 +63,7 @@ public class Room implements Identity {
         return userId;
     }
 
+    @JsonIgnore
     public User getUser() {
         return new UserDaoImpl().getById(userId);
     }
@@ -105,18 +109,6 @@ public class Room implements Identity {
     }
 
     @Override
-    public String toString() {
-        return "\n" + "Room{" +
-                "id=" + id +
-                ", price=" + price +
-                ", numberOfVisitors=" + numberOfVisitors +
-                ", isBooked=" + isBooked +
-                ", userId=" + userId +
-                ", userId=" + userId +
-                '}';
-    }
-
-    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
@@ -131,4 +123,17 @@ public class Room implements Identity {
     public int hashCode() {
         return id != null ? id.hashCode() : 0;
     }
+
+    @Override
+    public String toString() {
+        return "Room{" +
+                "id=" + id +
+                ", price=" + price +
+                ", numberOfVisitors=" + numberOfVisitors +
+                ", isBooked=" + isBooked +
+                ", userId=" + userId +
+                ", hotelId=" + hotelId +
+                '}';
+    }
+
 }

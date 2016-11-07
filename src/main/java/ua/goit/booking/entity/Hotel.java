@@ -1,5 +1,6 @@
 package ua.goit.booking.entity;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import ua.goit.booking.dao.Identity;
 import ua.goit.booking.dao.RoomDaoImpl;
 
@@ -11,6 +12,7 @@ import java.util.stream.Collectors;
 /**
  * Refactored by Dima on 05.11.16.
  */
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Hotel implements Identity {
     private Long id;
     private String hotelName;
@@ -93,16 +95,6 @@ public class Hotel implements Identity {
     }*/
 
     @Override
-    public String toString() {
-        return "\n" + "Hotel{" +
-                "id=" + id +
-                ", hotelName='" + hotelName + '\'' +
-                ", cityName='" + cityName + '\'' +
-                ", roomsId=" + roomsId +
-                '}';
-    }
-
-    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
@@ -117,4 +109,15 @@ public class Hotel implements Identity {
     public int hashCode() {
         return id != null ? id.hashCode() : 0;
     }
+
+    @Override
+    public String toString() {
+        return "Hotel{" +
+                "id=" + id +
+                ", hotelName='" + hotelName + '\'' +
+                ", cityName='" + cityName + '\'' +
+                ", roomsId=" + roomsId +
+                '}';
+    }
+
 }

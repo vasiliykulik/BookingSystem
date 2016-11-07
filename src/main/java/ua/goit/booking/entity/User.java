@@ -1,9 +1,11 @@
 package ua.goit.booking.entity;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import ua.goit.booking.dao.Identity;
 
 import java.util.UUID;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class User implements Identity {
     private Long id;
     private String firstName;
@@ -56,5 +58,15 @@ public class User implements Identity {
     @Override
     public int hashCode() {
         return id != null ? id.hashCode() : 0;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", emailAddress='" + emailAddress + '\'' +
+                '}';
     }
 }
