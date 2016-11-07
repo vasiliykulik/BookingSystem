@@ -16,12 +16,6 @@ public class User implements Identity {
     }
 
     public User(String firstName, String lastName, String emailAddress) {
-//        long newId = UUID.randomUUID().getLeastSignificantBits();
-//        if (newId <= 0) {
-//            this.id = newId * -1;
-//        } else {
-//            this.id = newId;
-//        }
         this.id = Math.abs(UUID.randomUUID().getLeastSignificantBits());
         this.firstName = firstName;
         this.lastName = lastName;

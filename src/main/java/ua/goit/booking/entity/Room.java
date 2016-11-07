@@ -24,12 +24,6 @@ public class Room implements Identity {
     }
 
     public Room(int price, int numberOfVisitors, Long hotelId) {
-//        long newId = UUID.randomUUID().getLeastSignificantBits();
-//        if (newId <= 0) {
-//            this.id = newId * -1;
-//        } else {
-//            this.id = newId;
-//        }
         this.id = Math.abs(UUID.randomUUID().getLeastSignificantBits());
         this.price = price;
         this.numberOfVisitors = numberOfVisitors;

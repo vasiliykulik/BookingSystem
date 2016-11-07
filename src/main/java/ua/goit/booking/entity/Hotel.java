@@ -9,9 +9,6 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-/**
- * Refactored by Dima on 05.11.16.
- */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Hotel implements Identity {
     private Long id;
@@ -25,12 +22,6 @@ public class Hotel implements Identity {
     }
 
     public Hotel(String hotelName, String cityName) {
-//        long newId = UUID.randomUUID().getLeastSignificantBits();
-//        if (newId <= 0) {
-//            this.id = newId * -1;
-//        } else {
-//            this.id = newId;
-//        }
         this.id = Math.abs(UUID.randomUUID().getLeastSignificantBits());
         this.hotelName = hotelName;
         this.cityName = cityName;
@@ -38,12 +29,6 @@ public class Hotel implements Identity {
     }
 
     public Hotel(String hotelName, String cityName, List<Room> roomsId) {
-//        long newId = UUID.randomUUID().getLeastSignificantBits();
-//        if (newId <= 0) {
-//            this.id = newId * -1;
-//        } else {
-//            this.id = newId;
-//        }
         this.id = Math.abs(UUID.randomUUID().getLeastSignificantBits());
         this.hotelName = hotelName;
         this.cityName = cityName;
