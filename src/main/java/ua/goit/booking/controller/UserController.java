@@ -101,7 +101,7 @@ public class UserController {
     }
 
     // за даним ID користувача (userId) повертає кількість зарезервованих на нього номерів
-    // повертає -1, якщо користувача з таким ID не має в базі
+    // повертає -1, якщо користувача з таким (userId) немає в базі
     public int getRoomsQuantity(Long userId) {
         List<Room> rooms = new ArrayList<>();
         AbstractDao<Room> roomDao = new RoomDaoImpl();
@@ -114,7 +114,7 @@ public class UserController {
     }
 
     // повертає кількість номерів, зарезервованих на користувачів з прізвищем (lastName)
-    // повертає -1, якщо користувача з таким (lastName) не має в базі
+    // повертає -1, якщо користувача з таким (lastName) немає в базі
     public int getRoomsQuantity(String lastName) {
         List<Room> resultRooms = new ArrayList<>();
         List<Room> rooms = new ArrayList<>();
@@ -136,7 +136,7 @@ public class UserController {
     }
 
     // повертає кількість номерів, зарезервованих на ім'я (firstName) та прізвище (lastName)
-    // повертає -1, якщо користувача з таким (firstName) та (lastName) не має в базі
+    // повертає -1, якщо користувача з таким (firstName) та (lastName) немає в базі
     public int getRoomsQuantity(String firstName, String lastName) {
         List<Room> resultRooms = new ArrayList<>();
         List<Room> rooms = new ArrayList<>();
@@ -158,4 +158,74 @@ public class UserController {
         return resultRooms.size();
     }
 
+    // повертає суму коштів, витрачених користувачем з ID (userId) на бронювання номерів
+    // повертає -1, якщо користувача з таким (userId) немає в базі
+    public long getUserBudget(Long userId) {
+        long budget = 0L;
+        List<Room> rooms = new ArrayList<>();
+        AbstractDao<Room> roomDao = new RoomDaoImpl();
+        rooms.addAll(roomDao.getAll().stream()
+                .filter(room -> (room.getUserId().equals(userId))).collect(Collectors.toList()));
+        if (rooms.isEmpty()) {
+            return -1;
+        }
+        for (Room room : rooms) {
+            budget += room.getPrice();
+        }
+        return budget;
+    }
+
+    // повертає суму коштів, витрачених користувачами з прізвищем (lastName) на бронювання номерів
+    // повертає -1, якщо користувачів з таким (lastName) немає в базі
+    public long getUserBudget(String lastName) {
+        long budget = 0L;
+        List<Room> resultRooms = new ArrayList<>();
+        List<Room> rooms = new ArrayList<>();
+        List<User> users = new ArrayList<>();
+        AbstractDao<Room> roomDao = new RoomDaoImpl();
+        AbstractDao<User> userDao = new UserDaoImpl();
+        users.addAll(userDao.getAll().stream()
+                .filter(user -> (user.getLastName().equals(lastName))).collect(Collectors.toList()));
+        rooms.addAll(roomDao.getAll());
+        for (int i = 0; i < users.size(); i++) {
+            int finalI = i;
+            resultRooms.addAll(rooms.stream()
+                    .filter(room -> (room.getUserId().equals(users.get(finalI).getId()))).collect(Collectors.toList()));
+        }
+        if (resultRooms.isEmpty()) {
+            return -1;
+        }
+        for (Room resultRoom : resultRooms) {
+            budget += resultRoom.getPrice();
+        }
+        return budget;
+    }
+
+    // повертає суму коштів, витрачених користувачами
+    // з іменем (firstName) та прізвищем (lastName) на бронювання номерів
+    // повертає -1, якщо користувачів з такими (firstName) та (lastName) немає в базі
+    public long getUserBudget(String firstName, String lastName) {
+        long budget = 0L;
+        List<Room> resultRooms = new ArrayList<>();
+        List<Room> rooms = new ArrayList<>();
+        List<User> users = new ArrayList<>();
+        AbstractDao<Room> roomDao = new RoomDaoImpl();
+        AbstractDao<User> userDao = new UserDaoImpl();
+        users.addAll(userDao.getAll().stream()
+                .filter(user -> (user.getFirstName().equals(firstName)
+                        && user.getLastName().equals(lastName))).collect(Collectors.toList()));
+        rooms.addAll(roomDao.getAll());
+        for (int i = 0; i < users.size(); i++) {
+            int finalI = i;
+            resultRooms.addAll(rooms.stream()
+                    .filter(room -> (room.getUserId().equals(users.get(finalI).getId()))).collect(Collectors.toList()));
+        }
+        if (resultRooms.isEmpty()) {
+            return -1;
+        }
+        for (Room resultRoom : resultRooms) {
+            budget += resultRoom.getPrice();
+        }
+        return budget;
+    }
 }
