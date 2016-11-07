@@ -79,11 +79,11 @@ public class RoomController {
         try {
             result.addAll(allRooms.stream()
                     .filter(room -> (room.getPrice() <= budget)).collect(Collectors.toList()));
+            if (result.isEmpty()) {
+                return null;
+            }
         } catch (RuntimeException re) {
             re.printStackTrace();
-        }
-        if (result.isEmpty()) {
-            return null;
         }
         return result;
     }
@@ -98,6 +98,9 @@ public class RoomController {
             if (roomDao.isDataCorrupted(allRooms)) {
                 throw new DataCorruptionException("WARNING! List<Room> contains corrupted data.");
             }
+            if (result.isEmpty()) {
+                return null;
+            }
         } catch (DataCorruptionException dce) {
             dce.printStackTrace();
         }
@@ -107,9 +110,6 @@ public class RoomController {
                     .collect(Collectors.toList()));
         } catch (RuntimeException re) {
             re.printStackTrace();
-        }
-        if (result.isEmpty()) {
-            return null;
         }
         return result;
     }
@@ -124,6 +124,9 @@ public class RoomController {
             if (roomDao.isDataCorrupted(allRooms)) {
                 throw new DataCorruptionException("WARNING! List<Room> contains corrupted data.");
             }
+            if (result.isEmpty()) {
+                return null;
+            }
         } catch (DataCorruptionException dce) {
             dce.printStackTrace();
         }
@@ -133,9 +136,6 @@ public class RoomController {
                     .collect(Collectors.toList()));
         } catch (RuntimeException re) {
             re.printStackTrace();
-        }
-        if (result.isEmpty()) {
-            return null;
         }
         return result;
     }
@@ -150,6 +150,9 @@ public class RoomController {
             if (roomDao.isDataCorrupted(allRooms)) {
                 throw new DataCorruptionException("WARNING! List<Room> contains corrupted data.");
             }
+            if (result.isEmpty()) {
+                return null;
+            }
         } catch (DataCorruptionException dce) {
             dce.printStackTrace();
         }
@@ -159,9 +162,6 @@ public class RoomController {
                     .collect(Collectors.toList()));
         } catch (RuntimeException re) {
             re.printStackTrace();
-        }
-        if (result.isEmpty()) {
-            return null;
         }
         return result;
     }
@@ -186,11 +186,11 @@ public class RoomController {
             for (Hotel hotel : hotels) {
                 result.addAll(hotel.getRooms());
             }
+            if (result.isEmpty()) {
+                return null;
+            }
         } catch (RuntimeException re) {
             re.printStackTrace();
-        }
-        if (result.isEmpty()) {
-            return null;
         }
         return result;
     }
@@ -217,11 +217,11 @@ public class RoomController {
                 rooms.addAll(hotel.getRooms());
             }
             result.addAll(rooms.stream().filter(room -> (!room.isBooked())).collect(Collectors.toList()));
+            if (result.isEmpty()) {
+                return null;
+            }
         } catch (RuntimeException re) {
             re.printStackTrace();
-        }
-        if (result.isEmpty()) {
-            return null;
         }
         return result;
     }
@@ -236,6 +236,9 @@ public class RoomController {
             if (roomDao.isDataCorrupted(allRooms)) {
                 throw new DataCorruptionException("WARNING! List<Room> contains corrupted data.");
             }
+            if (result.isEmpty()) {
+                return null;
+            }
         } catch (DataCorruptionException dce) {
             dce.printStackTrace();
         }
@@ -244,9 +247,6 @@ public class RoomController {
                     .filter(room -> (room.getUserId().equals(userId))).collect(Collectors.toList()));
         } catch (RuntimeException re) {
             re.printStackTrace();
-        }
-        if (result.isEmpty()) {
-            return null;
         }
         return result;
     }
@@ -285,11 +285,11 @@ public class RoomController {
                         .filter(room -> (room.getUserId().equals(users.get(finalI).getId())))
                         .collect(Collectors.toList()));
             }
+            if (result.isEmpty()) {
+                return null;
+            }
         } catch (RuntimeException re) {
             re.printStackTrace();
-        }
-        if (result.isEmpty()) {
-            return null;
         }
         return result;
     }
@@ -329,11 +329,11 @@ public class RoomController {
                         .filter(room -> (room.getUserId().equals(users.get(finalI).getId())))
                         .collect(Collectors.toList()));
             }
+            if (result.isEmpty()) {
+                return null;
+            }
         } catch (RuntimeException re) {
             re.printStackTrace();
-        }
-        if (result.isEmpty()) {
-            return null;
         }
         return result;
     }
@@ -374,11 +374,11 @@ public class RoomController {
                 return null;
             }
             result = hotelDao.getById(room.getHotelId()).getRooms();
+            if (result != null && result.isEmpty()) {
+                return null;
+            }
         } catch (RuntimeException re) {
             re.printStackTrace();
-        }
-        if (result != null && result.isEmpty()) {
-            return null;
         }
         return result;
     }
@@ -420,11 +420,11 @@ public class RoomController {
             }
             rooms = hotelDao.getById(room.getHotelId()).getRooms();
             result.addAll(rooms.stream().filter(room1 -> (!room1.isBooked())).collect(Collectors.toList()));
+            if (result.isEmpty()) {
+                return null;
+            }
         } catch (RuntimeException re) {
             re.printStackTrace();
-        }
-        if (result.isEmpty()) {
-            return null;
         }
         return result;
     }
