@@ -29,12 +29,13 @@ public class HotelController {
         try {
             result.addAll(allHotels.stream()
                     .filter(hotel -> hotel.getHotelName().equals(name)).collect(Collectors.toList()));
+            if (result.isEmpty()) {
+                return null;
+            }
         } catch (RuntimeException re) {
             re.printStackTrace();
         }
-        if (result.isEmpty()) {
-            return null;
-        }
+
         return result;
     }
 
@@ -52,11 +53,11 @@ public class HotelController {
         try {
             result.addAll(allHotels.stream()
                     .filter(hotel -> hotel.getCityName().equals(city)).collect(Collectors.toList()));
+            if (result.isEmpty()) {
+                return null;
+            }
         } catch (RuntimeException re) {
             re.printStackTrace();
-        }
-        if (result.isEmpty()) {
-            return null;
         }
         return result;
     }
