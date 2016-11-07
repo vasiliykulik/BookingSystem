@@ -32,7 +32,8 @@ public class Main {
 //        userDao.getAll().forEach(System.out::println);
 
 //        UserController userController = new UserController();
-//        userController.getAllUsers().forEach(System.out::println);test push fr Vasiliy
+//        userController.getAllUsers().forEach(System.out::println);test push fr Vasiliy1
+
 
         Date currentDate = Calendar.getInstance().getTime();
         RoomController roomController = new RoomController();
@@ -56,6 +57,6 @@ public class Main {
         map.put("price", "334");
         map.put("person", "3");
 //        System.out.println(hotelDAO.findRoom(map));
-
+    // Поиск
     }
 }
