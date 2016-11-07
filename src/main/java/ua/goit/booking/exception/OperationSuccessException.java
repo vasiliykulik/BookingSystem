@@ -12,4 +12,8 @@ public class OperationSuccessException extends RuntimeException {
     public OperationSuccessException(String message, Throwable cause) {
         super(message, cause);
     }
+
+    public OperationSuccessException(Throwable cause) {
+        super(cause);
+    }
 }
