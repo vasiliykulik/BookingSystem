@@ -1,6 +1,6 @@
 package ua.goit.booking.exception;
 
-public class DataCorruptionException extends Exception {
+public class DataCorruptionException extends RuntimeException {
     public DataCorruptionException() {
     }
 
