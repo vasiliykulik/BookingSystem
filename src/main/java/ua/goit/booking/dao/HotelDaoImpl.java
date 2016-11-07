@@ -29,6 +29,12 @@ public class HotelDaoImpl extends AbstractDaoImp<Hotel> implements HotelDao {
     public boolean isDataCorrupted(List<Hotel> hotelList) {
         Hotel hotel;
         List<Long> roomsIds;
+        if (hotelList == null) {
+            return true;
+        }
+        if (hotelList.isEmpty()) {
+            return true;
+        }
         for (Hotel aHotelList : hotelList) {
             hotel = aHotelList;
             if (hotel == null) {

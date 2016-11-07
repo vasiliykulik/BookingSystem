@@ -55,14 +55,27 @@ public class RoomDaoImpl extends AbstractDaoImp<Room> implements RoomDao {
     @Override
     public boolean isDataCorrupted(List<Room> roomList) {
         Room room;
+        if (roomList == null) {
+            return true;
+        }
+        if (roomList.isEmpty()) {
+            return true;
+        }
         for (Room aRoomList : roomList) {
             room = aRoomList;
             if (room == null) {
                 return true;
             }
-            if (room.getId() == null || room.getPrice() == 0
+            if (room.getId() == null
+                    || room.getPrice() == 0
                     || room.getNumberOfVisitors() == 0
-                    || room.getUserId() == null || room.getHotelId() == null) {
+                    || room.getUserId() == null
+                    || room.getHotelId() == null
+                    || room.getFromDate() == null
+                    || room.getToDate() == null) {
+                return true;
+            }
+            if (!room.getFromDate().before(room.getToDate())) {
                 return true;
             }
         }
