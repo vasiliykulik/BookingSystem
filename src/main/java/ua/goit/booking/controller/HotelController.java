@@ -72,7 +72,11 @@ public class HotelController {
                 return;
             }
         }
-        System.out.println("Sorry! No such hotel.");
+        try {
+            throw new OperationFailException("Sorry! There's no such hotels.");
+        } catch (OperationFailException ofe) {
+            ofe.printStackTrace();
+        }
     }
 
     public void cancelReservation(long roomId, long userId, long hotelId) {
