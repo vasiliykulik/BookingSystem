@@ -19,6 +19,9 @@ public class RoomController {
         List<Room> result = new ArrayList<>();
         AbstractDao<Room> roomDao = new RoomDaoImpl();
         result.addAll(roomDao.getAll());
+        if (result.isEmpty()) {
+            return null;
+        }
         return result;
     }
 
@@ -28,6 +31,9 @@ public class RoomController {
         AbstractDao<Room> roomDao = new RoomDaoImpl();
         result.addAll(roomDao.getAll().stream()
                 .filter(room -> !room.isBooked()).collect(Collectors.toList()));
+        if (result.isEmpty()) {
+            return null;
+        }
         return result;
     }
 
@@ -37,6 +43,9 @@ public class RoomController {
         AbstractDao<Room> roomDao = new RoomDaoImpl();
         result.addAll(roomDao.getAll().stream()
                 .filter(room -> (room.getPrice() <= budget)).collect(Collectors.toList()));
+        if (result.isEmpty()) {
+            return null;
+        }
         return result;
     }
 
@@ -46,6 +55,9 @@ public class RoomController {
         AbstractDao<Room> roomDao = new RoomDaoImpl();
         result.addAll(roomDao.getAll().stream()
                 .filter(room -> (room.getPrice() <= budget) && (!room.isBooked())).collect(Collectors.toList()));
+        if (result.isEmpty()) {
+            return null;
+        }
         return result;
     }
 
@@ -56,6 +68,9 @@ public class RoomController {
         result.addAll(roomDao.getAll().stream()
                 .filter(room -> (room.getNumberOfVisitors() == nPersons))
                 .collect(Collectors.toList()));
+        if (result.isEmpty()) {
+            return null;
+        }
         return result;
     }
 
@@ -66,6 +81,9 @@ public class RoomController {
         result.addAll(roomDao.getAll().stream()
                 .filter(room -> (room.getNumberOfVisitors() == nPersons) && (!room.isBooked()))
                 .collect(Collectors.toList()));
+        if (result.isEmpty()) {
+            return null;
+        }
         return result;
     }
 
@@ -78,6 +96,9 @@ public class RoomController {
                 .filter(hotel -> (hotel.getCityName().equals(theCity))).collect(Collectors.toList()));
         for (Hotel hotel : hotels) {
             result.addAll(hotel.getRooms());
+        }
+        if (result.isEmpty()) {
+            return null;
         }
         return result;
     }
@@ -94,6 +115,9 @@ public class RoomController {
             rooms.addAll(hotel.getRooms());
         }
         result.addAll(rooms.stream().filter(room -> (!room.isBooked())).collect(Collectors.toList()));
+        if (result.isEmpty()) {
+            return null;
+        }
         return result;
     }
 
@@ -103,6 +127,9 @@ public class RoomController {
         AbstractDao<Room> roomDao = new RoomDaoImpl();
         result.addAll(roomDao.getAll().stream()
                 .filter(room -> (room.getUserId().equals(userId))).collect(Collectors.toList()));
+        if (result.isEmpty()) {
+            return null;
+        }
         return result;
     }
 
@@ -119,7 +146,11 @@ public class RoomController {
         for (int i = 0; i < users.size(); i++) {
             int finalI = i;
             result.addAll(rooms.stream()
-                    .filter(room -> (room.getUserId().equals(users.get(finalI).getId()))).collect(Collectors.toList()));
+                    .filter(room -> (room.getUserId().equals(users.get(finalI).getId())))
+                    .collect(Collectors.toList()));
+        }
+        if (result.isEmpty()) {
+            return null;
         }
         return result;
     }
@@ -138,7 +169,11 @@ public class RoomController {
         for (int i = 0; i < users.size(); i++) {
             int finalI = i;
             result.addAll(rooms.stream()
-                    .filter(room -> (room.getUserId().equals(users.get(finalI).getId()))).collect(Collectors.toList()));
+                    .filter(room -> (room.getUserId().equals(users.get(finalI).getId())))
+                    .collect(Collectors.toList()));
+        }
+        if (result.isEmpty()) {
+            return null;
         }
         return result;
     }
@@ -157,6 +192,9 @@ public class RoomController {
             return null;
         }
         result = hotelDao.getById(room.getHotelId()).getRooms();
+        if (result.isEmpty()) {
+            return null;
+        }
         return result;
     }
 
@@ -175,6 +213,9 @@ public class RoomController {
         }
         rooms = hotelDao.getById(room.getHotelId()).getRooms();
         result.addAll(rooms.stream().filter(room1 -> (!room1.isBooked())).collect(Collectors.toList()));
+        if (result.isEmpty()) {
+            return null;
+        }
         return result;
     }
 }

@@ -15,6 +15,9 @@ public class HotelController {
         AbstractDao<Hotel> dao = new HotelDaoImpl();
         result.addAll(dao.getAll().stream()
                 .filter(hotel -> hotel.getHotelName().equals(name)).collect(Collectors.toList()));
+        if (result.isEmpty()) {
+            return null;
+        }
         return result;
     }
 
@@ -23,6 +26,9 @@ public class HotelController {
         HotelDao dao = new HotelDaoImpl();
         result.addAll(dao.getAll().stream()
                 .filter(hotel -> hotel.getCityName().equals(city)).collect(Collectors.toList()));
+        if (result.isEmpty()) {
+            return null;
+        }
         return result;
     }
 
@@ -90,7 +96,8 @@ public class HotelController {
     }
 
     public List<Hotel> findRoom(Map<String, String> params) {
-        Set<Hotel> result = new HashSet<>();
+        List<Hotel> result;
+        Set<Hotel> hotels = new HashSet<>();
         HotelDao dao = new HotelDaoImpl();
 
         for (String key : params.keySet()) {
@@ -110,7 +117,7 @@ public class HotelController {
                             }
                             try {
                                 if (f != null && f.get(room).toString().equals(value)) {
-                                    result.add(hotel);
+                                    hotels.add(hotel);
                                 }
                             } catch (IllegalAccessException e) {
                                 e.printStackTrace();
@@ -120,7 +127,11 @@ public class HotelController {
                 }
             }
         }
-        return new ArrayList<Hotel>(result);
+        result = new ArrayList<Hotel>(hotels);
+        if (result.isEmpty()) {
+            return null;
+        }
+        return result;
     }
 
     public List<Room> getAllFreeRooms(Long hotelId) {

@@ -22,6 +22,9 @@ public class UserController {
         Set<User> userSet = new HashSet<>();
         userSet.addAll(userDao.getAll());
         result.addAll(userSet);
+        if (result.isEmpty()) {
+            return null;
+        }
         return result;
     }
 
@@ -43,6 +46,9 @@ public class UserController {
         rooms.addAll(hotel.getRooms());
         userSet.addAll(rooms.stream().map(Room::getUser).collect(Collectors.toList()));
         result.addAll(userSet);
+        if (result.isEmpty()) {
+            return null;
+        }
         return result;
     }
 
@@ -69,6 +75,9 @@ public class UserController {
         rooms.addAll(ourHotel.getRooms());
         userSet.addAll(rooms.stream().map(Room::getUser).collect(Collectors.toList()));
         result.addAll(userSet);
+        if (result.isEmpty()) {
+            return null;
+        }
         return result;
     }
 
@@ -97,6 +106,9 @@ public class UserController {
         usersIds.addAll(rooms.stream().map(Room::getUserId).collect(Collectors.toList()));
         userSet.addAll(userDao.getAllById(usersIds));
         result.addAll(userSet);
+        if (result.isEmpty()) {
+            return null;
+        }
         return result;
     }
 
