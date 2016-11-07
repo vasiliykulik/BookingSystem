@@ -23,7 +23,7 @@ public abstract class AbstractDaoImp<T extends Identity> implements AbstractDao<
     private File file;
     private TypeReference<List<T>> typeReference;
 
-    public AbstractDaoImp(File file, TypeReference typeReference) {
+    public AbstractDaoImp(File file, TypeReference<List<T>>  typeReference) {
         this.file = file;
         this.typeReference = typeReference;
     }
@@ -85,12 +85,6 @@ public abstract class AbstractDaoImp<T extends Identity> implements AbstractDao<
             e.printStackTrace();
         }
     }
-
-//    public boolean isDataCorrupted(List<User> userList){
-//
-//    }
-
-
 
     @Override
     public boolean isDataCorrupted(List<T> list) {

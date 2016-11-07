@@ -27,8 +27,8 @@ public class UserDaoImpl extends AbstractDaoImp<User> implements UserDao {
     @Override
     public boolean isDataCorrupted(List<User> userList) {
         User user;
-        for (int i = 0; i < userList.size(); i++) {
-            user = userList.get(i);
+        for (User anUserList : userList) {
+            user = anUserList;
             if (user == null) {
                 return true;
             }
