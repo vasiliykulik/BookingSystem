@@ -28,8 +28,12 @@ public class RoomController {
         } catch (DataCorruptionException dce) {
             dce.printStackTrace();
         }
-        if (result.isEmpty()) {
-            return null;
+        try {
+            if (result.isEmpty()) {
+                return null;
+            }
+        } catch (RuntimeException re) {
+            re.printStackTrace();
         }
         return result;
     }
@@ -39,21 +43,22 @@ public class RoomController {
     public List<Room> getFreeRooms() {
         List<Room> result = new ArrayList<>();
         AbstractDao<Room> roomDao = new RoomDaoImpl();
+        List<Room> allRooms = roomDao.getAll();
         try {
-            result.addAll(roomDao.getAll().stream()
-                    .filter(room -> !room.isBooked()).collect(Collectors.toList()));
-        } catch (RuntimeException re) {
-            re.printStackTrace();
-        }
-        try {
-            if (roomDao.isDataCorrupted(result)) {
+            if (roomDao.isDataCorrupted(allRooms)) {
                 throw new DataCorruptionException("WARNING! List<Room> contains corrupted data.");
             }
         } catch (DataCorruptionException dce) {
             dce.printStackTrace();
         }
-        if (result.isEmpty()) {
-            return null;
+        try {
+            result.addAll(allRooms.stream()
+                    .filter(room -> !room.isBooked()).collect(Collectors.toList()));
+            if (result.isEmpty()) {
+                return null;
+            }
+        } catch (RuntimeException re) {
+            re.printStackTrace();
         }
         return result;
     }
