@@ -7,6 +7,8 @@ import ua.goit.booking.dao.UserDaoImpl;
 import ua.goit.booking.entity.Hotel;
 import ua.goit.booking.entity.Room;
 import ua.goit.booking.entity.User;
+import ua.goit.booking.exception.DataCorruptionException;
+import ua.goit.booking.exception.OperationFailException;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -20,9 +22,21 @@ public class UserController {
     public List<User> getAllUsers() {
         List<User> result = new ArrayList<>();
         AbstractDao<User> userDao = new UserDaoImpl();
+        List<User> allUsers = userDao.getAll();
         Set<User> userSet = new HashSet<>();
-        userSet.addAll(userDao.getAll());
-        result.addAll(userSet);
+        try {
+            if (userDao.isDataCorrupted(allUsers)) {
+                throw new DataCorruptionException("WARNING! List<User> contains corrupted data.");
+            }
+        } catch (DataCorruptionException dce) {
+            dce.printStackTrace();
+        }
+        try {
+            userSet.addAll(allUsers);
+            result.addAll(userSet);
+        } catch (RuntimeException re) {
+            re.printStackTrace();
+        }
         if (result.isEmpty()) {
             return null;
         }
@@ -37,17 +51,32 @@ public class UserController {
         List<Room> rooms = new ArrayList<>();
         AbstractDao<Hotel> hotelDao = new HotelDaoImpl();
         Set<User> userSet = new HashSet<>();
+        List<Hotel> allHotels = hotelDao.getAll();
         Hotel hotel;
-
-        hotels.addAll(hotelDao.getAll());
-        hotel = hotelDao.getById(hotelId);
-        if (!hotels.contains(hotel)) {
-            //  System.out.println("There's no hotel with such ID in DB!");
-            return null;
+        try {
+            if (hotelDao.isDataCorrupted(allHotels)) {
+                throw new DataCorruptionException("WARNING! List<Hotel> contains corrupted data.");
+            }
+        } catch (DataCorruptionException dce) {
+            dce.printStackTrace();
         }
-        rooms.addAll(hotel.getRooms());
-        userSet.addAll(rooms.stream().map(Room::getUser).collect(Collectors.toList()));
-        result.addAll(userSet);
+        try {
+            hotels.addAll(allHotels);
+            hotel = hotelDao.getById(hotelId);
+            if (!hotels.contains(hotel)) {
+                try {
+                    throw new OperationFailException("There's no hotel with such (hotelId) in DB!");
+                } catch (OperationFailException ofe) {
+                    ofe.printStackTrace();
+                }
+                return null;
+            }
+            rooms.addAll(hotel.getRooms());
+            userSet.addAll(rooms.stream().map(Room::getUser).collect(Collectors.toList()));
+            result.addAll(userSet);
+        } catch (RuntimeException re) {
+            re.printStackTrace();
+        }
         if (result.isEmpty()) {
             return null;
         }
@@ -63,21 +92,36 @@ public class UserController {
         AbstractDao<Hotel> hotelDao = new HotelDaoImpl();
         Set<User> userSet = new HashSet<>();
         Hotel ourHotel = null;
-
-        hotels.addAll(hotelDao.getAll());
-        for (Hotel hotelTmp : hotels) {
-            if (hotelTmp.getHotelName().equals(hotelName)) {
-                ourHotel = hotelTmp;
-                break;
+        List<Hotel> allHotels = hotelDao.getAll();
+        try {
+            if (hotelDao.isDataCorrupted(allHotels)) {
+                throw new DataCorruptionException("WARNING! List<Hotel> contains corrupted data.");
             }
+        } catch (DataCorruptionException dce) {
+            dce.printStackTrace();
         }
-        if (ourHotel == null) {
-            //  System.out.println("There's no hotel with such name in DB!");
-            return null;
+        try {
+            hotels.addAll(allHotels);
+            for (Hotel hotelTmp : hotels) {
+                if (hotelTmp.getHotelName().equals(hotelName)) {
+                    ourHotel = hotelTmp;
+                    break;
+                }
+            }
+            if (ourHotel == null) {
+                try {
+                    throw new OperationFailException("There's no hotel with such (hotelName) in DB!");
+                } catch (OperationFailException ofe) {
+                    ofe.printStackTrace();
+                }
+                return null;
+            }
+            rooms.addAll(ourHotel.getRooms());
+            userSet.addAll(rooms.stream().map(Room::getUser).collect(Collectors.toList()));
+            result.addAll(userSet);
+        } catch (RuntimeException re) {
+            re.printStackTrace();
         }
-        rooms.addAll(ourHotel.getRooms());
-        userSet.addAll(rooms.stream().map(Room::getUser).collect(Collectors.toList()));
-        result.addAll(userSet);
         if (result.isEmpty()) {
             return null;
         }
@@ -96,20 +140,51 @@ public class UserController {
         AbstractDao<Room> roomDao = new RoomDaoImpl();
         AbstractDao<User> userDao = new UserDaoImpl();
         Set<User> userSet = new HashSet<>();
-
-        hotels.addAll(hotelDao.getAll().stream()
-                .filter(hotel -> (hotel.getCityName().equals(theCity))).collect(Collectors.toList()));
-        if (hotels.isEmpty()) {
-            //  System.out.println("There's no such city in DB!");
-            return null;
+        List<Hotel> allHotels = hotelDao.getAll();
+        List<Room> allRooms = roomDao.getAll();
+        List<User> allUsers = userDao.getAll();
+        try {
+            if (hotelDao.isDataCorrupted(allHotels)) {
+                throw new DataCorruptionException("WARNING! List<Hotel> contains corrupted data.");
+            }
+        } catch (DataCorruptionException dce) {
+            dce.printStackTrace();
         }
-        for (Hotel hotel : hotels) {
-            roomsIds.addAll(hotel.getRoomsId());
+        try {
+            if (roomDao.isDataCorrupted(allRooms)) {
+                throw new DataCorruptionException("WARNING! List<Room> contains corrupted data.");
+            }
+        } catch (DataCorruptionException dce) {
+            dce.printStackTrace();
         }
-        rooms.addAll(roomDao.getAllById(roomsIds));
-        usersIds.addAll(rooms.stream().map(Room::getUserId).collect(Collectors.toList()));
-        userSet.addAll(userDao.getAllById(usersIds));
-        result.addAll(userSet);
+        try {
+            if (userDao.isDataCorrupted(allUsers)) {
+                throw new DataCorruptionException("WARNING! List<User> contains corrupted data.");
+            }
+        } catch (DataCorruptionException dce) {
+            dce.printStackTrace();
+        }
+        try {
+            hotels.addAll(allHotels.stream()
+                    .filter(hotel -> (hotel.getCityName().equals(theCity))).collect(Collectors.toList()));
+            if (hotels.isEmpty()) {
+                try {
+                    throw new OperationFailException("There's no such city in DB!");
+                } catch (OperationFailException ofe) {
+                    ofe.printStackTrace();
+                }
+                return null;
+            }
+            for (Hotel hotel : hotels) {
+                roomsIds.addAll(hotel.getRoomsId());
+            }
+            rooms.addAll(roomDao.getAllById(roomsIds));
+            usersIds.addAll(rooms.stream().map(Room::getUserId).collect(Collectors.toList()));
+            userSet.addAll(userDao.getAllById(usersIds));
+            result.addAll(userSet);
+        } catch (RuntimeException re) {
+            re.printStackTrace();
+        }
         if (result.isEmpty()) {
             return null;
         }
@@ -121,8 +196,20 @@ public class UserController {
     public int getRoomsQuantity(Long userId) {
         List<Room> rooms = new ArrayList<>();
         AbstractDao<Room> roomDao = new RoomDaoImpl();
-        rooms.addAll(roomDao.getAll().stream()
-                .filter(room -> (room.getUserId().equals(userId))).collect(Collectors.toList()));
+        List<Room> allRooms = roomDao.getAll();
+        try {
+            if (roomDao.isDataCorrupted(allRooms)) {
+                throw new DataCorruptionException("WARNING! List<Room> contains corrupted data.");
+            }
+        } catch (DataCorruptionException dce) {
+            dce.printStackTrace();
+        }
+        try {
+            rooms.addAll(allRooms.stream()
+                    .filter(room -> (room.getUserId().equals(userId))).collect(Collectors.toList()));
+        } catch (RuntimeException re) {
+            re.printStackTrace();
+        }
         if (rooms.isEmpty()) {
             return -1;
         }
@@ -137,13 +224,34 @@ public class UserController {
         List<User> users = new ArrayList<>();
         AbstractDao<Room> roomDao = new RoomDaoImpl();
         AbstractDao<User> userDao = new UserDaoImpl();
-        users.addAll(userDao.getAll().stream()
-                .filter(user -> (user.getLastName().equals(lastName))).collect(Collectors.toList()));
-        rooms.addAll(roomDao.getAll());
-        for (int i = 0; i < users.size(); i++) {
-            int finalI = i;
-            resultRooms.addAll(rooms.stream()
-                    .filter(room -> (room.getUserId().equals(users.get(finalI).getId()))).collect(Collectors.toList()));
+        List<Room> allRooms = roomDao.getAll();
+        List<User> allUsers = userDao.getAll();
+        try {
+            if (roomDao.isDataCorrupted(allRooms)) {
+                throw new DataCorruptionException("WARNING! List<Room> contains corrupted data.");
+            }
+        } catch (DataCorruptionException dce) {
+            dce.printStackTrace();
+        }
+        try {
+            if (userDao.isDataCorrupted(allUsers)) {
+                throw new DataCorruptionException("WARNING! List<User> contains corrupted data.");
+            }
+        } catch (DataCorruptionException dce) {
+            dce.printStackTrace();
+        }
+        try {
+            users.addAll(allUsers.stream()
+                    .filter(user -> (user.getLastName().equals(lastName))).collect(Collectors.toList()));
+            rooms.addAll(roomDao.getAll());
+            for (int i = 0; i < users.size(); i++) {
+                int finalI = i;
+                resultRooms.addAll(rooms.stream()
+                        .filter(room -> (room.getUserId().equals(users.get(finalI).getId())))
+                        .collect(Collectors.toList()));
+            }
+        } catch (RuntimeException re) {
+            re.printStackTrace();
         }
         if (resultRooms.isEmpty()) {
             return -1;
@@ -159,14 +267,35 @@ public class UserController {
         List<User> users = new ArrayList<>();
         AbstractDao<Room> roomDao = new RoomDaoImpl();
         AbstractDao<User> userDao = new UserDaoImpl();
-        users.addAll(userDao.getAll().stream()
-                .filter(user -> (user.getFirstName().equals(firstName)
-                        && user.getLastName().equals(lastName))).collect(Collectors.toList()));
-        rooms.addAll(roomDao.getAll());
-        for (int i = 0; i < users.size(); i++) {
-            int finalI = i;
-            resultRooms.addAll(rooms.stream()
-                    .filter(room -> (room.getUserId().equals(users.get(finalI).getId()))).collect(Collectors.toList()));
+        List<Room> allRooms = roomDao.getAll();
+        List<User> allUsers = userDao.getAll();
+        try {
+            if (roomDao.isDataCorrupted(allRooms)) {
+                throw new DataCorruptionException("WARNING! List<Room> contains corrupted data.");
+            }
+        } catch (DataCorruptionException dce) {
+            dce.printStackTrace();
+        }
+        try {
+            if (userDao.isDataCorrupted(allUsers)) {
+                throw new DataCorruptionException("WARNING! List<User> contains corrupted data.");
+            }
+        } catch (DataCorruptionException dce) {
+            dce.printStackTrace();
+        }
+        try {
+            users.addAll(allUsers.stream()
+                    .filter(user -> (user.getFirstName().equals(firstName)
+                            && user.getLastName().equals(lastName))).collect(Collectors.toList()));
+            rooms.addAll(allRooms);
+            for (int i = 0; i < users.size(); i++) {
+                int finalI = i;
+                resultRooms.addAll(rooms.stream()
+                        .filter(room -> (room.getUserId().equals(users.get(finalI).getId())))
+                        .collect(Collectors.toList()));
+            }
+        } catch (RuntimeException re) {
+            re.printStackTrace();
         }
         if (resultRooms.isEmpty()) {
             return -1;
@@ -180,8 +309,20 @@ public class UserController {
         long budget = 0L;
         List<Room> rooms = new ArrayList<>();
         AbstractDao<Room> roomDao = new RoomDaoImpl();
-        rooms.addAll(roomDao.getAll().stream()
-                .filter(room -> (room.getUserId().equals(userId))).collect(Collectors.toList()));
+        List<Room> allRooms = roomDao.getAll();
+        try {
+            if (roomDao.isDataCorrupted(allRooms)) {
+                throw new DataCorruptionException("WARNING! List<Room> contains corrupted data.");
+            }
+        } catch (DataCorruptionException dce) {
+            dce.printStackTrace();
+        }
+        try {
+            rooms.addAll(allRooms.stream()
+                    .filter(room -> (room.getUserId().equals(userId))).collect(Collectors.toList()));
+        } catch (RuntimeException re) {
+            re.printStackTrace();
+        }
         if (rooms.isEmpty()) {
             return -1;
         }
@@ -200,14 +341,36 @@ public class UserController {
         List<User> users = new ArrayList<>();
         AbstractDao<Room> roomDao = new RoomDaoImpl();
         AbstractDao<User> userDao = new UserDaoImpl();
-        users.addAll(userDao.getAll().stream()
-                .filter(user -> (user.getLastName().equals(lastName))).collect(Collectors.toList()));
-        rooms.addAll(roomDao.getAll());
-        for (int i = 0; i < users.size(); i++) {
-            int finalI = i;
-            resultRooms.addAll(rooms.stream()
-                    .filter(room -> (room.getUserId().equals(users.get(finalI).getId()))).collect(Collectors.toList()));
+        List<Room> allRooms = roomDao.getAll();
+        List<User> allUsers = userDao.getAll();
+        try {
+            if (roomDao.isDataCorrupted(allRooms)) {
+                throw new DataCorruptionException("WARNING! List<Room> contains corrupted data.");
+            }
+        } catch (DataCorruptionException dce) {
+            dce.printStackTrace();
         }
+        try {
+            if (userDao.isDataCorrupted(allUsers)) {
+                throw new DataCorruptionException("WARNING! List<User> contains corrupted data.");
+            }
+        } catch (DataCorruptionException dce) {
+            dce.printStackTrace();
+        }
+        try {
+            users.addAll(allUsers.stream()
+                    .filter(user -> (user.getLastName().equals(lastName))).collect(Collectors.toList()));
+            rooms.addAll(allRooms);
+            for (int i = 0; i < users.size(); i++) {
+                int finalI = i;
+                resultRooms.addAll(rooms.stream()
+                        .filter(room -> (room.getUserId().equals(users.get(finalI).getId())))
+                        .collect(Collectors.toList()));
+            }
+        } catch (RuntimeException re) {
+            re.printStackTrace();
+        }
+
         if (resultRooms.isEmpty()) {
             return -1;
         }
@@ -227,14 +390,35 @@ public class UserController {
         List<User> users = new ArrayList<>();
         AbstractDao<Room> roomDao = new RoomDaoImpl();
         AbstractDao<User> userDao = new UserDaoImpl();
-        users.addAll(userDao.getAll().stream()
-                .filter(user -> (user.getFirstName().equals(firstName)
-                        && user.getLastName().equals(lastName))).collect(Collectors.toList()));
-        rooms.addAll(roomDao.getAll());
-        for (int i = 0; i < users.size(); i++) {
-            int finalI = i;
-            resultRooms.addAll(rooms.stream()
-                    .filter(room -> (room.getUserId().equals(users.get(finalI).getId()))).collect(Collectors.toList()));
+        List<Room> allRooms = roomDao.getAll();
+        List<User> allUsers = userDao.getAll();
+        try {
+            if (roomDao.isDataCorrupted(allRooms)) {
+                throw new DataCorruptionException("WARNING! List<Room> contains corrupted data.");
+            }
+        } catch (DataCorruptionException dce) {
+            dce.printStackTrace();
+        }
+        try {
+            if (userDao.isDataCorrupted(allUsers)) {
+                throw new DataCorruptionException("WARNING! List<User> contains corrupted data.");
+            }
+        } catch (DataCorruptionException dce) {
+            dce.printStackTrace();
+        }
+        try {
+            users.addAll(allUsers.stream()
+                    .filter(user -> (user.getFirstName().equals(firstName)
+                            && user.getLastName().equals(lastName))).collect(Collectors.toList()));
+            rooms.addAll(allRooms);
+            for (int i = 0; i < users.size(); i++) {
+                int finalI = i;
+                resultRooms.addAll(rooms.stream()
+                        .filter(room -> (room.getUserId().equals(users.get(finalI).getId())))
+                        .collect(Collectors.toList()));
+            }
+        } catch (RuntimeException re) {
+            re.printStackTrace();
         }
         if (resultRooms.isEmpty()) {
             return -1;
