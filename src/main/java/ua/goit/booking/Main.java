@@ -18,7 +18,7 @@ public class Main {
 //
 //        System.out.println("Rooms\n===");
 //        RoomDao roomDao = new RoomDaoImpl();
-//        List<Room> toUpdate = roomDao.getAll();
+//        List<Room> toUpdate = roomDao.getAll();1
 //        toUpdate.forEach(room -> room.setUserId(null));
 //        roomDao.update(toUpdate);
 //        roomDao.getAll().forEach(System.out::println);
@@ -32,7 +32,8 @@ public class Main {
 //        userDao.getAll().forEach(System.out::println);
 
 //        UserController userController = new UserController();
-//        userController.getAllUsers().forEach(System.out::println);
+//        userController.getAllUsers().forEach(System.out::println);test push fr Vasiliy1
+
 
         Date currentDate = Calendar.getInstance().getTime();
         RoomController roomController = new RoomController();
@@ -56,6 +57,6 @@ public class Main {
         map.put("price", "334");
         map.put("person", "3");
 //        System.out.println(hotelDAO.findRoom(map));
-
+    // Поиск
     }
 }
