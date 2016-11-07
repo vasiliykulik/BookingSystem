@@ -142,7 +142,7 @@ public class RoomController {
         return result;
     }
 
-    // за даним id (roomId) номеру повертає масив усіх номерів з його готелю
+    // за даним ID (roomId) номеру повертає масив усіх номерів з його готелю
     public List<Room> getAllRoomsFromThisHotel(Long roomId) {
         List<Room> result;
         List<Room> rooms = new ArrayList<>();
@@ -159,7 +159,7 @@ public class RoomController {
         return result;
     }
 
-    // за даним id (roomId) номеру повертає масив усіх незайнятих номерів з його готелю
+    // за даним ID (roomId) номеру повертає масив усіх незайнятих номерів з його готелю
     public List<Room> getAllFreeRoomsFromThisHotel(Long roomId) {
         List<Room> result = new ArrayList<>();
         List<Room> rooms = new ArrayList<>();
