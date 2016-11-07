@@ -17,16 +17,16 @@ public class HotelController {
     public List<Hotel> findHotelByName(String name) {
         List<Hotel> result = new ArrayList<>();
         AbstractDao<Hotel> dao = new HotelDaoImpl();
-  //      try {
-            result.addAll(dao.getAll().stream()
-                    .filter(hotel -> hotel.getHotelName().equals(name)).collect(Collectors.toList()));
-            if (result.isEmpty()) {
-                return null;
-           }
+        //      try {
+        result.addAll(dao.getAll().stream()
+                .filter(hotel -> hotel.getHotelName().equals(name)).collect(Collectors.toList()));
+        if (result.isEmpty()) {
+            return null;
+        }
 
-   //     } catch (NullPointerException e) {
-   //         System.out.println("Введите существующее навзвание");
-  //      }
+        //     } catch (NullPointerException e) {
+        //         System.out.println("Введите существующее навзвание");
+        //      }
         return result;
     }
 
@@ -129,7 +129,11 @@ public class HotelController {
                 return;
             }
         }
-        System.out.println("Sorry! No such hotel.");
+        try {
+            throw new OperationFailException("Sorry! There's no such hotels.");
+        } catch (OperationFailException ofe) {
+            ofe.printStackTrace();
+        }
     }
 
     public List<Hotel> findRoom(Map<String, String> params) {
