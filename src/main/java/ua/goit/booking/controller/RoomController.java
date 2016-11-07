@@ -105,6 +105,24 @@ public class RoomController {
         return result;
     }
 
+    // повертає масив усіх номерів, зарезервованих на користувачів з прізвищем (lastName)
+    public List<Room> getAllRoomsReservedByUser(String lastName) {
+        List<Room> result = new ArrayList<>();
+        List<Room> rooms = new ArrayList<>();
+        List<User> users = new ArrayList<>();
+        AbstractDao<Room> roomDao = new RoomDaoImpl();
+        AbstractDao<User> userDao = new UserDaoImpl();
+        users.addAll(userDao.getAll().stream()
+                .filter(user -> (user.getLastName().equals(lastName))).collect(Collectors.toList()));
+        rooms.addAll(roomDao.getAll());
+        for (int i = 0; i < users.size(); i++) {
+            int finalI = i;
+            result.addAll(rooms.stream()
+                    .filter(room -> (room.getUserId().equals(users.get(finalI).getId()))).collect(Collectors.toList()));
+        }
+        return result;
+    }
+
     // повертає масив усіх номерів, зарезервованих на ім'я (firstName) та прізвище (lastName)
     public List<Room> getAllRoomsReservedByUser(String firstName, String lastName) {
         List<Room> result = new ArrayList<>();

@@ -99,4 +99,63 @@ public class UserController {
         result.addAll(userSet);
         return result;
     }
+
+    // за даним ID користувача (userId) повертає кількість зарезервованих на нього номерів
+    // повертає -1, якщо користувача з таким ID не має в базі
+    public int getRoomsQuantity(Long userId) {
+        List<Room> rooms = new ArrayList<>();
+        AbstractDao<Room> roomDao = new RoomDaoImpl();
+        rooms.addAll(roomDao.getAll().stream()
+                .filter(room -> (room.getUserId().equals(userId))).collect(Collectors.toList()));
+        if (rooms.isEmpty()) {
+            return -1;
+        }
+        return rooms.size();
+    }
+
+    // повертає кількість номерів, зарезервованих на користувачів з прізвищем (lastName)
+    // повертає -1, якщо користувача з таким (lastName) не має в базі
+    public int getRoomsQuantity(String lastName) {
+        List<Room> resultRooms = new ArrayList<>();
+        List<Room> rooms = new ArrayList<>();
+        List<User> users = new ArrayList<>();
+        AbstractDao<Room> roomDao = new RoomDaoImpl();
+        AbstractDao<User> userDao = new UserDaoImpl();
+        users.addAll(userDao.getAll().stream()
+                .filter(user -> (user.getLastName().equals(lastName))).collect(Collectors.toList()));
+        rooms.addAll(roomDao.getAll());
+        for (int i = 0; i < users.size(); i++) {
+            int finalI = i;
+            resultRooms.addAll(rooms.stream()
+                    .filter(room -> (room.getUserId().equals(users.get(finalI).getId()))).collect(Collectors.toList()));
+        }
+        if (resultRooms.isEmpty()) {
+            return -1;
+        }
+        return resultRooms.size();
+    }
+
+    // повертає кількість номерів, зарезервованих на ім'я (firstName) та прізвище (lastName)
+    // повертає -1, якщо користувача з таким (firstName) та (lastName) не має в базі
+    public int getRoomsQuantity(String firstName, String lastName) {
+        List<Room> resultRooms = new ArrayList<>();
+        List<Room> rooms = new ArrayList<>();
+        List<User> users = new ArrayList<>();
+        AbstractDao<Room> roomDao = new RoomDaoImpl();
+        AbstractDao<User> userDao = new UserDaoImpl();
+        users.addAll(userDao.getAll().stream()
+                .filter(user -> (user.getFirstName().equals(firstName)
+                        && user.getLastName().equals(lastName))).collect(Collectors.toList()));
+        rooms.addAll(roomDao.getAll());
+        for (int i = 0; i < users.size(); i++) {
+            int finalI = i;
+            resultRooms.addAll(rooms.stream()
+                    .filter(room -> (room.getUserId().equals(users.get(finalI).getId()))).collect(Collectors.toList()));
+        }
+        if (resultRooms.isEmpty()) {
+            return -1;
+        }
+        return resultRooms.size();
+    }
+
 }
