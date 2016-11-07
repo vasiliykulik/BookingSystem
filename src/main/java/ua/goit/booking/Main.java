@@ -32,7 +32,7 @@ public class Main {
 //        userDao.getAll().forEach(System.out::println);
 
 //        UserController userController = new UserController();
-//        userController.getAllUsers().forEach(System.out::println);
+//        userController.getAllUsers().forEach(System.out::println);test push fr Vasiliy
 
         Date currentDate = Calendar.getInstance().getTime();
         RoomController roomController = new RoomController();
