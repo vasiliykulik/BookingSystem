@@ -68,18 +68,24 @@ public class Main {
         map.put("price", "334");
         map.put("person", "3");
 //        System.out.println(hotelDAO.findRoom(map));
+        HotelController hotelController = new HotelController();
+
 
         // Тест Main Василий.Виталий
-        // Найти гостиницу по Городу
+        // НАЙТИ КОМНАТУ - СПИСОК КОМНАТ
+        /*1. Замечание - метод findRooms - находится в HotelController и возвращает List<Hotel>,
+        а по заданию - мы должны получить List<Room>.
+        2. Логично что бы этот метод находился в RoomController и возвращал List<Room>*/
+        // БРОНИРОВАНИЕ КОМНАТЫ - ok - но результат в консоль в виде Exception
+        /*hotelController.bookRoom(6675363734328343759L, 7613311618539299703L, 6124218799539178536L, currentDate, endDate);*/
+        // НАЙТИ ГОСТИНИЦУ ПО ГОРОДУ
         /*
        При Тесте Main, при вызове метода findHotelByCity
        и передачи ему несуществующего запроса "Кие" - получаем NullPointerException
        Решение: if (result.isEmpty()) {
             throw new DataCorruptionException("There is no such City, please check city name and try again");
         }*/
-        // Найти гостиницу по имени
-        HotelController hotelController = new HotelController();
-        hotelController.bookRoom(6675363734328343759L, 7613311618539299703L, 6124218799539178536L, currentDate, endDate);
+        // НАЙТИ ГОСТИНИЦУ ПО ИМЕНИ
         // hotelController.findHotelByName("Radisson").forEach(System.out::println);
         /*
        При Тесте Main, при вызове метода findHotelByName
@@ -88,7 +94,5 @@ public class Main {
                 throw new DataCorruptionException("There is no hotel with such name");
             }
          */
-
-        //test commit
     }
 }
