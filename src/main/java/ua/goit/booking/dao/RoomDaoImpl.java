@@ -32,20 +32,14 @@ public class RoomDaoImpl extends AbstractDaoImp<Room> implements RoomDao {
             return null;
         }
 
-        List<Room> rooms = getAll();
-
-        if (isContainId(room.getId())) {
-            Iterator<Room> iterator = rooms.iterator();
-            Room aRoom = iterator.next();
-            if (aRoom.getId() == room.getId()) {
-                int index = rooms.indexOf(aRoom);
-                rooms.set(index, room);
-            }
-        } else {
-            rooms.add(room);
+        if (update(room)) {
+            return room;
         }
 
-        update(rooms);
+        List<Room> rooms = getAll();
+        rooms.add(room);
+        updateBase(rooms);
+
         return room;
     }
 

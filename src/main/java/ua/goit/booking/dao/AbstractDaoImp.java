@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -61,13 +62,30 @@ public abstract class AbstractDaoImp<T extends Identity> implements AbstractDao<
     public abstract boolean delete(T t);
 
     @Override
-    public void update(List<T> list) {
+    public void updateBase(List<T> list) {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
             objectMapper.writeValue(file, list);
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public boolean update(T t) {
+        Long id = t.getId();
+
+        if (!isContainId(id)) {
+            return false;
+        }
+        List<T> all = getAll();
+        Iterator<T> iterator = all.iterator();
+        T element = iterator.next();
+        if (element.getId() == id) {
+            int index = all.indexOf(element);
+            all.set(index, t);
+        }
+        return true;
     }
 
     @Override

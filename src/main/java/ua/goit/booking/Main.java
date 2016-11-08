@@ -21,7 +21,7 @@ public class Main {
 //        RoomDao roomDao = new RoomDaoImpl();
 //        List<Room> toUpdate = roomDao.getAll();1
 //        toUpdate.forEach(room -> room.setUserId(null));
-//        roomDao.update(toUpdate);
+//        roomDao.updateBase(toUpdate);
 //        roomDao.getAll().forEach(System.out::println);
 //
 //        System.out.println("Users\n===");
@@ -29,7 +29,7 @@ public class Main {
 //        User user = new User("Oleg", "Orlov", "olegik.orlov@gmail.com");
 //        List<User> users = new ArrayList<>();
 //        users.add(user);
-//        userDao.update(users); //
+//        userDao.updateBase(users); //
 //        userDao.getAll().forEach(System.out::println);
 
 //        UserController userController = new UserController();
@@ -47,7 +47,7 @@ public class Main {
 //            room.setFromDate(currentDate);
 //        }
 //        RoomDao roomDao = new RoomDaoImpl();
-//        roomDao.update(rooms);
+//        roomDao.updateBase(rooms);
         roomController.getFreeRooms().forEach(System.out::println);*/
 
 

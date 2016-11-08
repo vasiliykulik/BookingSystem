@@ -85,7 +85,7 @@ public class HotelController {
                                 } catch (OperationSuccessException ose) {
                                     ose.printStackTrace();
                                 }
-                                hotelDao.update(hotels);
+                                hotelDao.updateBase(hotels);
                                 return;
                             } else {
                                 try {
@@ -139,7 +139,7 @@ public class HotelController {
                                 } catch (OperationSuccessException ose) {
                                     ose.printStackTrace();
                                 }
-                                hotelDao.update(hotels);
+                                hotelDao.updateBase(hotels);
                                 return;
                             } else {
                                 try {

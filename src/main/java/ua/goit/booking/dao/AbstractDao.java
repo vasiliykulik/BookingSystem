@@ -14,7 +14,9 @@ public interface AbstractDao<T> {
 
     boolean delete(T t);
 
-    void update(List<T> list);
+    boolean update(T t);
+
+    void updateBase(List<T> list);
 
     boolean isDataCorrupted(List<T> list);
 

@@ -71,12 +71,13 @@ public class HotelDaoImpl extends AbstractDaoImp<Hotel> implements HotelDao {
             return room;
         }
         roomsId.add(room.getId());
-        List<Hotel> hotels = getAll();
-        for (Hotel oldHotel : hotels) {
-            if (oldHotel.getId() == hotel.getId()) {
-                oldHotel = hotel;
-            }
-        }
+        //TODO updateBase hotel in DB
+//        List<Hotel> hotels = getAll();
+//        for (Hotel oldHotel : hotels) {
+//            if (oldHotel.getId() == hotel.getId()) {
+//                oldHotel = hotel;
+//            }
+//        }
         return room;
     }
 }
