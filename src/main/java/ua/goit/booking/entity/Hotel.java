@@ -77,10 +77,6 @@ public class Hotel implements Identity {
         this.roomsId = roomsId;
     }
 
-    /* public RoomDAO getRoomDAO() {
-        return roomDAO;
-    }*/
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

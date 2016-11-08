@@ -3,6 +3,7 @@ package ua.goit.booking.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import ua.goit.booking.dao.*;
+import ua.goit.booking.exception.OperationFailException;
 
 import java.lang.reflect.Field;
 import java.util.Calendar;
@@ -26,11 +27,13 @@ public class Room implements Identity {
     public Room(int price, int numberOfVisitors, Long hotelId) {
         HotelDao hotelDao = new HotelDaoImpl();
         if (!hotelDao.isContainId(hotelId)) {
-            //TODO Exception
-            System.out.println("Hotel with this ID does not exist");
+            try {
+                throw new OperationFailException("Hotel with such hotelId doesn't exist.");
+            } catch (OperationFailException ofe) {
+                ofe.printStackTrace();
+            }
             return;
         }
-
         this.id = Math.abs(UUID.randomUUID().getLeastSignificantBits());
         this.price = price;
         this.numberOfVisitors = numberOfVisitors;
@@ -48,7 +51,6 @@ public class Room implements Identity {
                 || this.getToDate() == null
                 || !this.getFromDate().before(this.getToDate())
                 || this.getToDate().after(this.getFromDate()) && this.getUserId() == null;
-
     }
 
     @Override
