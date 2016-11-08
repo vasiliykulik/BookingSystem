@@ -18,6 +18,7 @@ public class HotelDaoImpl extends AbstractDaoImp<Hotel> implements HotelDao {
 
     @Override
     public boolean delete(Hotel hotel) {
+        // TODO Exceptions Kostia
         if (hotel == null || !isContainId(hotel.getId())) {
             return false;
         }
@@ -65,6 +66,7 @@ public class HotelDaoImpl extends AbstractDaoImp<Hotel> implements HotelDao {
 
     @Override
     public Room addRoom(Hotel hotel, Room room) {
+        // TODO Exceptions Kostia
         if (room == null || hotel == null || !room.getHotelId().equals(hotel.getId())) {
             try {
                 throw new OperationFailException("This room cannot be saved!");

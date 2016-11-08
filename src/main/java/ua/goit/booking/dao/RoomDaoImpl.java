@@ -19,6 +19,7 @@ public class RoomDaoImpl extends AbstractDaoImp<Room> implements RoomDao {
 
     @Override
     public boolean delete(Room room) {
+        // TODO Exceptions Kostia
         HotelDao hotelDao = new HotelDaoImpl();
         List<Room> allRooms;
         List<Room> roomList = getAll();
