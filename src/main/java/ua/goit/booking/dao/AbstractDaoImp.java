@@ -2,15 +2,12 @@ package ua.goit.booking.dao;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import ua.goit.booking.entity.Room;
 import ua.goit.booking.exception.DataCorruptionException;
-import ua.goit.booking.exception.DataRequestException;
 import ua.goit.booking.exception.OperationFailException;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class AbstractDaoImp<T extends Identity> implements AbstractDao<T> {
@@ -69,6 +66,7 @@ public class AbstractDaoImp<T extends Identity> implements AbstractDao<T> {
 
     @Override
     public List<T> getAllById(List<Long> ids) {
+        // TODO Exceptions Kostia
         List<T> result = null;
         if (ids != null) {
             result = getAll().stream()
@@ -77,7 +75,7 @@ public class AbstractDaoImp<T extends Identity> implements AbstractDao<T> {
         }
         try {
             if (result.isEmpty()) {
-                throw new DataRequestException("Error! No data with such IDs");
+                throw new OperationFailException("Error! No data with such IDs");
             }
         } catch (RuntimeException re) {
             re.printStackTrace();
