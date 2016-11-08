@@ -57,7 +57,8 @@ public class RoomController {
         }
         try {
             result.addAll(allRooms.stream()
-                    .filter(room -> !room.isBooked(AbstractDaoImp.currentDate, AbstractDaoImp.currentDate)).collect(Collectors.toList()));
+                    .filter(room -> !room.isBooked(AbstractDaoImp.currentDate, AbstractDaoImp.currentDate))
+                    .collect(Collectors.toList()));
             if (result.isEmpty()) {
                 try {
                     throw new OperationFailException("There's no such rooms.");
@@ -118,7 +119,8 @@ public class RoomController {
         }
         try {
             result.addAll(allRooms.stream()
-                    .filter(room -> (room.getPrice() <= budget) && (!room.isBooked(AbstractDaoImp.currentDate, AbstractDaoImp.currentDate)))
+                    .filter(room -> (room.getPrice() <= budget)
+                            && (!room.isBooked(AbstractDaoImp.currentDate, AbstractDaoImp.currentDate)))
                     .collect(Collectors.toList()));
             if (result.isEmpty()) {
                 try {
@@ -180,7 +182,8 @@ public class RoomController {
         }
         try {
             result.addAll(allRooms.stream()
-                    .filter(room -> (room.getNumberOfVisitors() == nPersons) && (!room.isBooked(AbstractDaoImp.currentDate, AbstractDaoImp.currentDate)))
+                    .filter(room -> (room.getNumberOfVisitors() == nPersons)
+                            && (!room.isBooked(AbstractDaoImp.currentDate, AbstractDaoImp.currentDate)))
                     .collect(Collectors.toList()));
             if (result.isEmpty()) {
                 try {
@@ -251,7 +254,9 @@ public class RoomController {
             for (Hotel hotel : hotels) {
                 rooms.addAll(hotel.getRooms());
             }
-            result.addAll(rooms.stream().filter(room -> (!room.isBooked(AbstractDaoImp.currentDate, AbstractDaoImp.currentDate))).collect(Collectors.toList()));
+            result.addAll(rooms.stream()
+                    .filter(room -> (!room.isBooked(AbstractDaoImp.currentDate, AbstractDaoImp.currentDate)))
+                    .collect(Collectors.toList()));
             if (result.isEmpty()) {
                 try {
                     throw new OperationFailException("There's no such rooms.");

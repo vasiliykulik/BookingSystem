@@ -3,6 +3,7 @@ package ua.goit.booking.dao;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import ua.goit.booking.entity.Room;
+import ua.goit.booking.exception.OperationFailException;
 
 import java.io.File;
 import java.io.IOException;
@@ -67,8 +68,11 @@ public class AbstractDaoImp<T extends Identity> implements AbstractDao<T> {
     @Override
     public T save(T t) {
         if (t == null) {
-            System.out.println("This element cannot be saved");
-            //TODO Exception
+            try {
+                throw new OperationFailException("This element cannot be saved");
+            } catch (OperationFailException ofe) {
+                ofe.printStackTrace();
+            }
             return null;
         }
         if (update(t)) {
@@ -79,8 +83,6 @@ public class AbstractDaoImp<T extends Identity> implements AbstractDao<T> {
         updateBase(all);
         return t;
     }
-
-    ;
 
     @Override
     public boolean delete(T t) {
@@ -111,7 +113,6 @@ public class AbstractDaoImp<T extends Identity> implements AbstractDao<T> {
     @Override
     public boolean update(T t) {
         Long id = t.getId();
-
         if (!isContainId(id)) {
             return false;
         }
