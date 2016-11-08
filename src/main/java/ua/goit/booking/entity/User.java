@@ -22,6 +22,15 @@ public class User implements Identity {
         this.emailAddress = emailAddress;
     }
 
+//    public boolean isUserDataCorrupted(){
+//        boolean result = false;
+//        if(){
+//
+//        }
+//
+//        return result;
+//    }
+
     @Override
     public Long getId() {
         return id;

@@ -68,7 +68,8 @@ public class HotelDaoImpl extends AbstractDaoImp<Hotel> implements HotelDao {
     public Room addRoom(Hotel hotel, Room room) {
         if (room == null
                 || hotel == null
-                || room.getHotelId() != hotel.getId()) {
+                || !room.getHotelId().equals(hotel.getId())) {
+            // ID поля всіх класів у нас мають тип класу-обгортки Long, порівнювати треба через equals()!
             System.out.println("This room cannot be saved!");
             //TODO Exception
             return null;

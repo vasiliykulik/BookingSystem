@@ -6,6 +6,7 @@ import ua.goit.booking.entity.Room;
 import ua.goit.booking.entity.User;
 import ua.goit.booking.exception.DataCorruptionException;
 import ua.goit.booking.exception.OperationFailException;
+import ua.goit.booking.exception.OperationSuccessException;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -508,6 +509,13 @@ public class UserController {
         }
         try {
             successFlag = userDao.delete(user);
+            if (successFlag) {
+                try {
+                    throw new OperationSuccessException("User " + user + " has been successfully deleted.");
+                } catch (OperationSuccessException ose) {
+                    ose.printStackTrace();
+                }
+            }
         } catch (RuntimeException re) {
             re.printStackTrace();
         }

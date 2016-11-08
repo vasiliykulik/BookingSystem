@@ -69,7 +69,9 @@ public class AbstractDaoImp<T extends Identity> implements AbstractDao<T> {
         all.add(t);
         updateBase(all);
         return t;
-    };
+    }
+
+    ;
 
     @Override
     public boolean delete(T t) {
@@ -107,7 +109,7 @@ public class AbstractDaoImp<T extends Identity> implements AbstractDao<T> {
         List<T> all = getAll();
         Iterator<T> iterator = all.iterator();
         T element = iterator.next();
-        if (element.getId() == id) {
+        if (element.getId().equals(id)) {
             int index = all.indexOf(element);
             all.set(index, t);
         }
