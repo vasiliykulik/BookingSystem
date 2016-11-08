@@ -51,7 +51,7 @@ public class HotelController {
             result.addAll(allHotels.stream()
                     .filter(hotel -> hotel.getCityName().equals(city)).collect(Collectors.toList()));
             if (result.isEmpty()) {
-                return null;
+                throw new DataCorruptionException("There is no such City, please check city name and try again");
             }
         } catch (RuntimeException re) {
             re.printStackTrace();

@@ -66,28 +66,17 @@ public class Main {
 //        System.out.println(hotelDAO.findRoom(map));
 
         // Тест Main Василий.Виталий
-        // Найте гостиницу по имени
+        // Найти гостиницу по Городу
 
+        // Найти гостиницу по имени
         HotelController hotelController = new HotelController();
         hotelController.findHotelByName("Radisson").forEach(System.out::println);
-
         /*
        При Тесте Main, при вызове метода findHotelByName
        и передачи ему несуществующего запроса "Radiss" - получаем NullPointerException
-       Решение: Ловить в main
-        try {
-            hotelController.findHotelByName("Radisso").forEach(System.out::println);
-        }catch(NullPointerException e){
-            System.err.println("Введите существующее навзвание гостиницы. Ошибка "+e);
-        }
-        или проверить в самом методе
-       if (result.isEmpty()) {
-            try {
-                throw new Exception("Введите существующее навзвание гостиницы. Ошибка ");
-            }catch (Exception e) {
-                System.err.println("e.getMessage() = "+ e.getMessage());
+       Решение: if (result.isEmpty()) {
+                throw new DataCorruptionException("There is no hotel with such name");
             }
-        }
          */
 
         //test commit
