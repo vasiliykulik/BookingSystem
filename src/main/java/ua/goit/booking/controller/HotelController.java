@@ -5,7 +5,6 @@ import ua.goit.booking.entity.Hotel;
 import ua.goit.booking.entity.Room;
 import ua.goit.booking.exception.DataCorruptionException;
 import ua.goit.booking.exception.OperationFailException;
-import ua.goit.booking.exception.OperationSuccessException;
 
 import java.lang.reflect.Field;
 import java.util.*;
@@ -80,11 +79,11 @@ public class HotelController {
                                 room.setFromDate(fromDate);
                                 room.setToDate(toDate);
                                 room.setUserId(userId);
-                                try {
-                                    throw new OperationSuccessException("Success! " + room + " has been booked!");
-                                } catch (OperationSuccessException ose) {
-                                    ose.printStackTrace();
-                                }
+//                                try {
+//                                    throw new OperationSuccessException("Success! " + room + " has been booked!");
+//                                } catch (OperationSuccessException ose) {
+//                                    ose.printStackTrace();
+//                                }
                                 hotelDao.updateBase(hotels);
                                 return;
                             } else {
@@ -136,12 +135,12 @@ public class HotelController {
                                 if (room.getUserId() == userId) {
                                     room.setToDate(room.getFromDate());
                                     room.setUserId(null);
-                                    try {
-                                        throw new OperationSuccessException("Success! "
-                                                + room + " reservation has been canceled!");
-                                    } catch (OperationSuccessException ose) {
-                                        ose.printStackTrace();
-                                    }
+//                                    try {
+//                                        throw new OperationSuccessException("Success! "
+//                                                + room + " reservation has been canceled!");
+//                                    } catch (OperationSuccessException ose) {
+//                                        ose.printStackTrace();
+//                                    }
                                     hotelDao.updateBase(hotels);
                                     return;
                                 } else {
