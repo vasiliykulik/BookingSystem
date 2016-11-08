@@ -39,6 +39,18 @@ public class Room implements Identity {
         this.hotelId = hotelId;
     }
 
+    public boolean isRoomDataCorrupted() {
+        return this.getId() == null
+                || this.getPrice() == 0
+                || this.getNumberOfVisitors() == 0
+                || this.getHotelId() == null
+                || this.getFromDate() == null
+                || this.getToDate() == null
+                || !this.getFromDate().before(this.getToDate())
+                || this.getToDate().after(this.getFromDate()) && this.getUserId() == null;
+
+    }
+
     @Override
     public Long getId() {
         return id;

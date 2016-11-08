@@ -22,14 +22,10 @@ public class User implements Identity {
         this.emailAddress = emailAddress;
     }
 
-//    public boolean isUserDataCorrupted(){
-//        boolean result = false;
-//        if(){
-//
-//        }
-//
-//        return result;
-//    }
+    public boolean isUserDataCorrupted(){
+        return this.getId() == null || this.getFirstName() == null
+                || this.getLastName() == null || this.getEmailAddress() == null;
+    }
 
     @Override
     public Long getId() {
