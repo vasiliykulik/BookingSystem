@@ -29,6 +29,11 @@ public class RoomController {
         }
         try {
             if (result.isEmpty()) {
+                try {
+                    throw new OperationFailException("There's no such rooms.");
+                } catch (OperationFailException ofe) {
+                    ofe.printStackTrace();
+                }
                 return null;
             }
         } catch (RuntimeException re) {
@@ -54,6 +59,11 @@ public class RoomController {
             result.addAll(allRooms.stream()
                     .filter(room -> !room.isBooked(AbstractDaoImp.currentDate, AbstractDaoImp.currentDate)).collect(Collectors.toList()));
             if (result.isEmpty()) {
+                try {
+                    throw new OperationFailException("There's no such rooms.");
+                } catch (OperationFailException ofe) {
+                    ofe.printStackTrace();
+                }
                 return null;
             }
         } catch (RuntimeException re) {
@@ -79,6 +89,11 @@ public class RoomController {
             result.addAll(allRooms.stream()
                     .filter(room -> (room.getPrice() <= budget)).collect(Collectors.toList()));
             if (result.isEmpty()) {
+                try {
+                    throw new OperationFailException("There's no such rooms.");
+                } catch (OperationFailException ofe) {
+                    ofe.printStackTrace();
+                }
                 return null;
             }
         } catch (RuntimeException re) {
@@ -97,9 +112,7 @@ public class RoomController {
             if (roomDao.isDataCorrupted(allRooms)) {
                 throw new DataCorruptionException("WARNING! List<Room> contains corrupted data.");
             }
-            if (result.isEmpty()) {
-                return null;
-            }
+
         } catch (DataCorruptionException dce) {
             dce.printStackTrace();
         }
@@ -107,6 +120,14 @@ public class RoomController {
             result.addAll(allRooms.stream()
                     .filter(room -> (room.getPrice() <= budget) && (!room.isBooked(AbstractDaoImp.currentDate, AbstractDaoImp.currentDate)))
                     .collect(Collectors.toList()));
+            if (result.isEmpty()) {
+                try {
+                    throw new OperationFailException("There's no such rooms.");
+                } catch (OperationFailException ofe) {
+                    ofe.printStackTrace();
+                }
+                return null;
+            }
         } catch (RuntimeException re) {
             re.printStackTrace();
         }
@@ -123,9 +144,6 @@ public class RoomController {
             if (roomDao.isDataCorrupted(allRooms)) {
                 throw new DataCorruptionException("WARNING! List<Room> contains corrupted data.");
             }
-            if (result.isEmpty()) {
-                return null;
-            }
         } catch (DataCorruptionException dce) {
             dce.printStackTrace();
         }
@@ -133,6 +151,14 @@ public class RoomController {
             result.addAll(allRooms.stream()
                     .filter(room -> (room.getNumberOfVisitors() == nPersons))
                     .collect(Collectors.toList()));
+            if (result.isEmpty()) {
+                try {
+                    throw new OperationFailException("There's no such rooms.");
+                } catch (OperationFailException ofe) {
+                    ofe.printStackTrace();
+                }
+                return null;
+            }
         } catch (RuntimeException re) {
             re.printStackTrace();
         }
@@ -149,9 +175,6 @@ public class RoomController {
             if (roomDao.isDataCorrupted(allRooms)) {
                 throw new DataCorruptionException("WARNING! List<Room> contains corrupted data.");
             }
-            if (result.isEmpty()) {
-                return null;
-            }
         } catch (DataCorruptionException dce) {
             dce.printStackTrace();
         }
@@ -159,6 +182,14 @@ public class RoomController {
             result.addAll(allRooms.stream()
                     .filter(room -> (room.getNumberOfVisitors() == nPersons) && (!room.isBooked(AbstractDaoImp.currentDate, AbstractDaoImp.currentDate)))
                     .collect(Collectors.toList()));
+            if (result.isEmpty()) {
+                try {
+                    throw new OperationFailException("There's no such rooms.");
+                } catch (OperationFailException ofe) {
+                    ofe.printStackTrace();
+                }
+                return null;
+            }
         } catch (RuntimeException re) {
             re.printStackTrace();
         }
@@ -186,6 +217,11 @@ public class RoomController {
                 result.addAll(hotel.getRooms());
             }
             if (result.isEmpty()) {
+                try {
+                    throw new OperationFailException("There's no such rooms.");
+                } catch (OperationFailException ofe) {
+                    ofe.printStackTrace();
+                }
                 return null;
             }
         } catch (RuntimeException re) {
@@ -217,6 +253,11 @@ public class RoomController {
             }
             result.addAll(rooms.stream().filter(room -> (!room.isBooked(AbstractDaoImp.currentDate, AbstractDaoImp.currentDate))).collect(Collectors.toList()));
             if (result.isEmpty()) {
+                try {
+                    throw new OperationFailException("There's no such rooms.");
+                } catch (OperationFailException ofe) {
+                    ofe.printStackTrace();
+                }
                 return null;
             }
         } catch (RuntimeException re) {
@@ -235,15 +276,20 @@ public class RoomController {
             if (roomDao.isDataCorrupted(allRooms)) {
                 throw new DataCorruptionException("WARNING! List<Room> contains corrupted data.");
             }
-            if (result.isEmpty()) {
-                return null;
-            }
         } catch (DataCorruptionException dce) {
             dce.printStackTrace();
         }
         try {
             result.addAll(allRooms.stream()
                     .filter(room -> (room.getUserId().equals(userId))).collect(Collectors.toList()));
+            if (result.isEmpty()) {
+                try {
+                    throw new OperationFailException("There's no such rooms.");
+                } catch (OperationFailException ofe) {
+                    ofe.printStackTrace();
+                }
+                return null;
+            }
         } catch (RuntimeException re) {
             re.printStackTrace();
         }
@@ -285,6 +331,11 @@ public class RoomController {
                         .collect(Collectors.toList()));
             }
             if (result.isEmpty()) {
+                try {
+                    throw new OperationFailException("There's no such rooms.");
+                } catch (OperationFailException ofe) {
+                    ofe.printStackTrace();
+                }
                 return null;
             }
         } catch (RuntimeException re) {
@@ -329,6 +380,11 @@ public class RoomController {
                         .collect(Collectors.toList()));
             }
             if (result.isEmpty()) {
+                try {
+                    throw new OperationFailException("There's no such rooms.");
+                } catch (OperationFailException ofe) {
+                    ofe.printStackTrace();
+                }
                 return null;
             }
         } catch (RuntimeException re) {
@@ -373,7 +429,12 @@ public class RoomController {
                 return null;
             }
             result = hotelDao.getById(room.getHotelId()).getRooms();
-            if (result != null && result.isEmpty()) {
+            if (result.isEmpty()) {
+                try {
+                    throw new OperationFailException("There's no such rooms.");
+                } catch (OperationFailException ofe) {
+                    ofe.printStackTrace();
+                }
                 return null;
             }
         } catch (RuntimeException re) {
@@ -420,6 +481,11 @@ public class RoomController {
             rooms = hotelDao.getById(room.getHotelId()).getRooms();
             result.addAll(rooms.stream().filter(room1 -> (!room1.isBooked(AbstractDaoImp.currentDate, AbstractDaoImp.currentDate))).collect(Collectors.toList()));
             if (result.isEmpty()) {
+                try {
+                    throw new OperationFailException("There's no such rooms.");
+                } catch (OperationFailException ofe) {
+                    ofe.printStackTrace();
+                }
                 return null;
             }
         } catch (RuntimeException re) {
