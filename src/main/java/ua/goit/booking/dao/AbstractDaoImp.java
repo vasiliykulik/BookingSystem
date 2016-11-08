@@ -3,6 +3,7 @@ package ua.goit.booking.dao;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import ua.goit.booking.entity.Room;
+import ua.goit.booking.exception.DataRequestException;
 import ua.goit.booking.exception.OperationFailException;
 
 import java.io.File;
@@ -41,7 +42,7 @@ public class AbstractDaoImp<T extends Identity> implements AbstractDao<T> {
                 .collect(Collectors.toList());
         try {
             if (result.isEmpty()) {
-                return null;
+                throw new DataRequestException("Error! No data with such ID");
             }
         } catch (RuntimeException re) {
             re.printStackTrace();
@@ -57,7 +58,7 @@ public class AbstractDaoImp<T extends Identity> implements AbstractDao<T> {
                 .collect(Collectors.toList());
         try {
             if (result.isEmpty()) {
-                return null;
+                throw new DataRequestException("Error! No data with such IDs");
             }
         } catch (RuntimeException re) {
             re.printStackTrace();
