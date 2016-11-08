@@ -1,9 +1,6 @@
 package ua.goit.booking.controller;
 
-import ua.goit.booking.dao.AbstractDao;
-import ua.goit.booking.dao.HotelDaoImpl;
-import ua.goit.booking.dao.RoomDaoImpl;
-import ua.goit.booking.dao.UserDaoImpl;
+import ua.goit.booking.dao.*;
 import ua.goit.booking.entity.Hotel;
 import ua.goit.booking.entity.Room;
 import ua.goit.booking.entity.User;
@@ -11,6 +8,8 @@ import ua.goit.booking.exception.DataCorruptionException;
 import ua.goit.booking.exception.OperationFailException;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -53,7 +52,7 @@ public class RoomController {
         }
         try {
             result.addAll(allRooms.stream()
-                    .filter(room -> !room.isBooked()).collect(Collectors.toList()));
+                    .filter(room -> !room.isBooked(AbstractDaoImp.currentDate, AbstractDaoImp.currentDate)).collect(Collectors.toList()));
             if (result.isEmpty()) {
                 return null;
             }
@@ -106,7 +105,7 @@ public class RoomController {
         }
         try {
             result.addAll(allRooms.stream()
-                    .filter(room -> (room.getPrice() <= budget) && (!room.isBooked()))
+                    .filter(room -> (room.getPrice() <= budget) && (!room.isBooked(AbstractDaoImp.currentDate, AbstractDaoImp.currentDate)))
                     .collect(Collectors.toList()));
         } catch (RuntimeException re) {
             re.printStackTrace();
@@ -158,7 +157,7 @@ public class RoomController {
         }
         try {
             result.addAll(allRooms.stream()
-                    .filter(room -> (room.getNumberOfVisitors() == nPersons) && (!room.isBooked()))
+                    .filter(room -> (room.getNumberOfVisitors() == nPersons) && (!room.isBooked(AbstractDaoImp.currentDate, AbstractDaoImp.currentDate)))
                     .collect(Collectors.toList()));
         } catch (RuntimeException re) {
             re.printStackTrace();
@@ -216,7 +215,7 @@ public class RoomController {
             for (Hotel hotel : hotels) {
                 rooms.addAll(hotel.getRooms());
             }
-            result.addAll(rooms.stream().filter(room -> (!room.isBooked())).collect(Collectors.toList()));
+            result.addAll(rooms.stream().filter(room -> (!room.isBooked(AbstractDaoImp.currentDate, AbstractDaoImp.currentDate))).collect(Collectors.toList()));
             if (result.isEmpty()) {
                 return null;
             }
@@ -419,7 +418,7 @@ public class RoomController {
                 return null;
             }
             rooms = hotelDao.getById(room.getHotelId()).getRooms();
-            result.addAll(rooms.stream().filter(room1 -> (!room1.isBooked())).collect(Collectors.toList()));
+            result.addAll(rooms.stream().filter(room1 -> (!room1.isBooked(AbstractDaoImp.currentDate, AbstractDaoImp.currentDate))).collect(Collectors.toList()));
             if (result.isEmpty()) {
                 return null;
             }

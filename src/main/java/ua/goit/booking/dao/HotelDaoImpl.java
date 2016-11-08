@@ -5,9 +5,8 @@ import ua.goit.booking.entity.Hotel;
 import ua.goit.booking.entity.Room;
 
 import java.io.File;
-import java.util.*;
-import java.util.function.*;
-import java.util.stream.*;
+import java.util.Iterator;
+import java.util.List;
 
 public class HotelDaoImpl extends AbstractDaoImp<Hotel> implements HotelDao {
 
@@ -17,15 +16,23 @@ public class HotelDaoImpl extends AbstractDaoImp<Hotel> implements HotelDao {
     }
 
     @Override
-    public Hotel save(Hotel hotel) {
-        //TODO Logic
-        return null;
-    }
-
-    @Override
     public boolean delete(Hotel hotel) {
-        //TODO Logic
-        return false;
+        if (hotel == null || !isContainId(hotel.getId())) {
+            return false;
+        }
+        RoomDao roomDao = new RoomDaoImpl();
+        for (Room room : hotel.getRooms()) {
+            roomDao.delete(room);
+        }
+        List<Hotel> allHotels = getAll();
+        Iterator<Hotel> iterator = allHotels.iterator();
+        while (iterator.hasNext()) {
+            Hotel element = iterator.next();
+            if (element.getId().equals(hotel.getId())) {
+                iterator.remove();
+            }
+        }
+        return true;
     }
 
     @Override
@@ -68,16 +75,14 @@ public class HotelDaoImpl extends AbstractDaoImp<Hotel> implements HotelDao {
         }
         List<Long> roomsId = hotel.getRoomsId();
         if (roomsId.contains(room.getId())) {
+            RoomDao roomDao = new RoomDaoImpl();
+            roomDao.save(room);
             return room;
         }
         roomsId.add(room.getId());
-        //TODO updateBase hotel in DB
-//        List<Hotel> hotels = getAll();
-//        for (Hotel oldHotel : hotels) {
-//            if (oldHotel.getId() == hotel.getId()) {
-//                oldHotel = hotel;
-//            }
-//        }
+        hotel.setRoomsId(roomsId);
+        update(hotel);
+
         return room;
     }
 }

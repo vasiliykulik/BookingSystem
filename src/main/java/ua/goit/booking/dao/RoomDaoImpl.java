@@ -5,7 +5,6 @@ import ua.goit.booking.entity.Hotel;
 import ua.goit.booking.entity.Room;
 
 import java.io.File;
-import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,33 +16,6 @@ public class RoomDaoImpl extends AbstractDaoImp<Room> implements RoomDao {
     }
 
     @Override
-    public Room save(Room room) {
-        if (room == null) {
-            System.out.println("This room cannot be saved!");
-            return null;
-        }
-
-        HotelDao hotelDao = new HotelDaoImpl();
-        Hotel hotel = hotelDao.getById(room.getHotelId());
-        try {
-            hotelDao.addRoom(hotel, room);
-        } catch (Exception e) {
-            //TODO Catching Exception from HotelDao
-            return null;
-        }
-
-        if (update(room)) {
-            return room;
-        }
-
-        List<Room> rooms = getAll();
-        rooms.add(room);
-        updateBase(rooms);
-
-        return room;
-    }
-
-    @Override
     public boolean delete(Room room) {
         if (room == null) {
             //TODO Exception
@@ -51,13 +23,19 @@ public class RoomDaoImpl extends AbstractDaoImp<Room> implements RoomDao {
         }
         HotelDao hotelDao = new HotelDaoImpl();
         Hotel hotel = hotelDao.getById(room.getHotelId());
-        if (!hotel.getRoomsId().contains(room.getId())) {
+        if (hotel.getRoomsId().contains(room.getId())) {
+            List<Room> hotelRooms = hotel.getRooms().stream()
+                    .filter(aRoom -> !aRoom.getId().equals(room.getId()))
+                    .collect(Collectors.toList());
+            hotel.setRooms(hotelRooms);
+        }
+        if (!isContainId(room.getId())) {
             return false;
         }
-        List<Room> hotelRooms = hotel.getRooms().stream()
-                .filter(r -> !r.getId().equals(room.getId()))
+        List<Room> allRooms = getAll().stream()
+                .filter(aRoom -> !aRoom.getId().equals(room.getId()))
                 .collect(Collectors.toList());
-        hotel.setRooms(hotelRooms);
+        updateBase(allRooms);
         return true;
     }
 
@@ -86,7 +64,7 @@ public class RoomDaoImpl extends AbstractDaoImp<Room> implements RoomDao {
             if (!room.getFromDate().before(room.getToDate())) {
                 return true;
             }
-            if (room.isBooked() && room.getUserId() == null) {
+            if (room.getToDate().after(room.getFromDate()) && room.getUserId() == null) {
                 return true;
             }
         }

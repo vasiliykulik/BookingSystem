@@ -34,10 +34,9 @@ public class Room implements Identity {
         this.id = Math.abs(UUID.randomUUID().getLeastSignificantBits());
         this.price = price;
         this.numberOfVisitors = numberOfVisitors;
+        this.fromDate = Calendar.getInstance().getTime();
+        this.toDate = Calendar.getInstance().getTime();
         this.hotelId = hotelId;
-
-        RoomDao roomDao = new RoomDaoImpl();
-        roomDao.save(this);
     }
 
     @Override
@@ -111,9 +110,8 @@ public class Room implements Identity {
     }
 
     @JsonIgnore
-    public boolean isBooked() {
-        Date currentDate = Calendar.getInstance().getTime();
-        return toDate.after(currentDate) && fromDate.before(currentDate);
+    public boolean isBooked(Date fromDate, Date toDate) {
+        return this.toDate.after(toDate) && this.fromDate.before(fromDate);
     }
 
     @Override

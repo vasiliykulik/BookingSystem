@@ -36,6 +36,9 @@ public class Main {
 //        userController.getAllUsers().forEach(System.out::println);
 
 
+        HotelDao hotelDao = new HotelDaoImpl();
+//        System.out.println(hotelDao.getById(6124218799539178536L));
+
         Room room = new Room (350, 3, 6124218799539178536L);
 
 //        Date currentDate = Calendar.getInstance().getTime();

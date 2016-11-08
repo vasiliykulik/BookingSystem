@@ -14,18 +14,6 @@ public class UserDaoImpl extends AbstractDaoImp<User> implements UserDao {
     }
 
     @Override
-    public User save(User user) {
-        //TODO Logic
-        return null;
-    }
-
-    @Override
-    public boolean delete(User user) {
-        //TODO Logic
-        return false;
-    }
-
-    @Override
     public boolean isDataCorrupted(List<User> userList) {
         User user;
         if (userList == null) {
@@ -45,5 +33,14 @@ public class UserDaoImpl extends AbstractDaoImp<User> implements UserDao {
             }
         }
         return false;
+    }
+
+    @Override
+    public boolean isLoggedIn(Long userId) throws Exception {
+        if (!isContainId(userId)) {
+            throw new Exception();
+            //TODO Exception
+        }
+        return true;
     }
 }

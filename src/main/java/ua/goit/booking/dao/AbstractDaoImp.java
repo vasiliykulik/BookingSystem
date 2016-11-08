@@ -2,17 +2,17 @@ package ua.goit.booking.dao;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import ua.goit.booking.entity.Room;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-public abstract class AbstractDaoImp<T extends Identity> implements AbstractDao<T> {
+public class AbstractDaoImp<T extends Identity> implements AbstractDao<T> {
 
+    public static Date currentDate = Calendar.getInstance().getTime();
     private File file;
     private TypeReference<List<T>> typeReference;
 
@@ -56,10 +56,36 @@ public abstract class AbstractDaoImp<T extends Identity> implements AbstractDao<
     }
 
     @Override
-    public abstract T save(T t);
+    public T save(T t) {
+        if (t == null) {
+            System.out.println("This element cannot be saved");
+            //TODO Exception
+            return null;
+        }
+        if (update(t)) {
+            return t;
+        }
+        List<T> all = getAll();
+        all.add(t);
+        updateBase(all);
+        return t;
+    };
 
     @Override
-    public abstract boolean delete(T t);
+    public boolean delete(T t) {
+        if (t == null || !isContainId(t.getId())) {
+            return false;
+        }
+        List<T> all = getAll();
+        Iterator<T> iterator = all.iterator();
+        while (iterator.hasNext()) {
+            T element = iterator.next();
+            if (element.getId().equals(t.getId())) {
+                iterator.remove();
+            }
+        }
+        return true;
+    }
 
     @Override
     public void updateBase(List<T> list) {
@@ -106,8 +132,15 @@ public abstract class AbstractDaoImp<T extends Identity> implements AbstractDao<
 
     @Override
     public boolean isContainId(Long id) {
+
         return getAll().stream()
                 .map(Identity::getId)
-                .anyMatch(identity -> identity == id);
+                .anyMatch(identity -> identity.equals(id));
+    }
+
+    @Override
+    public T getLastSaved() {
+        List<T> all = getAll();
+        return all.get(all.size() - 1);
     }
 }

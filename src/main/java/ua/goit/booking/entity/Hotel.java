@@ -73,6 +73,9 @@ public class Hotel implements Identity {
         this.roomsId = rooms.stream().map(Room::getId).collect(Collectors.toList());
     }
 
+    public void setRoomsId(List<Long> roomsId) {
+        this.roomsId = roomsId;
+    }
 
     /* public RoomDAO getRoomDAO() {
         return roomDAO;
