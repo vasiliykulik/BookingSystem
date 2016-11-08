@@ -69,7 +69,7 @@ public class Main {
         // Найте гостиницу по имени
 
         HotelController hotelController = new HotelController();
-        hotelController.findHotelByName("Radisso").forEach(System.out::println);
+        hotelController.findHotelByName("Radisson").forEach(System.out::println);
 
         /*
        При Тесте Main, при вызове метода findHotelByName
