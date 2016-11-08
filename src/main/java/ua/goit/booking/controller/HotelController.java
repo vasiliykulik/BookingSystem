@@ -27,10 +27,9 @@ public class HotelController {
         try {
             result.addAll(allHotels.stream()
                     .filter(hotel -> hotel.getHotelName().equals(name)).collect(Collectors.toList()));
-                if (result.isEmpty()) {
-                    throw new DataCorruptionException("There is no hotel with such name");
-                }
-
+            if (result.isEmpty()) {
+                throw new DataCorruptionException("There is no hotel with such name");
+            }
         } catch (RuntimeException re) {
             re.printStackTrace();
         }
