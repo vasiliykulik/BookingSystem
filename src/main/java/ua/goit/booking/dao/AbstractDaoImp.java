@@ -144,7 +144,6 @@ public class AbstractDaoImp<T extends Identity> implements AbstractDao<T> {
 
     @Override
     public boolean isContainId(Long id) {
-
         return getAll().stream()
                 .map(Identity::getId)
                 .anyMatch(identity -> identity.equals(id));
