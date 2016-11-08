@@ -2,6 +2,7 @@ package ua.goit.booking.dao;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import ua.goit.booking.entity.User;
+import ua.goit.booking.exception.OperationFailException;
 
 import java.io.File;
 import java.util.List;
@@ -36,10 +37,13 @@ public class UserDaoImpl extends AbstractDaoImp<User> implements UserDao {
     }
 
     @Override
-    public boolean isLoggedIn(Long userId) throws Exception {
+    public boolean isLoggedIn(Long userId) {
         if (!isContainId(userId)) {
-            throw new Exception();
-            //TODO Exception
+            try {
+                throw new OperationFailException("User with such userId has not registered in system.");
+            } catch (OperationFailException ope) {
+                ope.printStackTrace();
+            }
         }
         return true;
     }

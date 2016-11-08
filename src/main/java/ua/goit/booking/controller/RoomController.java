@@ -479,7 +479,9 @@ public class RoomController {
                 return null;
             }
             rooms = hotelDao.getById(room.getHotelId()).getRooms();
-            result.addAll(rooms.stream().filter(room1 -> (!room1.isBooked(AbstractDaoImp.currentDate, AbstractDaoImp.currentDate))).collect(Collectors.toList()));
+            result.addAll(rooms.stream()
+                    .filter(room1 -> (!room1.isBooked(AbstractDaoImp.currentDate, AbstractDaoImp.currentDate)))
+                    .collect(Collectors.toList()));
             if (result.isEmpty()) {
                 try {
                     throw new OperationFailException("There's no such rooms.");

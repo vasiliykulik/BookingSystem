@@ -61,13 +61,6 @@ public class HotelController {
 
     public void bookRoom(long roomId, long userId, long hotelId, Date fromDate, Date toDate) {
         UserDao userDao = new UserDaoImpl();
-        try {
-            userDao.isLoggedIn(userId);
-        } catch (Exception e) {
-            //TODO Catch Exception
-            e.printStackTrace();
-            return;
-        }
         HotelDao hotelDao = new HotelDaoImpl();
         List<Hotel> hotels = hotelDao.getAll();
         try {
@@ -78,6 +71,7 @@ public class HotelController {
             dce.printStackTrace();
         }
         try {
+            userDao.isLoggedIn(userId);
             for (Hotel hotel : hotels) {
                 if (hotelId == hotel.getId()) {
                     for (Room room : hotel.getRooms()) {
@@ -123,13 +117,6 @@ public class HotelController {
 
     public void cancelReservation(long roomId, long userId, long hotelId) {
         UserDao userDao = new UserDaoImpl();
-        try {
-            userDao.isLoggedIn(userId);
-        } catch (Exception e) {
-            //TODO Catch Exception
-            e.printStackTrace();
-            return;
-        }
         HotelDao hotelDao = new HotelDaoImpl();
         List<Hotel> hotels = hotelDao.getAll();
         try {
@@ -139,47 +126,52 @@ public class HotelController {
         } catch (DataCorruptionException dce) {
             dce.printStackTrace();
         }
-        for (Hotel hotel : hotels) {
-            if (hotelId == hotel.getId()) {
-                for (Room room : hotel.getRooms()) {
-                    if (roomId == room.getId()) {
-                        if (room.getUserId() != null) {
-                            if (room.getUserId() == userId) {
-                                room.setToDate(room.getFromDate());
-                                room.setUserId(null);
-                                try {
-                                    throw new OperationSuccessException("Success! "
-                                            + room + " reservation has been canceled!");
-                                } catch (OperationSuccessException ose) {
-                                    ose.printStackTrace();
+        try {
+            userDao.isLoggedIn(userId);
+            for (Hotel hotel : hotels) {
+                if (hotelId == hotel.getId()) {
+                    for (Room room : hotel.getRooms()) {
+                        if (roomId == room.getId()) {
+                            if (room.getUserId() != null) {
+                                if (room.getUserId() == userId) {
+                                    room.setToDate(room.getFromDate());
+                                    room.setUserId(null);
+                                    try {
+                                        throw new OperationSuccessException("Success! "
+                                                + room + " reservation has been canceled!");
+                                    } catch (OperationSuccessException ose) {
+                                        ose.printStackTrace();
+                                    }
+                                    hotelDao.updateBase(hotels);
+                                    return;
+                                } else {
+                                    try {
+                                        throw new OperationFailException("Sorry! You haven't booked this room!");
+                                    } catch (OperationFailException ofe) {
+                                        ofe.printStackTrace();
+                                    }
+                                    return;
                                 }
-                                hotelDao.updateBase(hotels);
-                                return;
                             } else {
                                 try {
-                                    throw new OperationFailException("Sorry! You haven't booked this room!");
+                                    throw new OperationFailException("Sorry! " + room + " has not booked!");
                                 } catch (OperationFailException ofe) {
                                     ofe.printStackTrace();
                                 }
                                 return;
                             }
-                        } else {
-                            try {
-                                throw new OperationFailException("Sorry! " + room + " has not booked!");
-                            } catch (OperationFailException ofe) {
-                                ofe.printStackTrace();
-                            }
-                            return;
                         }
                     }
+                    try {
+                        throw new OperationFailException("Sorry! There's no such room in the hotel.");
+                    } catch (OperationFailException ofe) {
+                        ofe.printStackTrace();
+                    }
+                    return;
                 }
-                try {
-                    throw new OperationFailException("Sorry! There's no such room in the hotel.");
-                } catch (OperationFailException ofe) {
-                    ofe.printStackTrace();
-                }
-                return;
             }
+        } catch (RuntimeException re) {
+            re.printStackTrace();
         }
         try {
             throw new OperationFailException("Sorry! There's no such hotels.");
