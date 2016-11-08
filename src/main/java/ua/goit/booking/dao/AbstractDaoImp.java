@@ -69,9 +69,12 @@ public class AbstractDaoImp<T extends Identity> implements AbstractDao<T> {
 
     @Override
     public List<T> getAllById(List<Long> ids) {
-        List<T> result = getAll().stream()
-                .filter(t -> ids.stream().anyMatch(id -> id.equals(t.getId())))
-                .collect(Collectors.toList());
+        List<T> result = null;
+        if (ids != null) {
+            result = getAll().stream()
+                    .filter(t -> ids.stream().anyMatch(id -> id.equals(t.getId())))
+                    .collect(Collectors.toList());
+        }
         try {
             if (result.isEmpty()) {
                 throw new DataRequestException("Error! No data with such IDs");
