@@ -28,7 +28,7 @@ public class HotelController {
             result.addAll(allHotels.stream()
                     .filter(hotel -> hotel.getHotelName().equals(name)).collect(Collectors.toList()));
             if (result.isEmpty()) {
-                throw new DataCorruptionException("There is no hotel with such name");
+                throw new DataCorruptionException("There's no hotel with such name");
             }
         } catch (RuntimeException re) {
             re.printStackTrace();
@@ -229,6 +229,11 @@ public class HotelController {
             }
             result = new ArrayList<Hotel>(hotels);
             if (result.isEmpty()) {
+                try {
+                    throw new OperationFailException("There's no such rooms.");
+                } catch (OperationFailException ofe) {
+                    ofe.printStackTrace();
+                }
                 return null;
             }
         } catch (RuntimeException re) {
@@ -253,6 +258,11 @@ public class HotelController {
                     .filter(room -> !(room.getToDate().after(currentDate) && room.getFromDate().before(currentDate)))
                     .collect(Collectors.toList());
             if (result.isEmpty()) {
+                try {
+                    throw new OperationFailException("There's no such rooms.");
+                } catch (OperationFailException ofe) {
+                    ofe.printStackTrace();
+                }
                 return null;
             }
         } catch (RuntimeException re) {
