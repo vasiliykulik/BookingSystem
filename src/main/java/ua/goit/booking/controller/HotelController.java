@@ -1,8 +1,6 @@
 package ua.goit.booking.controller;
 
-import ua.goit.booking.dao.AbstractDao;
-import ua.goit.booking.dao.HotelDao;
-import ua.goit.booking.dao.HotelDaoImpl;
+import ua.goit.booking.dao.*;
 import ua.goit.booking.entity.Hotel;
 import ua.goit.booking.entity.Room;
 import ua.goit.booking.exception.DataCorruptionException;
@@ -62,6 +60,14 @@ public class HotelController {
     }
 
     public void bookRoom(long roomId, long userId, long hotelId, Date fromDate, Date toDate) {
+        UserDao userDao = new UserDaoImpl();
+        try {
+            userDao.isLoggedIn(userId);
+        } catch (Exception e) {
+            //TODO Catch Exception
+            e.printStackTrace();
+            return;
+        }
         HotelDao hotelDao = new HotelDaoImpl();
         List<Hotel> hotels = hotelDao.getAll();
         try {
@@ -76,7 +82,7 @@ public class HotelController {
                 if (hotelId == hotel.getId()) {
                     for (Room room : hotel.getRooms()) {
                         if (roomId == room.getId()) {
-                            if (!room.isBooked()) {
+                            if (!room.isBooked(fromDate, toDate)) {
                                 room.setFromDate(fromDate);
                                 room.setToDate(toDate);
                                 room.setUserId(userId);
@@ -116,6 +122,14 @@ public class HotelController {
     }
 
     public void cancelReservation(long roomId, long userId, long hotelId) {
+        UserDao userDao = new UserDaoImpl();
+        try {
+            userDao.isLoggedIn(userId);
+        } catch (Exception e) {
+            //TODO Catch Exception
+            e.printStackTrace();
+            return;
+        }
         HotelDao hotelDao = new HotelDaoImpl();
         List<Hotel> hotels = hotelDao.getAll();
         try {
@@ -129,7 +143,7 @@ public class HotelController {
             if (hotelId == hotel.getId()) {
                 for (Room room : hotel.getRooms()) {
                     if (roomId == room.getId()) {
-                        if (room.isBooked()) {
+                        if (room.getUserId() != null) {
                             if (room.getUserId() == userId) {
                                 room.setToDate(room.getFromDate());
                                 room.setUserId(null);

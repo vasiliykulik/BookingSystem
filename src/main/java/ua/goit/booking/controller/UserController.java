@@ -1,9 +1,6 @@
 package ua.goit.booking.controller;
 
-import ua.goit.booking.dao.AbstractDao;
-import ua.goit.booking.dao.HotelDaoImpl;
-import ua.goit.booking.dao.RoomDaoImpl;
-import ua.goit.booking.dao.UserDaoImpl;
+import ua.goit.booking.dao.*;
 import ua.goit.booking.entity.Hotel;
 import ua.goit.booking.entity.Room;
 import ua.goit.booking.entity.User;
@@ -427,4 +424,15 @@ public class UserController {
         }
         return budget;
     }
+
+    public User logIn (User user) {
+        UserDao userDao = new UserDaoImpl();
+        return userDao.save(user);
+    }
+
+    public boolean deleteUser (User user) {
+        UserDao userDao = new UserDaoImpl();
+        return userDao.delete(user);
+    }
+
 }

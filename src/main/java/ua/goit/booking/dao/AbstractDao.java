@@ -22,4 +22,5 @@ public interface AbstractDao<T> {
 
     boolean isContainId(Long id);
 
+    T getLastSaved();
 }
