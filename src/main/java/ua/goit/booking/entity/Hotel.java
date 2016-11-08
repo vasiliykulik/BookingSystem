@@ -15,7 +15,6 @@ public class Hotel implements Identity {
     private String hotelName;
     private String cityName;
     private List<Long> roomsId;
-    // private DAO dao
 
     public Hotel() {
 
