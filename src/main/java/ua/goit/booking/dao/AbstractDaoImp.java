@@ -3,6 +3,7 @@ package ua.goit.booking.dao;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import ua.goit.booking.entity.Room;
+import ua.goit.booking.exception.DataCorruptionException;
 import ua.goit.booking.exception.DataRequestException;
 import ua.goit.booking.exception.OperationFailException;
 
@@ -37,18 +38,33 @@ public class AbstractDaoImp<T extends Identity> implements AbstractDao<T> {
 
     @Override
     public T getById(long id) {
-        List<T> result = getAll().stream()
-                .filter(t -> t.getId() == id)
-                .collect(Collectors.toList());
+        List<T> result = null;
+        List<T> tList;
+        T t1 = null;
         try {
-            if (result.isEmpty()) {
-                throw new DataRequestException("Error! No data with such ID");
+            tList = getAll();
+            try {
+                if (isDataCorrupted(tList)) {
+                    throw new DataCorruptionException("WARNING! List<Hotel> contains corrupted data.");
+                }
+            } catch (DataCorruptionException dce) {
+                dce.printStackTrace();
             }
+            result = tList.stream()
+                    .filter(t -> t.getId() == id)
+                    .collect(Collectors.toList());
+            if (result.isEmpty()) {
+                try {
+                    throw new OperationFailException("Error! No data with such ID");
+                } catch (OperationFailException ofe) {
+                    ofe.printStackTrace();
+                }
+            }
+            t1 = result.get(0);
         } catch (RuntimeException re) {
             re.printStackTrace();
         }
-
-        return result.get(0);
+        return t1;
     }
 
     @Override
