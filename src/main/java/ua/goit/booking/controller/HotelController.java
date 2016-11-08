@@ -79,11 +79,6 @@ public class HotelController {
                                 room.setFromDate(fromDate);
                                 room.setToDate(toDate);
                                 room.setUserId(userId);
-//                                try {
-//                                    throw new OperationSuccessException("Success! " + room + " has been booked!");
-//                                } catch (OperationSuccessException ose) {
-//                                    ose.printStackTrace();
-//                                }
                                 hotelDao.updateBase(hotels);
                                 return;
                             } else {
@@ -135,12 +130,6 @@ public class HotelController {
                                 if (room.getUserId() == userId) {
                                     room.setToDate(room.getFromDate());
                                     room.setUserId(null);
-//                                    try {
-//                                        throw new OperationSuccessException("Success! "
-//                                                + room + " reservation has been canceled!");
-//                                    } catch (OperationSuccessException ose) {
-//                                        ose.printStackTrace();
-//                                    }
                                     hotelDao.updateBase(hotels);
                                     return;
                                 } else {
