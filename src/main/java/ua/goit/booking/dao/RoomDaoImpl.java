@@ -3,6 +3,7 @@ package ua.goit.booking.dao;
 import com.fasterxml.jackson.core.type.TypeReference;
 import ua.goit.booking.entity.Hotel;
 import ua.goit.booking.entity.Room;
+import ua.goit.booking.exception.DataCorruptionException;
 import ua.goit.booking.exception.OperationFailException;
 
 import java.io.File;
@@ -18,6 +19,16 @@ public class RoomDaoImpl extends AbstractDaoImp<Room> implements RoomDao {
 
     @Override
     public boolean delete(Room room) {
+        HotelDao hotelDao = new HotelDaoImpl();
+        List<Room> allRooms;
+        List<Room> roomList = getAll();
+        try {
+            if (isDataCorrupted(roomList)) {
+                throw new DataCorruptionException("WARNING! List<Room> contains corrupted data.");
+            }
+        } catch (DataCorruptionException dce) {
+            dce.printStackTrace();
+        }
         if (room == null) {
             try {
                 throw new OperationFailException("You've tried to delete null Room!");
@@ -26,7 +37,6 @@ public class RoomDaoImpl extends AbstractDaoImp<Room> implements RoomDao {
             }
             return false;
         }
-        HotelDao hotelDao = new HotelDaoImpl();
         Hotel hotel = hotelDao.getById(room.getHotelId());
         if (hotel.getRoomsId().contains(room.getId())) {
             List<Room> hotelRooms = hotel.getRooms().stream()
@@ -37,7 +47,8 @@ public class RoomDaoImpl extends AbstractDaoImp<Room> implements RoomDao {
         if (!isContainId(room.getId())) {
             return false;
         }
-        List<Room> allRooms = getAll().stream()
+
+        allRooms = getAll().stream()
                 .filter(aRoom -> !aRoom.getId().equals(room.getId()))
                 .collect(Collectors.toList());
         updateBase(allRooms);
