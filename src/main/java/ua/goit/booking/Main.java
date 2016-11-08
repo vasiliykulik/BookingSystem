@@ -6,6 +6,7 @@ import ua.goit.booking.controller.UserController;
 import ua.goit.booking.dao.*;
 import ua.goit.booking.entity.Room;
 import ua.goit.booking.entity.User;
+import ua.goit.booking.exception.DataCorruptionException;
 
 import java.util.*;
 
@@ -39,9 +40,12 @@ public class Main {
         HotelDao hotelDao = new HotelDaoImpl();
 //        System.out.println(hotelDao.getById(6124218799539178536L));
 
-        Room room = new Room (350, 3, 6124218799539178536L);
+        Room room = new Room(350, 3, 6124218799539178536L);
 
-//        Date currentDate = Calendar.getInstance().getTime();
+        Date currentDate = Calendar.getInstance().getTime();
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(2016, Calendar.NOVEMBER, 15, 10, 00);
+        Date endDate = calendar.getTime();
 
  /*       RoomController roomController = new RoomController();
 //        List<Room> rooms = roomController.getAllRooms();
@@ -67,10 +71,16 @@ public class Main {
 
         // Тест Main Василий.Виталий
         // Найти гостиницу по Городу
-
+        /*
+       При Тесте Main, при вызове метода findHotelByCity
+       и передачи ему несуществующего запроса "Кие" - получаем NullPointerException
+       Решение: if (result.isEmpty()) {
+            throw new DataCorruptionException("There is no such City, please check city name and try again");
+        }*/
         // Найти гостиницу по имени
         HotelController hotelController = new HotelController();
-        hotelController.findHotelByName("Radisson").forEach(System.out::println);
+        hotelController.bookRoom(6675363734328343759L, 7613311618539299703L, 6124218799539178536L, currentDate, endDate);
+        // hotelController.findHotelByName("Radisson").forEach(System.out::println);
         /*
        При Тесте Main, при вызове метода findHotelByName
        и передачи ему несуществующего запроса "Radiss" - получаем NullPointerException
