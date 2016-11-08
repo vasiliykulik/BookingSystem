@@ -38,9 +38,14 @@ public class AbstractDaoImp<T extends Identity> implements AbstractDao<T> {
         List<T> result = getAll().stream()
                 .filter(t -> t.getId() == id)
                 .collect(Collectors.toList());
-        if (result.isEmpty()) {
-            return null;
+        try {
+            if (result.isEmpty()) {
+                return null;
+            }
+        } catch (RuntimeException re) {
+            re.printStackTrace();
         }
+
         return result.get(0);
     }
 
@@ -49,8 +54,12 @@ public class AbstractDaoImp<T extends Identity> implements AbstractDao<T> {
         List<T> result = getAll().stream()
                 .filter(t -> ids.stream().anyMatch(id -> id.equals(t.getId())))
                 .collect(Collectors.toList());
-        if (result.isEmpty()) {
-            return null;
+        try {
+            if (result.isEmpty()) {
+                return null;
+            }
+        } catch (RuntimeException re) {
+            re.printStackTrace();
         }
         return result;
     }

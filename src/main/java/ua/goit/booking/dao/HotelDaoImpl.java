@@ -3,6 +3,7 @@ package ua.goit.booking.dao;
 import com.fasterxml.jackson.core.type.TypeReference;
 import ua.goit.booking.entity.Hotel;
 import ua.goit.booking.entity.Room;
+import ua.goit.booking.exception.OperationFailException;
 
 import java.io.File;
 import java.util.Iterator;
@@ -21,9 +22,7 @@ public class HotelDaoImpl extends AbstractDaoImp<Hotel> implements HotelDao {
             return false;
         }
         RoomDao roomDao = new RoomDaoImpl();
-        for (Room room : hotel.getRooms()) {
-            roomDao.delete(room);
-        }
+        hotel.getRooms().forEach(roomDao::delete);
         List<Hotel> allHotels = getAll();
         Iterator<Hotel> iterator = allHotels.iterator();
         while (iterator.hasNext()) {
@@ -66,12 +65,13 @@ public class HotelDaoImpl extends AbstractDaoImp<Hotel> implements HotelDao {
 
     @Override
     public Room addRoom(Hotel hotel, Room room) {
-        if (room == null
-                || hotel == null
-                || !room.getHotelId().equals(hotel.getId())) {
-            // ID поля всіх класів у нас мають тип класу-обгортки Long, порівнювати треба через equals()!
-            System.out.println("This room cannot be saved!");
-            //TODO Exception
+        if (room == null || hotel == null || !room.getHotelId().equals(hotel.getId())) {
+            try {
+                throw new OperationFailException("This room cannot be saved!");
+            } catch (OperationFailException ofe) {
+                ofe.printStackTrace();
+            }
+
             return null;
         }
         List<Long> roomsId = hotel.getRoomsId();

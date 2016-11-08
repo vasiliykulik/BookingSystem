@@ -3,6 +3,7 @@ package ua.goit.booking.dao;
 import com.fasterxml.jackson.core.type.TypeReference;
 import ua.goit.booking.entity.Hotel;
 import ua.goit.booking.entity.Room;
+import ua.goit.booking.exception.OperationFailException;
 
 import java.io.File;
 import java.util.List;
@@ -18,7 +19,11 @@ public class RoomDaoImpl extends AbstractDaoImp<Room> implements RoomDao {
     @Override
     public boolean delete(Room room) {
         if (room == null) {
-            //TODO Exception
+            try {
+                throw new OperationFailException("You've tried to delete null Room!");
+            } catch (OperationFailException ofe) {
+                ofe.printStackTrace();
+            }
             return false;
         }
         HotelDao hotelDao = new HotelDaoImpl();
