@@ -12,10 +12,12 @@ public interface AbstractDao<T> {
 
     T save(T t);
 
-    void delete(T t);
+    boolean delete(T t);
 
     void update(List<T> list);
 
     boolean isDataCorrupted(List<T> list);
+
+    boolean isContainId(Long id);
 
 }

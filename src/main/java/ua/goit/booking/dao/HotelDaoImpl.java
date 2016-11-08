@@ -5,7 +5,9 @@ import ua.goit.booking.entity.Hotel;
 import ua.goit.booking.entity.Room;
 
 import java.io.File;
-import java.util.List;
+import java.util.*;
+import java.util.function.*;
+import java.util.stream.*;
 
 public class HotelDaoImpl extends AbstractDaoImp<Hotel> implements HotelDao {
 
@@ -21,8 +23,9 @@ public class HotelDaoImpl extends AbstractDaoImp<Hotel> implements HotelDao {
     }
 
     @Override
-    public void delete(Hotel hotel) {
+    public boolean delete(Hotel hotel) {
         //TODO Logic
+        return false;
     }
 
     @Override
@@ -56,7 +59,24 @@ public class HotelDaoImpl extends AbstractDaoImp<Hotel> implements HotelDao {
 
     @Override
     public Room addRoom(Hotel hotel, Room room) {
-        //TODO Logic
-        return null;
+        if (room == null
+                || hotel == null
+                || room.getHotelId() != hotel.getId()) {
+            System.out.println("This room cannot be saved!");
+            //TODO Exception
+            return null;
+        }
+        List<Long> roomsId = hotel.getRoomsId();
+        if (roomsId.contains(room.getId())) {
+            return room;
+        }
+        roomsId.add(room.getId());
+        List<Hotel> hotels = getAll();
+        for (Hotel oldHotel : hotels) {
+            if (oldHotel.getId() == hotel.getId()) {
+                oldHotel = hotel;
+            }
+        }
+        return room;
     }
 }

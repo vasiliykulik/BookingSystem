@@ -2,12 +2,12 @@ package ua.goit.booking.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import ua.goit.booking.dao.Identity;
-import ua.goit.booking.dao.UserDaoImpl;
+import ua.goit.booking.dao.*;
 
 import java.lang.reflect.Field;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -24,10 +24,20 @@ public class Room implements Identity {
     }
 
     public Room(int price, int numberOfVisitors, Long hotelId) {
+        HotelDao hotelDao = new HotelDaoImpl();
+        if (!hotelDao.isContainId(hotelId)) {
+            //TODO Exception
+            System.out.println("Hotel with this ID does not exist");
+            return;
+        }
+
         this.id = Math.abs(UUID.randomUUID().getLeastSignificantBits());
         this.price = price;
         this.numberOfVisitors = numberOfVisitors;
         this.hotelId = hotelId;
+
+        RoomDao roomDao = new RoomDaoImpl();
+        roomDao.save(this);
     }
 
     @Override

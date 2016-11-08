@@ -73,9 +73,6 @@ public class Hotel implements Identity {
         this.roomsId = rooms.stream().map(Room::getId).collect(Collectors.toList());
     }
 
-    public void addRoom(Room room) {
-        //TODO
-    }
 
     /* public RoomDAO getRoomDAO() {
         return roomDAO;

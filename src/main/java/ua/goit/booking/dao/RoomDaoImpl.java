@@ -1,13 +1,13 @@
 package ua.goit.booking.dao;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import ua.goit.booking.entity.Hotel;
 import ua.goit.booking.entity.Room;
 
 import java.io.File;
-import java.io.IOException;
+import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class RoomDaoImpl extends AbstractDaoImp<Room> implements RoomDao {
 
@@ -25,31 +25,46 @@ public class RoomDaoImpl extends AbstractDaoImp<Room> implements RoomDao {
 
         HotelDao hotelDao = new HotelDaoImpl();
         Hotel hotel = hotelDao.getById(room.getHotelId());
-
-        if (hotel.getRoomsId().contains(room.getId())) {
-            //TODO Logic, check current Logic
-            System.out.println("This room is already exists!");
-            return room;
+        try {
+            hotelDao.addRoom(hotel, room);
+        } catch (Exception e) {
+            //TODO Catching Exception from HotelDao
+            return null;
         }
-
-        hotel.addRoom(room);
 
         List<Room> rooms = getAll();
-        rooms.add(room);
 
-        ObjectMapper mapper = new ObjectMapper();
-
-        try {
-            mapper.writeValue(new File("static/rooms.json"), rooms);
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (isContainId(room.getId())) {
+            Iterator<Room> iterator = rooms.iterator();
+            Room aRoom = iterator.next();
+            if (aRoom.getId() == room.getId()) {
+                int index = rooms.indexOf(aRoom);
+                rooms.set(index, room);
+            }
+        } else {
+            rooms.add(room);
         }
+
+        update(rooms);
         return room;
     }
 
     @Override
-    public void delete(Room room) {
-        //TODO Logic
+    public boolean delete(Room room) {
+        if (room == null) {
+            //TODO Exception
+            return false;
+        }
+        HotelDao hotelDao = new HotelDaoImpl();
+        Hotel hotel = hotelDao.getById(room.getHotelId());
+        if (!hotel.getRoomsId().contains(room.getId())) {
+            return false;
+        }
+        List<Room> hotelRooms = hotel.getRooms().stream()
+                .filter(r -> !r.getId().equals(room.getId()))
+                .collect(Collectors.toList());
+        hotel.setRooms(hotelRooms);
+        return true;
     }
 
     @Override

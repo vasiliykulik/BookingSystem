@@ -36,7 +36,10 @@ public class Main {
 //        userController.getAllUsers().forEach(System.out::println);
 
 
-        Date currentDate = Calendar.getInstance().getTime();
+        Room room = new Room (350, 3, 6124218799539178536L);
+
+//        Date currentDate = Calendar.getInstance().getTime();
+
  /*       RoomController roomController = new RoomController();
 //        List<Room> rooms = roomController.getAllRooms();
 //        for (Room room : rooms) {
@@ -61,8 +64,10 @@ public class Main {
 
         // Тест Main Василий.Виталий
         // Найте гостиницу по имени
-        HotelController hotelController = new HotelController();
-        hotelController.findHotelByName("Radisso").forEach(System.out::println);
+
+//        HotelController hotelController = new HotelController();
+//        hotelController.findHotelByName("Radisso").forEach(System.out::println);
+
         /*
        При Тесте Main, при вызове метода findHotelByName
        и передачи ему несуществующего запроса "Radiss" - получаем NullPointerException

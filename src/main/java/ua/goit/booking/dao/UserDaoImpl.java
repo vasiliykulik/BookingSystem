@@ -20,8 +20,9 @@ public class UserDaoImpl extends AbstractDaoImp<User> implements UserDao {
     }
 
     @Override
-    public void delete(User user) {
+    public boolean delete(User user) {
         //TODO Logic
+        return false;
     }
 
     @Override

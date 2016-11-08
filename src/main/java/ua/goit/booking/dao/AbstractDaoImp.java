@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public abstract class AbstractDaoImp<T extends Identity> implements AbstractDao<T> {
@@ -57,7 +58,7 @@ public abstract class AbstractDaoImp<T extends Identity> implements AbstractDao<
     public abstract T save(T t);
 
     @Override
-    public abstract void delete(T t);
+    public abstract boolean delete(T t);
 
     @Override
     public void update(List<T> list) {
@@ -83,5 +84,12 @@ public abstract class AbstractDaoImp<T extends Identity> implements AbstractDao<
             }
         }
         return false;
+    }
+
+    @Override
+    public boolean isContainId(Long id) {
+        return getAll().stream()
+                .map(Identity::getId)
+                .anyMatch(identity -> identity == id);
     }
 }
