@@ -32,6 +32,11 @@ public class UserController {
             userSet.addAll(allUsers);
             result.addAll(userSet);
             if (result.isEmpty()) {
+                try {
+                    throw new OperationFailException("Users not found.");
+                } catch (OperationFailException ofe) {
+                    ofe.printStackTrace();
+                }
                 return null;
             }
         } catch (RuntimeException re) {
@@ -72,6 +77,11 @@ public class UserController {
             userSet.addAll(rooms.stream().map(Room::getUser).collect(Collectors.toList()));
             result.addAll(userSet);
             if (result.isEmpty()) {
+                try {
+                    throw new OperationFailException("Users not found.");
+                } catch (OperationFailException ofe) {
+                    ofe.printStackTrace();
+                }
                 return null;
             }
         } catch (RuntimeException re) {
@@ -117,6 +127,11 @@ public class UserController {
             userSet.addAll(rooms.stream().map(Room::getUser).collect(Collectors.toList()));
             result.addAll(userSet);
             if (result.isEmpty()) {
+                try {
+                    throw new OperationFailException("Users not found.");
+                } catch (OperationFailException ofe) {
+                    ofe.printStackTrace();
+                }
                 return null;
             }
         } catch (RuntimeException re) {
@@ -180,6 +195,11 @@ public class UserController {
             userSet.addAll(userDao.getAllById(usersIds));
             result.addAll(userSet);
             if (result.isEmpty()) {
+                try {
+                    throw new OperationFailException("Users not found.");
+                } catch (OperationFailException ofe) {
+                    ofe.printStackTrace();
+                }
                 return null;
             }
         } catch (RuntimeException re) {
@@ -205,6 +225,11 @@ public class UserController {
             rooms.addAll(allRooms.stream()
                     .filter(room -> (room.getUserId().equals(userId))).collect(Collectors.toList()));
             if (rooms.isEmpty()) {
+                try {
+                    throw new OperationFailException("No rooms booked on this userId.");
+                } catch (OperationFailException ofe) {
+                    ofe.printStackTrace();
+                }
                 return -1;
             }
         } catch (RuntimeException re) {
@@ -248,6 +273,11 @@ public class UserController {
                         .collect(Collectors.toList()));
             }
             if (resultRooms.isEmpty()) {
+                try {
+                    throw new OperationFailException("No rooms booked on this lastName.");
+                } catch (OperationFailException ofe) {
+                    ofe.printStackTrace();
+                }
                 return -1;
             }
         } catch (RuntimeException re) {
@@ -292,6 +322,12 @@ public class UserController {
                         .collect(Collectors.toList()));
             }
             if (resultRooms.isEmpty()) {
+                try {
+                    throw new OperationFailException("No rooms booked on this firstName & lastName.");
+                } catch (OperationFailException ofe) {
+                    ofe.printStackTrace();
+                }
+
                 return -1;
             }
         } catch (RuntimeException re) {
@@ -318,6 +354,11 @@ public class UserController {
             rooms.addAll(allRooms.stream()
                     .filter(room -> (room.getUserId().equals(userId))).collect(Collectors.toList()));
             if (rooms.isEmpty()) {
+                try {
+                    throw new OperationFailException("No rooms booked on this userId.");
+                } catch (OperationFailException ofe) {
+                    ofe.printStackTrace();
+                }
                 return -1;
             }
             for (Room room : rooms) {
@@ -365,6 +406,11 @@ public class UserController {
                         .collect(Collectors.toList()));
             }
             if (resultRooms.isEmpty()) {
+                try {
+                    throw new OperationFailException("No rooms booked on this lastName.");
+                } catch (OperationFailException ofe) {
+                    ofe.printStackTrace();
+                }
                 return -1;
             }
             for (Room resultRoom : resultRooms) {
@@ -414,6 +460,11 @@ public class UserController {
                         .collect(Collectors.toList()));
             }
             if (resultRooms.isEmpty()) {
+                try {
+                    throw new OperationFailException("No rooms booked on this firstName & lastName.");
+                } catch (OperationFailException ofe) {
+                    ofe.printStackTrace();
+                }
                 return -1;
             }
             for (Room resultRoom : resultRooms) {
@@ -425,14 +476,42 @@ public class UserController {
         return budget;
     }
 
-    public User logIn (User user) {
+    public User logIn(User user) {
         UserDao userDao = new UserDaoImpl();
-        return userDao.save(user);
+        List<User> allUsers = userDao.getAll();
+        User user1 = null;
+        try {
+            if (userDao.isDataCorrupted(allUsers)) {
+                throw new DataCorruptionException("WARNING! List<User> contains corrupted data.");
+            }
+        } catch (DataCorruptionException dce) {
+            dce.printStackTrace();
+        }
+        try {
+            user1 = userDao.save(user);
+        } catch (RuntimeException re) {
+            re.printStackTrace();
+        }
+        return user1;
     }
 
-    public boolean deleteUser (User user) {
+    public boolean deleteUser(User user) {
         UserDao userDao = new UserDaoImpl();
-        return userDao.delete(user);
+        List<User> allUsers = userDao.getAll();
+        boolean successFlag = false;
+        try {
+            if (userDao.isDataCorrupted(allUsers)) {
+                throw new DataCorruptionException("WARNING! List<User> contains corrupted data.");
+            }
+        } catch (DataCorruptionException dce) {
+            dce.printStackTrace();
+        }
+        try {
+            successFlag = userDao.delete(user);
+        } catch (RuntimeException re) {
+            re.printStackTrace();
+        }
+        return successFlag;
     }
 
 }
