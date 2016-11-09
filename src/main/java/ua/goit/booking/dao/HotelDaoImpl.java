@@ -28,7 +28,7 @@ public class HotelDaoImpl extends AbstractDaoImp<Hotel> implements HotelDao {
             throw new HotelDaoException("This hotel cannot be saved");
         }
         Hotel hotelInDB = findBy(hotel.getHotelName(), hotel.getCityName());
-        if (hotelInDB != null) {
+        if (hotelInDB != null && !hotelInDB.getId().equals(hotel.getId())) {
             throw new HotelDaoException("This hotel is already exist in DB");
         }
         return super.save(hotel);
@@ -122,7 +122,7 @@ public class HotelDaoImpl extends AbstractDaoImp<Hotel> implements HotelDao {
         return hotels.get(0);
     }
 
-    private List<Hotel> findBy (String param, Predicate<Hotel> predicate) {
+    private List<Hotel> findBy(String param, Predicate<Hotel> predicate) {
         if (param == null || param.equals("")) {
             return getAll();
         }

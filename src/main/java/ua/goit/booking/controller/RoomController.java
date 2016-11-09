@@ -18,10 +18,11 @@ public class RoomController {
     // повертає масив усіх номерів
     // повертає null, якщо в базі немає номерів
     public List<Room> getAllRooms() {
-        List<Room> result = new ArrayList<>();
-        AbstractDao<Room> roomDao = new RoomDaoImpl();
-        result.addAll(roomDao.getAll());
-        try {
+        RoomDao roomDao = new RoomDaoImpl();
+        return roomDao.getAll();
+
+//        List<Room> result = new ArrayList<>();
+//        try {
 //            try {
 //                if (roomDao.isDataCorrupted(result)) {
 //                    throw new DataCorruptionException("WARNING! List<Room> contains corrupted data.");
@@ -29,18 +30,18 @@ public class RoomController {
 //            } catch (DataCorruptionException dce) {
 //                dce.printStackTrace();
 //            }
-            if (result.isEmpty()) {
-                try {
-                    throw new OperationFailException("There's no such rooms.");
-                } catch (OperationFailException ofe) {
-                    ofe.printStackTrace();
-                }
-                return null;
-            }
-        } catch (RuntimeException re) {
-            re.printStackTrace();
-        }
-        return result;
+//            if (result.isEmpty()) {
+//                try {
+//                    throw new OperationFailException("There's no such rooms.");
+//                } catch (OperationFailException ofe) {
+//                    ofe.printStackTrace();
+//                }
+//                return null;
+//            }
+//        } catch (RuntimeException re) {
+//            re.printStackTrace();
+//        }
+//        return result;
     }
 
     // повертає масив усіх незайнятих номерів

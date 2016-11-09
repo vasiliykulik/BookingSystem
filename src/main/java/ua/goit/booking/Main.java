@@ -1,6 +1,7 @@
 package ua.goit.booking;
 
 import ua.goit.booking.controller.HotelController;
+import ua.goit.booking.controller.RoomController;
 import ua.goit.booking.controller.exception.HotelControllerException;
 import ua.goit.booking.entity.Hotel;
 import ua.goit.booking.entity.Room;
@@ -16,13 +17,13 @@ public class Main {
         //Creating new Hotel
         hotelController.getAll().forEach(System.out::println);
         System.out.println("________");
-//        try {
-//            addNewHotel("Test", "Test");
-//            addNewHotel("Redisson", "Kiev");
-//            addNewHotel("Redisson", "Kharkov");
-//        } catch (HotelControllerException e) {
-//            e.printStackTrace();
-//        }
+        try {
+            addNewHotel("Test", "Test");
+            addNewHotel("Redisson", "Kiev");
+            addNewHotel("Redisson", "Kharkov");
+        } catch (HotelControllerException e) {
+            e.printStackTrace();
+        }
         hotelController.getAll().forEach(System.out::println);
 
         System.out.println("==================");
@@ -35,6 +36,13 @@ public class Main {
         } catch (HotelControllerException e) {
             e.printStackTrace();
         }
+        hotelController.getAll().forEach(System.out::println);
+
+        System.out.println("==================");
+        //Get all Rooms from The hotel
+        RoomController roomController = new RoomController();
+        roomController.getAllRooms().forEach(System.out::println);
+
 //        hotelController.getAll().forEach(System.out::println);
 
 

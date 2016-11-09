@@ -3,8 +3,6 @@ package ua.goit.booking.dao;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import ua.goit.booking.dao.exception.AbstractDaoException;
-import ua.goit.booking.exception.DataCorruptionException;
-import ua.goit.booking.exception.OperationFailException;
 
 import java.io.File;
 import java.io.IOException;
@@ -15,18 +13,18 @@ public class AbstractDaoImp<T extends Identity> implements AbstractDao<T> {
 
     public static Date currentDate = Calendar.getInstance().getTime();
     private File file;
-    private TypeReference<List<T>> typeReference;
+    private TypeReference<List<T>> objectsFromDB;
 
-    public AbstractDaoImp(File file, TypeReference<List<T>> typeReference) {
+    public AbstractDaoImp(File file, TypeReference<List<T>> objectsFromDB) {
         this.file = file;
-        this.typeReference = typeReference;
+        this.objectsFromDB = objectsFromDB;
     }
 
     @Override
     public List<T> getAll() {
         ObjectMapper mapper = new ObjectMapper();
         try {
-            return mapper.readValue(file, typeReference);
+            return mapper.readValue(file, objectsFromDB);
         } catch (IOException e) {
             return new ArrayList<>();
         }
