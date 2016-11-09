@@ -66,16 +66,26 @@ public class AbstractDaoImp<T extends Identity> implements AbstractDao<T> {
 
     @Override
     public List<T> getAllById(List<Long> ids) {
-        // TODO Exceptions Kostia
         List<T> result = null;
-        if (ids != null) {
-            result = getAll().stream()
+        List<T> allList = getAll();
+        try {
+            if (ids.isEmpty()) {
+                throw new OperationFailException("WARNING! Transferred data is not correct");
+            }
+        } catch (RuntimeException rx) {
+            rx.printStackTrace();
+        }
+
+        if (!isDataCorrupted(allList)) {
+            result = allList.stream()
                     .filter(t -> ids.stream().anyMatch(id -> id.equals(t.getId())))
                     .collect(Collectors.toList());
         }
         try {
             if (result.isEmpty()) {
                 throw new OperationFailException("Error! No data with such IDs");
+            } else if (result == null) {
+                throw new OperationFailException("WARNING! Data not available");
             }
         } catch (RuntimeException re) {
             re.printStackTrace();
