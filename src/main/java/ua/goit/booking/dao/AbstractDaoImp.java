@@ -121,11 +121,17 @@ public class AbstractDaoImp<T extends Identity> implements AbstractDao<T> {
 
     @Override
     public boolean delete(T t) {
-        // TODO Exceptions Kostia
         if (t == null || !isContainId(t.getId())) {
             return false;
         }
         List<T> all = getAll();
+        try {
+            if (isDataCorrupted(all)) {
+                throw new DataCorruptionException("WARNING! Data not available");
+            }
+        } catch (RuntimeException rx) {
+            rx.printStackTrace();
+        }
         Iterator<T> iterator = all.iterator();
         while (iterator.hasNext()) {
             T element = iterator.next();
@@ -148,7 +154,6 @@ public class AbstractDaoImp<T extends Identity> implements AbstractDao<T> {
 
     @Override
     public boolean update(T t) {
-        // TODO Exceptions Kostia
         Long id = t.getId();
         if (!isContainId(id)) {
             try {
@@ -159,6 +164,13 @@ public class AbstractDaoImp<T extends Identity> implements AbstractDao<T> {
             return false;
         }
         List<T> all = getAll();
+        try {
+            if (isDataCorrupted(all)) {
+                throw new DataCorruptionException("WARNING! Data not available");
+            }
+        } catch (RuntimeException rx) {
+            rx.printStackTrace();
+        }
         Iterator<T> iterator = all.iterator();
         T element = iterator.next();
         if (element.getId().equals(id)) {
@@ -170,7 +182,6 @@ public class AbstractDaoImp<T extends Identity> implements AbstractDao<T> {
 
     @Override
     public boolean isDataCorrupted(List<T> list) {
-        // TODO Exceptions Kostia
         if (list == null) {
             return true;
         }
@@ -187,16 +198,29 @@ public class AbstractDaoImp<T extends Identity> implements AbstractDao<T> {
 
     @Override
     public boolean isContainId(Long id) {
-        // TODO Exceptions Kostia
-        return getAll().stream()
+        List<T> all = getAll();
+        try {
+            if (isDataCorrupted(all)) {
+                throw new DataCorruptionException("WARNING! Data not available");
+            }
+        } catch (RuntimeException rx) {
+            rx.printStackTrace();
+        }
+        return all.stream()
                 .map(Identity::getId)
                 .anyMatch(identity -> identity.equals(id));
     }
 
     @Override
     public T getLastSaved() {
-        // TODO Exceptions Kostia
         List<T> all = getAll();
+        try {
+            if (isDataCorrupted(all)) {
+                throw new DataCorruptionException("WARNING! Data not available");
+            }
+        } catch (RuntimeException rx) {
+            rx.printStackTrace();
+        }
         return all.get(all.size() - 1);
     }
 }
