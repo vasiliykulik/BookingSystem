@@ -2,10 +2,12 @@ package ua.goit.booking;
 
 import ua.goit.booking.controller.HotelController;
 import ua.goit.booking.controller.RoomController;
+import ua.goit.booking.controller.UserController;
 import ua.goit.booking.controller.exception.HotelControllerException;
 import ua.goit.booking.controller.exception.RoomControllerExeption;
 import ua.goit.booking.entity.Hotel;
 import ua.goit.booking.entity.Room;
+import ua.goit.booking.entity.User;
 
 import java.util.*;
 
@@ -60,20 +62,21 @@ public class Main {
 //        }
 
 
-
+/*        User user = new User("Taras", "Lavrenyuk", "email@gmail.com");
+        UserController userController = new UserController();
+        userController.save(user);*/
 
         Map<String, String> params = new HashMap<>();
-        params.put("cityName", "Kiev");
-        params.put("price", "2000");
-        params.put("hotelName", "Redisson");
-        params.put("numberOfVisitors", "2");
-        params.put("fromDate", "2016-11-06");
-        params.put("toDate", "2016-11-07");
+//        params.put("cityName", "Kiev");
+//        params.put("price", "2000");
+//        params.put("hotelName", "Redisson");
+//        params.put("numberOfVisitors", "2");
+        params.put("fromDate", "2016-11-10");
+        params.put("toDate", "2016-11-10");
 
         System.out.println("================");
         roomController.findRooms(params).forEach(System.out::println);
-
-
+        System.out.println(roomController.bookRoom(5990423274806248131l, "2016-11-11", "2016-11-11", 8045473720571365437l));
 
 
 //        hotelController.getAll().forEach(System.out::println);

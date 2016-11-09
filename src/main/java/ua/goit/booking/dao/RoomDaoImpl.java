@@ -3,10 +3,13 @@ package ua.goit.booking.dao;
 import com.fasterxml.jackson.core.type.TypeReference;
 import ua.goit.booking.dao.exception.AbstractDaoException;
 import ua.goit.booking.entity.Room;
+import ua.goit.booking.util.DateTime;
 
 import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.*;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -17,6 +20,38 @@ public class RoomDaoImpl extends AbstractDaoImp<Room> implements RoomDao {
     public RoomDaoImpl() {
         super(new File("static/rooms.json"), new TypeReference<List<Room>>() {
         });
+    }
+
+    @Override
+    public boolean bookRoom(long roomId, String fromDate, String toDate, long userId) {
+        Room room;
+        try {
+            room = getById(roomId);
+        } catch (AbstractDaoException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+        System.out.println(room);
+
+        Date startFromDate = DateTime.getInstance(parseDate(fromDate, "yyyy-MM-dd")).getStartOfDay().getDate();
+        Date endToDate = DateTime.getInstance(parseDate(toDate, "yyyy-MM-dd")).getEndOfDay().getDate();
+
+        if (room.isBooked(startFromDate, endToDate)) {
+            return false;
+        }
+
+        room.setFromDate(startFromDate);
+        room.setToDate(endToDate);
+        room.setUserId(userId);
+
+        try {
+            save(room);
+        } catch (AbstractDaoException e) {
+            e.printStackTrace();
+        }
+
+        return true;
     }
 
     private Date parseDate(String date, String format) {
@@ -34,14 +69,17 @@ public class RoomDaoImpl extends AbstractDaoImp<Room> implements RoomDao {
         List<Room> result = getAll();
         HotelDao hotelDao = new HotelDaoImpl();
 
-        Date fromDate = parseDate(params.get("fromDate"), "yyyy-MM-dd");;
-        Date toDate = parseDate(params.get("toDate"), "yyyy-MM-dd");;
+        Date fromDate = parseDate(params.get("fromDate"), "yyyy-MM-dd");
+        Date toDate = parseDate(params.get("toDate"), "yyyy-MM-dd");
 
-        System.out.println(fromDate.getTime());
-        System.out.println(toDate.getTime());
+        Date startFromDate = DateTime.getInstance(fromDate).getStartOfDay().getDate();
+        Date endToDate = DateTime.getInstance(toDate).getEndOfDay().getDate();
+
+        System.out.println(startFromDate);
+        System.out.println(endToDate);
 
         result.removeIf(room -> {
-            boolean booked = room.isBooked(fromDate, toDate);
+            boolean booked = room.isBooked(startFromDate, endToDate);
             System.out.println(booked);
             return booked;
         });

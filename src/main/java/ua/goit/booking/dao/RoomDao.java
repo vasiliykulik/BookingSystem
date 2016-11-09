@@ -9,4 +9,5 @@ public interface RoomDao extends AbstractDao<Room> {
 
     List<Room> findRoom(Map<String, String> params);
 
+    boolean bookRoom(long roomId, String fromDate, String toDate, long userId);
 }

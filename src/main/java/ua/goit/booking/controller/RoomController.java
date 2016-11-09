@@ -506,4 +506,8 @@ public class RoomController {
     public List<Room> findRooms(Map<String, String> params) {
         return roomDao.findRoom(params);
     }
+
+    public boolean bookRoom(long roomId, String fromDate, String toDate, long userId) {
+        return roomDao.bookRoom(roomId, fromDate, toDate, userId);
+    }
 }

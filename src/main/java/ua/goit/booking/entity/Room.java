@@ -126,11 +126,11 @@ public class Room implements Identity {
         if (fromDate == null && toDate == null) {
             return false;
         } else if (fromDate == null) {
-            return  this.toDate.after(toDate) && this.fromDate.before(toDate);
+            return  !(this.toDate.before(toDate) && this.fromDate.after(toDate));
         } else if (toDate == null) {
-            return  this.toDate.after(fromDate) && this.fromDate.before(fromDate);
+            return  !(this.toDate.before(fromDate) && this.fromDate.after(fromDate));
         }
-        return this.toDate.after(toDate) && this.fromDate.before(fromDate);
+        return !(this.toDate.before(toDate) && this.fromDate.after(fromDate));
     }
 
     @Override

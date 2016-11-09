@@ -1,5 +1,6 @@
 package ua.goit.booking.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import ua.goit.booking.dao.Identity;
 
@@ -22,10 +23,11 @@ public class User implements Identity {
         this.emailAddress = emailAddress;
     }
 
-    public boolean isUserDataCorrupted(){
-        return this.getId() == null || this.getFirstName() == null
-                || this.getLastName() == null || this.getEmailAddress() == null;
-    }
+//    @JsonIgnore
+//    public boolean isUserDataCorrupted(){
+//        return this.getId() == null || this.getFirstName() == null
+//                || this.getLastName() == null || this.getEmailAddress() == null;
+//    }
 
     @Override
     public Long getId() {

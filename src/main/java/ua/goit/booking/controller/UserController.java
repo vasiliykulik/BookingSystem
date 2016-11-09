@@ -1,6 +1,7 @@
 package ua.goit.booking.controller;
 
 import ua.goit.booking.dao.*;
+import ua.goit.booking.dao.exception.AbstractDaoException;
 import ua.goit.booking.entity.Hotel;
 import ua.goit.booking.entity.Room;
 import ua.goit.booking.entity.User;
@@ -14,6 +15,17 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public class UserController {
+
+    private static UserDao userDao = new UserDaoImpl();
+
+
+    public void save(User user) {
+        try {
+            userDao.save(user);
+        } catch (AbstractDaoException e) {
+            e.printStackTrace();
+        }
+    }
     // повертає масив усіх користувачів (без дублювання)
     // повертає null, якщо в базі немає користувачів
     /*public List<User> getAllUsers() {
