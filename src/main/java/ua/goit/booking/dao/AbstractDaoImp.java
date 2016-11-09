@@ -42,7 +42,7 @@ public class AbstractDaoImp<T extends Identity> implements AbstractDao<T> {
             tList = getAll();
             try {
                 if (isDataCorrupted(tList)) {
-                    throw new DataCorruptionException("WARNING! List<Hotel> contains corrupted data.");
+                    throw new DataCorruptionException("WARNING! DB contains corrupted data.");
                 }
             } catch (DataCorruptionException dce) {
                 dce.printStackTrace();

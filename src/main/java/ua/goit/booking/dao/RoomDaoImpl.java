@@ -19,9 +19,8 @@ public class RoomDaoImpl extends AbstractDaoImp<Room> implements RoomDao {
 
     @Override
     public boolean delete(Room room) {
-        // TODO Exceptions Kostia
         HotelDao hotelDao = new HotelDaoImpl();
-        List<Room> allRooms;
+        List<Room> allRooms = null;
         List<Room> roomList = getAll();
         try {
             if (isDataCorrupted(roomList)) {
@@ -49,7 +48,7 @@ public class RoomDaoImpl extends AbstractDaoImp<Room> implements RoomDao {
             return false;
         }
 
-        allRooms = getAll().stream()
+        allRooms = roomList.stream()
                 .filter(aRoom -> !aRoom.getId().equals(room.getId()))
                 .collect(Collectors.toList());
         updateBase(allRooms);
