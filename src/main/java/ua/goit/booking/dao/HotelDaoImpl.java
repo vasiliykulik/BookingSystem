@@ -94,16 +94,14 @@ public class HotelDaoImpl extends AbstractDaoImp<Hotel> implements HotelDao {
             throw new HotelDaoException("This room cannot be saved to the hotel!");
         }
         List<Long> roomsId = hotel.getRoomsId();
-        if (roomsId.contains(room.getId())) {
-            RoomDao roomDao = new RoomDaoImpl();
-            roomDao.save(room);
-            return room;
+        if (!roomsId.contains(room.getId())) {
+            roomsId.add(room.getId());
+//            hotel.setRoomsId(roomsId);
+            save(hotel);
         }
-
-        roomsId.add(room.getId());
-        hotel.setRoomsId(roomsId);
         room.setHotelId(hotel.getId());
-        save(hotel);
+        RoomDao roomDao = new RoomDaoImpl();
+        roomDao.save(room);
 
         return room;
     }

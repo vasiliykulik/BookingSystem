@@ -1,5 +1,7 @@
 package ua.goit.booking.controller;
 
+import ua.goit.booking.controller.exception.HotelControllerException;
+import ua.goit.booking.controller.exception.RoomControllerExeption;
 import ua.goit.booking.dao.*;
 import ua.goit.booking.dao.exception.AbstractDaoException;
 import ua.goit.booking.entity.Hotel;
@@ -8,10 +10,8 @@ import ua.goit.booking.entity.User;
 import ua.goit.booking.exception.DataCorruptionException;
 import ua.goit.booking.exception.OperationFailException;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.lang.reflect.Field;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class RoomController {
@@ -501,5 +501,67 @@ public class RoomController {
             re.printStackTrace();
         }
         return result;
+    }
+
+    public List<Room> findRoom(Map<String, String> params) {
+        List<Hotel> result = null;
+        Set<Hotel> hotels = new HashSet<>();
+        try {
+//            try {
+//                if (hotelDao.isDataCorrupted(hotelDao.getAll())) {
+//                    throw new DataCorruptionException("WARNING! List<Hotel> contains corrupted data.");
+//                }
+//            } catch (DataCorruptionException dce) {
+//                dce.printStackTrace();
+//            }
+            for (String key : params.keySet()) {
+                for (Field field : Room.getFieldsName()) {
+                    if (field.getName().equals(key)) {
+                        String value = params.get(key);
+                        for (Hotel hotel : hotelDao.getAll()) {
+                            for (Room room : hotel.getRooms()) {
+                                Field f = null;
+                                try {
+                                    f = room.getClass().getDeclaredField(key);
+                                } catch (NoSuchFieldException e) {
+                                    e.printStackTrace();
+                                }
+                                if (f != null) {
+                                    f.setAccessible(true);
+                                }
+                                try {
+                                    if (f != null && f.get(room).toString().equals(value)) {
+                                        hotels.add(hotel);
+                                    }
+                                } catch (IllegalAccessException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            result = new ArrayList<Hotel>(hotels);
+            if (result.isEmpty()) {
+                try {
+                    throw new OperationFailException("There's no such rooms.");
+                } catch (OperationFailException ofe) {
+                    ofe.printStackTrace();
+                }
+                return null;
+            }
+        } catch (RuntimeException re) {
+            re.printStackTrace();
+        }
+        return result;
+    }
+
+    public Room save(Room room) throws RoomControllerExeption {
+        RoomDao roomDao = new RoomDaoImpl();
+        try {
+            return roomDao.save(room);
+        } catch (AbstractDaoException e) {
+            throw new RoomControllerExeption(e.getMessage());
+        }
     }
 }

@@ -143,58 +143,7 @@ public class HotelController {
         }
     }*/
 
-    public List<Hotel> findRoom(Map<String, String> params) {
-        List<Hotel> result = null;
-        Set<Hotel> hotels = new HashSet<>();
-        try {
-//            try {
-//                if (hotelDao.isDataCorrupted(hotelDao.getAll())) {
-//                    throw new DataCorruptionException("WARNING! List<Hotel> contains corrupted data.");
-//                }
-//            } catch (DataCorruptionException dce) {
-//                dce.printStackTrace();
-//            }
-            for (String key : params.keySet()) {
-                for (Field field : Room.getFieldsName()) {
-                    if (field.getName().equals(key)) {
-                        String value = params.get(key);
-                        for (Hotel hotel : hotelDao.getAll()) {
-                            for (Room room : hotel.getRooms()) {
-                                Field f = null;
-                                try {
-                                    f = room.getClass().getDeclaredField(key);
-                                } catch (NoSuchFieldException e) {
-                                    e.printStackTrace();
-                                }
-                                if (f != null) {
-                                    f.setAccessible(true);
-                                }
-                                try {
-                                    if (f != null && f.get(room).toString().equals(value)) {
-                                        hotels.add(hotel);
-                                    }
-                                } catch (IllegalAccessException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            result = new ArrayList<Hotel>(hotels);
-            if (result.isEmpty()) {
-                try {
-                    throw new OperationFailException("There's no such rooms.");
-                } catch (OperationFailException ofe) {
-                    ofe.printStackTrace();
-                }
-                return null;
-            }
-        } catch (RuntimeException re) {
-            re.printStackTrace();
-        }
-        return result;
-    }
+
 
     /*public List<Room> getAllFreeRooms(Long hotelId) {
         List<Room> result = new ArrayList<>();
@@ -227,13 +176,11 @@ public class HotelController {
 
     public Hotel save(Hotel hotel) throws HotelControllerException {
         HotelDao hotelDao = new HotelDaoImpl();
-        Hotel result = null;
         try {
-            result = hotelDao.save(hotel);
+            return hotelDao.save(hotel);
         } catch (AbstractDaoException e) {
             throw new HotelControllerException(e.getMessage());
         }
-        return result;
     }
 
     public List<Hotel> getAll() {

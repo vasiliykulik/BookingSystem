@@ -3,6 +3,7 @@ package ua.goit.booking;
 import ua.goit.booking.controller.HotelController;
 import ua.goit.booking.controller.RoomController;
 import ua.goit.booking.controller.exception.HotelControllerException;
+import ua.goit.booking.controller.exception.RoomControllerExeption;
 import ua.goit.booking.entity.Hotel;
 import ua.goit.booking.entity.Room;
 
@@ -30,7 +31,6 @@ public class Main {
         //Add room to the Hotel
         try {
             Hotel hotel = hotelController.findBy("Test", "Test");
-            System.out.println(hotel);
             Room room = new Room(350, 3);
             addRoomToTheHotel(hotel, room);
         } catch (HotelControllerException e) {
@@ -40,17 +40,32 @@ public class Main {
 
         System.out.println("==================");
         //Get all Rooms from The hotel
+        try {
+            Hotel myHotel = hotelController.findBy("Test", "Test");
+            myHotel.getRooms();
+        } catch (HotelControllerException e) {
+            e.printStackTrace();
+        }
+
+
+        //Creating new Room
         RoomController roomController = new RoomController();
         roomController.getAllRooms().forEach(System.out::println);
+        Room room = new Room(450, 3);
+        try {
+            roomController.save(room);
+        } catch (RoomControllerExeption roomControllerExeption) {
+            roomControllerExeption.printStackTrace();
+        }
 
 //        hotelController.getAll().forEach(System.out::println);
 
 
 //        Hotel hotel = hotelController.getAll().stream().filter(h -> h.getHotelName().equals("Test")).findFirst().get();
 //
-//        Room room = new Room(350, 3);
+//        Room room1 = new Room(350, 3);
 //        try {
-//            hotelController.addRoom(hotel, room);
+//            hotelController.addRoom(hotel, room1);
 //        } catch (HotelControllerException e) {
 //            e.printStackTrace();
 //        }
