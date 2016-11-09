@@ -3,6 +3,7 @@ package ua.goit.booking.dao;
 import com.fasterxml.jackson.core.type.TypeReference;
 import ua.goit.booking.entity.Hotel;
 import ua.goit.booking.entity.Room;
+import ua.goit.booking.exception.DataCorruptionException;
 import ua.goit.booking.exception.OperationFailException;
 
 import java.io.File;
@@ -18,13 +19,19 @@ public class HotelDaoImpl extends AbstractDaoImp<Hotel> implements HotelDao {
 
     @Override
     public boolean delete(Hotel hotel) {
-        // TODO Exceptions Kostia
         if (hotel == null || !isContainId(hotel.getId())) {
             return false;
         }
         RoomDao roomDao = new RoomDaoImpl();
         hotel.getRooms().forEach(roomDao::delete);
         List<Hotel> allHotels = getAll();
+        if (isDataCorrupted(allHotels)) {
+            try {
+                throw new DataCorruptionException("WARNING! Data not available");
+            } catch (RuntimeException re) {
+                re.printStackTrace();
+            }
+        }
         Iterator<Hotel> iterator = allHotels.iterator();
         while (iterator.hasNext()) {
             Hotel element = iterator.next();
@@ -66,15 +73,12 @@ public class HotelDaoImpl extends AbstractDaoImp<Hotel> implements HotelDao {
 
     @Override
     public Room addRoom(Hotel hotel, Room room) {
-        // TODO Exceptions Kostia
         if (room == null || hotel == null || !room.getHotelId().equals(hotel.getId())) {
             try {
                 throw new OperationFailException("This room cannot be saved!");
             } catch (OperationFailException ofe) {
                 ofe.printStackTrace();
             }
-
-            return null;
         }
         List<Long> roomsId = hotel.getRoomsId();
         if (roomsId.contains(room.getId())) {

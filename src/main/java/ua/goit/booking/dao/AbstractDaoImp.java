@@ -129,8 +129,8 @@ public class AbstractDaoImp<T extends Identity> implements AbstractDao<T> {
             if (isDataCorrupted(all)) {
                 throw new DataCorruptionException("WARNING! Data not available");
             }
-        } catch (RuntimeException rx) {
-            rx.printStackTrace();
+        } catch (RuntimeException re) {
+            re.printStackTrace();
         }
         Iterator<T> iterator = all.iterator();
         while (iterator.hasNext()) {
@@ -156,20 +156,15 @@ public class AbstractDaoImp<T extends Identity> implements AbstractDao<T> {
     public boolean update(T t) {
         Long id = t.getId();
         if (!isContainId(id)) {
-            try {
-                throw new OperationFailException("DB update have failed");
-            } catch (OperationFailException ofe) {
-                ofe.printStackTrace();
-            }
-            return false;
+           return false;
         }
         List<T> all = getAll();
         try {
             if (isDataCorrupted(all)) {
                 throw new DataCorruptionException("WARNING! Data not available");
             }
-        } catch (RuntimeException rx) {
-            rx.printStackTrace();
+        } catch (RuntimeException re) {
+            re.printStackTrace();
         }
         Iterator<T> iterator = all.iterator();
         T element = iterator.next();
@@ -198,13 +193,16 @@ public class AbstractDaoImp<T extends Identity> implements AbstractDao<T> {
 
     @Override
     public boolean isContainId(Long id) {
+        if (id == null)
+            return false;
+
         List<T> all = getAll();
         try {
             if (isDataCorrupted(all)) {
                 throw new DataCorruptionException("WARNING! Data not available");
             }
-        } catch (RuntimeException rx) {
-            rx.printStackTrace();
+        } catch (RuntimeException re) {
+            re.printStackTrace();
         }
         return all.stream()
                 .map(Identity::getId)
@@ -218,8 +216,8 @@ public class AbstractDaoImp<T extends Identity> implements AbstractDao<T> {
             if (isDataCorrupted(all)) {
                 throw new DataCorruptionException("WARNING! Data not available");
             }
-        } catch (RuntimeException rx) {
-            rx.printStackTrace();
+        } catch (RuntimeException re) {
+            re.printStackTrace();
         }
         return all.get(all.size() - 1);
     }

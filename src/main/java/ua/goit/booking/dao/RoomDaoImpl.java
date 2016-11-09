@@ -30,11 +30,6 @@ public class RoomDaoImpl extends AbstractDaoImp<Room> implements RoomDao {
             dce.printStackTrace();
         }
         if (room == null) {
-            try {
-                throw new OperationFailException("You've tried to delete null Room!");
-            } catch (OperationFailException ofe) {
-                ofe.printStackTrace();
-            }
             return false;
         }
         Hotel hotel = hotelDao.getById(room.getHotelId());

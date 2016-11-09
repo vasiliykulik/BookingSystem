@@ -38,13 +38,8 @@ public class UserDaoImpl extends AbstractDaoImp<User> implements UserDao {
 
     @Override
     public boolean isLoggedIn(Long userId) {
-        // TODO Exceptions Kostia
         if (!isContainId(userId)) {
-            try {
-                throw new OperationFailException("User with such userId has not registered in system.");
-            } catch (OperationFailException ope) {
-                ope.printStackTrace();
-            }
+           return false;
         }
         return true;
     }
