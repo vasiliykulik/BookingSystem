@@ -83,9 +83,9 @@ public class AbstractDaoImp<T extends Identity> implements AbstractDao<T> {
         }
         try {
             if (result.isEmpty()) {
-                throw new OperationFailException("Error! No data with such IDs");
+                throw new DataCorruptionException("Error! No data with such IDs");
             } else if (result == null) {
-                throw new OperationFailException("WARNING! Data not available");
+                throw new DataCorruptionException("WARNING! Data not available");
             }
         } catch (RuntimeException re) {
             re.printStackTrace();
@@ -95,7 +95,6 @@ public class AbstractDaoImp<T extends Identity> implements AbstractDao<T> {
 
     @Override
     public T save(T t) {
-        // TODO Exceptions Kostia
         if (t == null) {
             try {
                 throw new OperationFailException("This element cannot be saved");
@@ -108,6 +107,13 @@ public class AbstractDaoImp<T extends Identity> implements AbstractDao<T> {
             return t;
         }
         List<T> all = getAll();
+        try {
+            if (isDataCorrupted(all)) {
+                throw new DataCorruptionException("WARNING! Data not available");
+            }
+        } catch (RuntimeException rx) {
+            rx.printStackTrace();
+        }
         all.add(t);
         updateBase(all);
         return t;
