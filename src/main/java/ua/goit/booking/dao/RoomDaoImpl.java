@@ -19,7 +19,7 @@ public class RoomDaoImpl extends AbstractDaoImp<Room> implements RoomDao {
 
     @Override
     public boolean delete(Room room) {
-        HotelDao hotelDao = new HotelDaoImpl();
+       /* HotelDao hotelDao = new HotelDaoImpl();
         List<Room> allRooms = null;
         List<Room> roomList = getAll();
         try {
@@ -46,11 +46,11 @@ public class RoomDaoImpl extends AbstractDaoImp<Room> implements RoomDao {
         allRooms = roomList.stream()
                 .filter(aRoom -> !aRoom.getId().equals(room.getId()))
                 .collect(Collectors.toList());
-        updateBase(allRooms);
+        updateBase(allRooms);*/
         return true;
     }
 
-    @Override
+    /*@Override
     public boolean isDataCorrupted(List<Room> roomList) {
         Room room;
         if (roomList == null) {
@@ -80,7 +80,7 @@ public class RoomDaoImpl extends AbstractDaoImp<Room> implements RoomDao {
             }
         }
         return false;
-    }
+    }*/
 
 
 }

@@ -1,18 +1,55 @@
 package ua.goit.booking;
 
 import ua.goit.booking.controller.HotelController;
-import ua.goit.booking.controller.RoomController;
-import ua.goit.booking.controller.UserController;
-import ua.goit.booking.dao.*;
+import ua.goit.booking.controller.exception.HotelControllerException;
+import ua.goit.booking.entity.Hotel;
 import ua.goit.booking.entity.Room;
-import ua.goit.booking.entity.User;
-import ua.goit.booking.exception.DataCorruptionException;
 
 import java.util.*;
 
 public class Main {
 
     public static void main(String[] args) {
+
+        HotelController hotelController = new HotelController();
+
+        //Creating new Hotel
+        hotelController.getAll().forEach(System.out::println);
+        System.out.println("________");
+//        try {
+//            addNewHotel("Test", "Test");
+//            addNewHotel("Redisson", "Kiev");
+//            addNewHotel("Redisson", "Kharkov");
+//        } catch (HotelControllerException e) {
+//            e.printStackTrace();
+//        }
+        hotelController.getAll().forEach(System.out::println);
+
+        System.out.println("==================");
+        //Add room to the Hotel
+        try {
+            Hotel hotel = hotelController.findBy("Test", "Test");
+            System.out.println(hotel);
+            Room room = new Room(350, 3);
+            addRoomToTheHotel(hotel, room);
+        } catch (HotelControllerException e) {
+            e.printStackTrace();
+        }
+//        hotelController.getAll().forEach(System.out::println);
+
+
+//        Hotel hotel = hotelController.getAll().stream().filter(h -> h.getHotelName().equals("Test")).findFirst().get();
+//
+//        Room room = new Room(350, 3);
+//        try {
+//            hotelController.addRoom(hotel, room);
+//        } catch (HotelControllerException e) {
+//            e.printStackTrace();
+//        }
+
+
+//        List<Room> rooms = new ArrayList<>();
+//        rooms.save(new Room(350, 3))
 
 //        System.out.println("Hotels\n===");
 //        HotelDao hotelDAO = new HotelDaoImpl();
@@ -29,7 +66,7 @@ public class Main {
 //        UserDao userDao = new UserDaoImpl();
 //        User user = new User("Oleg", "Orlov", "olegik.orlov@gmail.com");
 //        List<User> users = new ArrayList<>();
-//        users.add(user);
+//        users.save(user);
 //        userDao.updateBase(users); //
 //        userDao.getAll().forEach(System.out::println);
 
@@ -37,15 +74,10 @@ public class Main {
 //        userController.getAllUsers().forEach(System.out::println);
 
 
-        HotelDao hotelDao = new HotelDaoImpl();
-//        System.out.println(hotelDao.getById(6124218799539178536L));
-
-        Room room = new Room(350, 3, 6124218799539178536L);
-
-        Date currentDate = Calendar.getInstance().getTime();
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(2016, Calendar.NOVEMBER, 15, 10, 00);
-        Date endDate = calendar.getTime();
+//        Date currentDate = Calendar.getInstance().getTime();
+//        Calendar calendar = Calendar.getInstance();
+//        calendar.set(2016, Calendar.NOVEMBER, 15, 10, 00);
+//        Date endDate = calendar.getTime();
 
  /*       RoomController roomController = new RoomController();
 //        List<Room> rooms = roomController.getAllRooms();
@@ -64,11 +96,10 @@ public class Main {
 //        hotelDAO.cancelReservation(6675363734328343759l, 1, 8577383723364764120l);
 //        hotelDAO.cancelReservation(345346346l, 1, 232345l);
 
-        Map<String, String> map = new HashMap<>();
-        map.put("price", "334");
-        map.put("person", "3");
+//        Map<String, String> map = new HashMap<>();
+//        map.put("price", "334");
+//        map.put("person", "3");
 //        System.out.println(hotelDAO.findRoom(map));
-        HotelController hotelController = new HotelController();
 
 
         // Тест Main Василий.Виталий
@@ -94,5 +125,22 @@ public class Main {
                 throw new DataCorruptionException("There is no hotel with such name");
             }
          */
+    }
+
+    private static Hotel addRoomToTheHotel(Hotel hotel, Room room) throws HotelControllerException {
+        HotelController hotelController = new HotelController();
+        hotelController.addRoom(hotel, room);
+        return hotelController.getById(hotel.getId());
+    }
+
+    private static Hotel addNewHotel(String hotelName, String city) throws HotelControllerException {
+        HotelController hotelController = new HotelController();
+        Hotel hotel = new Hotel(hotelName, city);
+        try {
+            hotelController.save(hotel);
+        } catch (HotelControllerException e) {
+            e.printStackTrace();
+        }
+        return hotelController.getById(hotel.getId());
     }
 }

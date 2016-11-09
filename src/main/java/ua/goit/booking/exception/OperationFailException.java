@@ -1,6 +1,6 @@
 package ua.goit.booking.exception;
 
-public class OperationFailException extends RuntimeException {
+public class OperationFailException extends Exception {
     public OperationFailException() {
         super();
     }

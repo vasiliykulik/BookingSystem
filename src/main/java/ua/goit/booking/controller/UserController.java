@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 public class UserController {
     // повертає масив усіх користувачів (без дублювання)
     // повертає null, якщо в базі немає користувачів
-    public List<User> getAllUsers() {
+    /*public List<User> getAllUsers() {
         List<User> result = new ArrayList<>();
         AbstractDao<User> userDao = new UserDaoImpl();
         List<User> allUsers = userDao.getAll();
@@ -43,11 +43,11 @@ public class UserController {
             re.printStackTrace();
         }
         return result;
-    }
+    }*/
 
     // за даним id готелю (hotelId) повертає масив усіх зареєстрованих у ньому користувачів (без дублювання)
     // повертає null, якщо в готелі не зареєстровано жодного користувача
-    public List<User> getAllUsersFromHotel(long hotelId) {
+    /*public List<User> getAllUsersFromHotel(long hotelId) {
         List<User> result = new ArrayList<>();
         List<Hotel> hotels = new ArrayList<>();
         List<Room> rooms = new ArrayList<>();
@@ -88,11 +88,11 @@ public class UserController {
             re.printStackTrace();
         }
         return result;
-    }
+    }*/
 
     // за даною назвою готелю (hotelName) повертає масив усіх зареєстрованих у ньому користувачів (без дублювання)
     // повертає null, якщо в готелі не зареєстровано жодного користувача
-    public List<User> getAllUsersFromHotel(String hotelName) {
+    /*public List<User> getAllUsersFromHotel(String hotelName) {
         List<User> result = new ArrayList<>();
         List<Hotel> hotels = new ArrayList<>();
         List<Room> rooms = new ArrayList<>();
@@ -138,11 +138,11 @@ public class UserController {
             re.printStackTrace();
         }
         return result;
-    }
+    }*/
 
     // за даною назвою міста (theCity) повертає масив усіх зареєстрованих у ньому користувачів (без дублювання)
     // повертає null, якщо таких користувачів не знайдено
-    public List<User> getAllUsersFromCity(String theCity) {
+    /*public List<User> getAllUsersFromCity(String theCity) {
         List<User> result = new ArrayList<>();
         List<Hotel> hotels = new ArrayList<>();
         List<Room> rooms = new ArrayList<>();
@@ -206,11 +206,11 @@ public class UserController {
             re.printStackTrace();
         }
         return result;
-    }
+    }*/
 
     // за даним ID користувача (userId) повертає кількість зарезервованих на нього номерів
     // повертає -1, якщо користувача з таким (userId) немає в базі
-    public int getRoomsQuantity(Long userId) {
+    /*public int getRoomsQuantity(Long userId) {
         List<Room> rooms = new ArrayList<>();
         AbstractDao<Room> roomDao = new RoomDaoImpl();
         List<Room> allRooms = roomDao.getAll();
@@ -236,11 +236,11 @@ public class UserController {
             re.printStackTrace();
         }
         return rooms.size();
-    }
+    }*/
 
     // повертає кількість номерів, зарезервованих на користувачів з прізвищем (lastName)
     // повертає -1, якщо користувача з таким (lastName) немає в базі
-    public int getRoomsQuantity(String lastName) {
+    /*public int getRoomsQuantity(String lastName) {
         List<Room> resultRooms = new ArrayList<>();
         List<Room> rooms = new ArrayList<>();
         List<User> users = new ArrayList<>();
@@ -284,11 +284,11 @@ public class UserController {
             re.printStackTrace();
         }
         return resultRooms.size();
-    }
+    }*/
 
     // повертає кількість номерів, зарезервованих на ім'я (firstName) та прізвище (lastName)
     // повертає -1, якщо користувача з таким (firstName) та (lastName) немає в базі
-    public int getRoomsQuantity(String firstName, String lastName) {
+    /*public int getRoomsQuantity(String firstName, String lastName) {
         List<Room> resultRooms = new ArrayList<>();
         List<Room> rooms = new ArrayList<>();
         List<User> users = new ArrayList<>();
@@ -334,11 +334,11 @@ public class UserController {
             re.printStackTrace();
         }
         return resultRooms.size();
-    }
+    }*/
 
     // повертає суму коштів, витрачених користувачем з ID (userId) на бронювання номерів
     // повертає -1, якщо користувача з таким (userId) немає в базі
-    public long getUserBudget(Long userId) {
+    /*public long getUserBudget(Long userId) {
         long budget = 0L;
         List<Room> rooms = new ArrayList<>();
         AbstractDao<Room> roomDao = new RoomDaoImpl();
@@ -368,11 +368,11 @@ public class UserController {
             re.printStackTrace();
         }
         return budget;
-    }
+    }*/
 
     // повертає суму коштів, витрачених користувачами з прізвищем (lastName) на бронювання номерів
     // повертає -1, якщо користувачів з таким (lastName) немає в базі
-    public long getUserBudget(String lastName) {
+    /*public long getUserBudget(String lastName) {
         long budget = 0L;
         List<Room> resultRooms = new ArrayList<>();
         List<Room> rooms = new ArrayList<>();
@@ -420,12 +420,12 @@ public class UserController {
             re.printStackTrace();
         }
         return budget;
-    }
+    }*/
 
     // повертає суму коштів, витрачених користувачами
     // з іменем (firstName) та прізвищем (lastName) на бронювання номерів
     // повертає -1, якщо користувачів з такими (firstName) та (lastName) немає в базі
-    public long getUserBudget(String firstName, String lastName) {
+   /* public long getUserBudget(String firstName, String lastName) {
         long budget = 0L;
         List<Room> resultRooms = new ArrayList<>();
         List<Room> rooms = new ArrayList<>();
@@ -474,9 +474,9 @@ public class UserController {
             re.printStackTrace();
         }
         return budget;
-    }
+    }*/
 
-    public User logIn(User user) {
+    /*public User logIn(User user) {
         UserDao userDao = new UserDaoImpl();
         List<User> allUsers = userDao.getAll();
         User user1 = null;
@@ -493,9 +493,9 @@ public class UserController {
             re.printStackTrace();
         }
         return user1;
-    }
+    }*/
 
-    public boolean deleteUser(User user) {
+    /*public boolean deleteUser(User user) {
         UserDao userDao = new UserDaoImpl();
         List<User> allUsers = userDao.getAll();
         boolean successFlag = false;
@@ -519,6 +519,6 @@ public class UserController {
             re.printStackTrace();
         }
         return successFlag;
-    }
+    }*/
 
 }

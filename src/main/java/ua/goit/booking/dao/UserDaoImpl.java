@@ -14,7 +14,7 @@ public class UserDaoImpl extends AbstractDaoImp<User> implements UserDao {
         });
     }
 
-    @Override
+   /* @Override
     public boolean isDataCorrupted(List<User> userList) {
         User user;
         if (userList == null) {
@@ -34,13 +34,13 @@ public class UserDaoImpl extends AbstractDaoImp<User> implements UserDao {
             }
         }
         return false;
-    }
+    }*/
 
     @Override
     public boolean isLoggedIn(Long userId) {
-        if (!isContainId(userId)) {
+        /*if (!isContainId(userId)) {
            return false;
-        }
+        }*/
         return true;
     }
 }

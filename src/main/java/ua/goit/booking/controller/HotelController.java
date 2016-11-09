@@ -1,6 +1,9 @@
 package ua.goit.booking.controller;
 
+import ua.goit.booking.controller.exception.HotelControllerException;
 import ua.goit.booking.dao.*;
+import ua.goit.booking.dao.exception.AbstractDaoException;
+import ua.goit.booking.dao.exception.HotelDaoException;
 import ua.goit.booking.entity.Hotel;
 import ua.goit.booking.entity.Room;
 import ua.goit.booking.exception.DataCorruptionException;
@@ -9,56 +12,28 @@ import ua.goit.booking.exception.OperationFailException;
 import java.lang.reflect.Field;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class HotelController {
+    private static HotelDao hotelDao = new HotelDaoImpl();
+
+    public Hotel findBy(String hotelName, String city) throws HotelControllerException {
+        try {
+            return hotelDao.findBy(hotelName, city);
+        } catch (HotelDaoException e) {
+            throw new HotelControllerException(e.getMessage());
+        }
+    }
 
     public List<Hotel> findHotelByName(String name) {
-        List<Hotel> result = new ArrayList<>();
-        AbstractDao<Hotel> hotelDao = new HotelDaoImpl();
-        List<Hotel> allHotels = hotelDao.getAll();
-        try {
-            try {
-                if (hotelDao.isDataCorrupted(allHotels)) {
-                    throw new DataCorruptionException("WARNING! List<Hotel> contains corrupted data.");
-                }
-            } catch (DataCorruptionException dce) {
-                dce.printStackTrace();
-            }
-            result.addAll(allHotels.stream()
-                    .filter(hotel -> hotel.getHotelName().equals(name)).collect(Collectors.toList()));
-            if (result.isEmpty()) {
-                throw new DataCorruptionException("There's no hotel with such name");
-            }
-        } catch (RuntimeException re) {
-            re.printStackTrace();
-        }
-        return result;
+        return hotelDao.findHotelByName(name);
     }
 
     public List<Hotel> findHotelByCity(String city) {
-        List<Hotel> result = new ArrayList<>();
-        HotelDao hotelDao = new HotelDaoImpl();
-        List<Hotel> allHotels = hotelDao.getAll();
-        try {
-            try {
-                if (hotelDao.isDataCorrupted(allHotels)) {
-                    throw new DataCorruptionException("WARNING! List<Hotel> contains corrupted data.");
-                }
-            } catch (DataCorruptionException dce) {
-                dce.printStackTrace();
-            }
-            result.addAll(allHotels.stream()
-                    .filter(hotel -> hotel.getCityName().equals(city)).collect(Collectors.toList()));
-            if (result.isEmpty()) {
-                throw new DataCorruptionException("There is no such City, please check city name and try again");
-            }
-        } catch (RuntimeException re) {
-            re.printStackTrace();
-        }
-        return result;
+        return hotelDao.findHotelByCity(city);
     }
 
-    public void bookRoom(long roomId, long userId, long hotelId, Date fromDate, Date toDate) {
+    /*public void bookRoom(long roomId, long userId, long hotelId, Date fromDate, Date toDate) {
         UserDao userDao = new UserDaoImpl();
         HotelDao hotelDao = new HotelDaoImpl();
         List<Hotel> hotels = hotelDao.getAll();
@@ -107,9 +82,9 @@ public class HotelController {
         } catch (OperationFailException ofe) {
             ofe.printStackTrace();
         }
-    }
+    }*/
 
-    public void cancelReservation(long roomId, long userId, long hotelId) {
+    /*public void cancelReservation(long roomId, long userId, long hotelId) {
         UserDao userDao = new UserDaoImpl();
         HotelDao hotelDao = new HotelDaoImpl();
         List<Hotel> hotels = hotelDao.getAll();
@@ -166,20 +141,19 @@ public class HotelController {
         } catch (OperationFailException ofe) {
             ofe.printStackTrace();
         }
-    }
+    }*/
 
     public List<Hotel> findRoom(Map<String, String> params) {
         List<Hotel> result = null;
         Set<Hotel> hotels = new HashSet<>();
-        HotelDao hotelDao = new HotelDaoImpl();
         try {
-            try {
-                if (hotelDao.isDataCorrupted(hotelDao.getAll())) {
-                    throw new DataCorruptionException("WARNING! List<Hotel> contains corrupted data.");
-                }
-            } catch (DataCorruptionException dce) {
-                dce.printStackTrace();
-            }
+//            try {
+//                if (hotelDao.isDataCorrupted(hotelDao.getAll())) {
+//                    throw new DataCorruptionException("WARNING! List<Hotel> contains corrupted data.");
+//                }
+//            } catch (DataCorruptionException dce) {
+//                dce.printStackTrace();
+//            }
             for (String key : params.keySet()) {
                 for (Field field : Room.getFieldsName()) {
                     if (field.getName().equals(key)) {
@@ -222,7 +196,7 @@ public class HotelController {
         return result;
     }
 
-    public List<Room> getAllFreeRooms(Long hotelId) {
+    /*public List<Room> getAllFreeRooms(Long hotelId) {
         List<Room> result = new ArrayList<>();
         HotelDao hotelDao = new HotelDaoImpl();
         Date currentDate = Calendar.getInstance().getTime();
@@ -249,6 +223,39 @@ public class HotelController {
             re.printStackTrace();
         }
         return result;
+    }*/
+
+    public Hotel save(Hotel hotel) throws HotelControllerException {
+        HotelDao hotelDao = new HotelDaoImpl();
+        Hotel result = null;
+        try {
+            result = hotelDao.save(hotel);
+        } catch (AbstractDaoException e) {
+            throw new HotelControllerException(e.getMessage());
+        }
+        return result;
     }
 
+    public List<Hotel> getAll() {
+        HotelDao hotelDao = new HotelDaoImpl();
+        return hotelDao.getAll();
+    }
+
+    public void addRoom(Hotel hotel, Room room) throws HotelControllerException {
+        HotelDao hotelDao = new HotelDaoImpl();
+        try {
+            hotelDao.addRoom(hotel, room);
+        } catch (AbstractDaoException e) {
+            throw new HotelControllerException(e.getMessage());
+        }
+    }
+
+    public Hotel getById(Long id) throws HotelControllerException {
+        HotelDao hotelDao = new HotelDaoImpl();
+        try {
+            return hotelDao.getById(id);
+        } catch (AbstractDaoException e) {
+            throw new HotelControllerException(e.getMessage());
+        }
+    }
 }

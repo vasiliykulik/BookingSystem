@@ -1,5 +1,6 @@
 package ua.goit.booking.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import ua.goit.booking.dao.Identity;
 import ua.goit.booking.dao.RoomDaoImpl;
@@ -26,14 +27,14 @@ public class Hotel implements Identity {
         this.cityName = cityName;
         this.roomsId = new ArrayList<>();
     }
-
-    public Hotel(String hotelName, String cityName, List<Room> roomsId) {
-        this.id = Math.abs(UUID.randomUUID().getLeastSignificantBits());
-        this.hotelName = hotelName;
-        this.cityName = cityName;
-        this.roomsId = new ArrayList<>();
-        setRooms(roomsId);
-    }
+//
+//    public Hotel(String hotelName, String cityName, List<Room> roomsId) {
+//        this.id = Math.abs(UUID.randomUUID().getLeastSignificantBits());
+//        this.hotelName = hotelName;
+//        this.cityName = cityName;
+//        this.roomsId = new ArrayList<>();
+//        setRooms(roomsId);
+//    }
 
     @Override
     public Long getId() {
@@ -52,6 +53,7 @@ public class Hotel implements Identity {
         return roomsId;
     }
 
+    @JsonIgnore
     public List<Room> getRooms() {
         return new RoomDaoImpl().getAllById(roomsId);
     }
@@ -68,12 +70,12 @@ public class Hotel implements Identity {
         this.cityName = cityName;
     }
 
-    public void setRooms(List<Room> rooms) {
-        this.roomsId = rooms.stream().map(Room::getId).collect(Collectors.toList());
-    }
-
     public void setRoomsId(List<Long> roomsId) {
         this.roomsId = roomsId;
+    }
+
+    public void setRooms(List<Room> rooms) {
+        this.roomsId = rooms.stream().map(Room::getId).collect(Collectors.toList());
     }
 
     @Override
