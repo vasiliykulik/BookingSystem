@@ -28,15 +28,15 @@ public class Main {
         hotelController.getAll().forEach(System.out::println);
 
         System.out.println("==================");
-        //Add room to the Hotel
-        try {
-            Hotel hotel = hotelController.findBy("Test", "Test");
-            Room room = new Room(350, 3);
-            addRoomToTheHotel(hotel, room);
-        } catch (HotelControllerException e) {
-            e.printStackTrace();
-        }
-        hotelController.getAll().forEach(System.out::println);
+//        Add room to the Hotel
+//        try {
+//            Hotel hotel = hotelController.findBy("Redisson", "Kiev");
+//            Room room = new Room(1500, 2);
+//            addRoomToTheHotel(hotel, room);
+//        } catch (HotelControllerException e) {
+//            e.printStackTrace();
+//        }
+//        hotelController.getAll().forEach(System.out::println);
 
         System.out.println("==================");
         //Get all Rooms from The hotel
@@ -47,16 +47,34 @@ public class Main {
             e.printStackTrace();
         }
 
+        RoomController roomController = new RoomController();
+
 
         //Creating new Room
-        RoomController roomController = new RoomController();
         roomController.getAllRooms().forEach(System.out::println);
-        Room room = new Room(450, 3);
-        try {
-            roomController.save(room);
-        } catch (RoomControllerExeption roomControllerExeption) {
-            roomControllerExeption.printStackTrace();
-        }
+//        Room room = new Room(450, 3);
+//        try {
+//            roomController.save(room);
+//        } catch (RoomControllerExeption roomControllerExeption) {
+//            roomControllerExeption.printStackTrace();
+//        }
+
+
+
+
+        Map<String, String> params = new HashMap<>();
+        params.put("cityName", "Kiev");
+        params.put("price", "2000");
+        params.put("hotelName", "Redisson");
+        params.put("numberOfVisitors", "2");
+        params.put("fromDate", "2016-11-06");
+        params.put("toDate", "2016-11-07");
+
+        System.out.println("================");
+        roomController.findRooms(params).forEach(System.out::println);
+
+
+
 
 //        hotelController.getAll().forEach(System.out::println);
 

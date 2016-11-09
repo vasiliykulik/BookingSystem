@@ -14,11 +14,13 @@ import java.lang.reflect.Field;
 import java.util.*;
 import java.util.stream.Collectors;
 
+
+
 public class RoomController {
+    private static RoomDao roomDao = new RoomDaoImpl();
     // повертає масив усіх номерів
     // повертає null, якщо в базі немає номерів
     public List<Room> getAllRooms() {
-        RoomDao roomDao = new RoomDaoImpl();
         return roomDao.getAll();
 
 //        List<Room> result = new ArrayList<>();
@@ -48,7 +50,6 @@ public class RoomController {
     // повертає null, якщо таких номерів не знайдено
     public List<Room> getFreeRooms() {
         List<Room> result = new ArrayList<>();
-        AbstractDao<Room> roomDao = new RoomDaoImpl();
         List<Room> allRooms = roomDao.getAll();
         try {
 //            try {
@@ -79,7 +80,6 @@ public class RoomController {
     // повертає null, якщо таких номерів не знайдено
     public List<Room> getCheaperRooms(int budget) {
         List<Room> result = new ArrayList<>();
-        AbstractDao<Room> roomDao = new RoomDaoImpl();
         List<Room> allRooms = roomDao.getAll();
         try {
 //            try {
@@ -109,7 +109,6 @@ public class RoomController {
     // повертає null, якщо таких номерів не знайдено
     public List<Room> getFreeCheaperRooms(int budget) {
         List<Room> result = new ArrayList<>();
-        AbstractDao<Room> roomDao = new RoomDaoImpl();
         List<Room> allRooms = roomDao.getAll();
         try {
 //            try {
@@ -142,7 +141,6 @@ public class RoomController {
     // повертає null, якщо таких номерів не знайдено
     public List<Room> getRoomsForNPersons(int nPersons) {
         List<Room> result = new ArrayList<>();
-        AbstractDao<Room> roomDao = new RoomDaoImpl();
         List<Room> allRooms = roomDao.getAll();
         try {
 //            try {
@@ -173,7 +171,6 @@ public class RoomController {
     // повертає null, якщо таких номерів не знайдено
     public List<Room> getFreeRoomsForNPersons(int nPersons) {
         List<Room> result = new ArrayList<>();
-        AbstractDao<Room> roomDao = new RoomDaoImpl();
         List<Room> allRooms = roomDao.getAll();
         try {
 //            try {
@@ -277,7 +274,6 @@ public class RoomController {
     // повертає null, якщо таких номерів не знайдено
     public List<Room> getAllRoomsReservedByUser(Long userId) {
         List<Room> result = new ArrayList<>();
-        AbstractDao<Room> roomDao = new RoomDaoImpl();
         List<Room> allRooms = roomDao.getAll();
         try {
 //            try {
@@ -309,7 +305,6 @@ public class RoomController {
         List<Room> result = new ArrayList<>();
         List<Room> rooms = new ArrayList<>();
         List<User> users = new ArrayList<>();
-        AbstractDao<Room> roomDao = new RoomDaoImpl();
         AbstractDao<User> userDao = new UserDaoImpl();
         List<Room> allRooms = roomDao.getAll();
         List<User> allUsers = userDao.getAll();
@@ -357,7 +352,6 @@ public class RoomController {
         List<Room> result = new ArrayList<>();
         List<Room> rooms = new ArrayList<>();
         List<User> users = new ArrayList<>();
-        AbstractDao<Room> roomDao = new RoomDaoImpl();
         AbstractDao<User> userDao = new UserDaoImpl();
         List<Room> allRooms = roomDao.getAll();
         List<User> allUsers = userDao.getAll();
@@ -405,7 +399,6 @@ public class RoomController {
     public List<Room> getAllRoomsFromThisHotel(Long roomId) throws AbstractDaoException {
         List<Room> result = null;
         List<Room> rooms = new ArrayList<>();
-        AbstractDao<Room> roomDao = new RoomDaoImpl();
         AbstractDao<Hotel> hotelDao = new HotelDaoImpl();
         List<Room> allRooms = roomDao.getAll();
         List<Hotel> allHotels = hotelDao.getAll();
@@ -455,7 +448,6 @@ public class RoomController {
     public List<Room> getAllFreeRoomsFromThisHotel(Long roomId) throws AbstractDaoException {
         List<Room> result = new ArrayList<>();
         List<Room> rooms = new ArrayList<>();
-        AbstractDao<Room> roomDao = new RoomDaoImpl();
         AbstractDao<Hotel> hotelDao = new HotelDaoImpl();
         List<Hotel> allHotels = hotelDao.getAll();
         List<Room> allRooms = roomDao.getAll();
@@ -503,65 +495,15 @@ public class RoomController {
         return result;
     }
 
-    public List<Room> findRoom(Map<String, String> params) {
-        List<Hotel> result = null;
-        Set<Hotel> hotels = new HashSet<>();
-        try {
-//            try {
-//                if (hotelDao.isDataCorrupted(hotelDao.getAll())) {
-//                    throw new DataCorruptionException("WARNING! List<Hotel> contains corrupted data.");
-//                }
-//            } catch (DataCorruptionException dce) {
-//                dce.printStackTrace();
-//            }
-            for (String key : params.keySet()) {
-                for (Field field : Room.getFieldsName()) {
-                    if (field.getName().equals(key)) {
-                        String value = params.get(key);
-                        for (Hotel hotel : hotelDao.getAll()) {
-                            for (Room room : hotel.getRooms()) {
-                                Field f = null;
-                                try {
-                                    f = room.getClass().getDeclaredField(key);
-                                } catch (NoSuchFieldException e) {
-                                    e.printStackTrace();
-                                }
-                                if (f != null) {
-                                    f.setAccessible(true);
-                                }
-                                try {
-                                    if (f != null && f.get(room).toString().equals(value)) {
-                                        hotels.add(hotel);
-                                    }
-                                } catch (IllegalAccessException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            result = new ArrayList<Hotel>(hotels);
-            if (result.isEmpty()) {
-                try {
-                    throw new OperationFailException("There's no such rooms.");
-                } catch (OperationFailException ofe) {
-                    ofe.printStackTrace();
-                }
-                return null;
-            }
-        } catch (RuntimeException re) {
-            re.printStackTrace();
-        }
-        return result;
-    }
-
     public Room save(Room room) throws RoomControllerExeption {
-        RoomDao roomDao = new RoomDaoImpl();
         try {
             return roomDao.save(room);
         } catch (AbstractDaoException e) {
             throw new RoomControllerExeption(e.getMessage());
         }
+    }
+
+    public List<Room> findRooms(Map<String, String> params) {
+        return roomDao.findRoom(params);
     }
 }

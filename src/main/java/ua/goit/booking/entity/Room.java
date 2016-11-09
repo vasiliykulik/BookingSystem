@@ -123,6 +123,13 @@ public class Room implements Identity {
 
     @JsonIgnore
     public boolean isBooked(Date fromDate, Date toDate) {
+        if (fromDate == null && toDate == null) {
+            return false;
+        } else if (fromDate == null) {
+            return  this.toDate.after(toDate) && this.fromDate.before(toDate);
+        } else if (toDate == null) {
+            return  this.toDate.after(fromDate) && this.fromDate.before(fromDate);
+        }
         return this.toDate.after(toDate) && this.fromDate.before(fromDate);
     }
 

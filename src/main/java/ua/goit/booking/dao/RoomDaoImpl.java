@@ -1,13 +1,15 @@
 package ua.goit.booking.dao;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import ua.goit.booking.entity.Hotel;
+import ua.goit.booking.dao.exception.AbstractDaoException;
 import ua.goit.booking.entity.Room;
-import ua.goit.booking.exception.DataCorruptionException;
-import ua.goit.booking.exception.OperationFailException;
 
 import java.io.File;
-import java.util.List;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class RoomDaoImpl extends AbstractDaoImp<Room> implements RoomDao {
@@ -15,6 +17,82 @@ public class RoomDaoImpl extends AbstractDaoImp<Room> implements RoomDao {
     public RoomDaoImpl() {
         super(new File("static/rooms.json"), new TypeReference<List<Room>>() {
         });
+    }
+
+    private Date parseDate(String date, String format) {
+        SimpleDateFormat sdf = new SimpleDateFormat(format);
+        try {
+            return sdf.parse(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    public List<Room> findRoom(Map<String, String> params) {
+        List<Room> result = getAll();
+        HotelDao hotelDao = new HotelDaoImpl();
+
+        Date fromDate = parseDate(params.get("fromDate"), "yyyy-MM-dd");;
+        Date toDate = parseDate(params.get("toDate"), "yyyy-MM-dd");;
+
+        System.out.println(fromDate.getTime());
+        System.out.println(toDate.getTime());
+
+        result.removeIf(room -> {
+            boolean booked = room.isBooked(fromDate, toDate);
+            System.out.println(booked);
+            return booked;
+        });
+
+        if (params.containsKey("price")) {
+            try {
+                int price = Integer.parseInt(params.get("price"));
+                result.removeIf(room -> room.getPrice() > price);
+            } catch (NumberFormatException e) {
+                System.out.println("Logger: NumberFormatException!");
+            }
+        }
+        if (params.containsKey("cityName")) {
+            String cityName = params.get("cityName");
+            Predicate<Room> predicate = room -> {
+                try {
+                    return !hotelDao.getById(room.getHotelId()).getCityName().equals(cityName);
+                } catch (AbstractDaoException e) {
+                    e.printStackTrace();
+                    return false;
+                }
+            };
+            result.removeIf(predicate);
+        }
+        if (params.containsKey("hotelName")) {
+            String hotelName = params.get("hotelName");
+            Predicate<Room> predicate = room -> {
+                try {
+                    return !hotelDao.getById(room.getHotelId()).getHotelName().equals(hotelName);
+                } catch (AbstractDaoException e) {
+                    e.printStackTrace();
+                    return false;
+                }
+            };
+            result.removeIf(predicate);
+        }
+        if (params.containsKey("numberOfVisitors")) {
+            try {
+                int numberOfVisitors = Integer.parseInt(params.get("numberOfVisitors"));
+                result.removeIf(room -> room.getNumberOfVisitors() != numberOfVisitors);
+            } catch (NumberFormatException e) {
+                System.out.println("Logger: NumberFormatException!");
+            }
+        }
+
+        return result;
+    }
+
+    private <T> Map<T, List<Room>> separateList(List<Room> rooms, Function<Room, T> function) {
+        return rooms.stream()
+                    .collect(Collectors.groupingBy(function));
     }
 
     @Override
