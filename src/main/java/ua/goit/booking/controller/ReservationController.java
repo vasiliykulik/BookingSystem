@@ -33,11 +33,11 @@ public class ReservationController {
 
     public boolean cancelReservation(long roomId, String fromDate, String toDate, long userId) {
         try {
-            reservationDao.cancelReservation(roomId, fromDate, toDate, userId);
+            return reservationDao.cancelReservation(roomId, fromDate, toDate, userId);
         } catch (ReservationDaoException e) {
             e.printStackTrace();
             return false;
         }
-        return false;
     }
+
 }

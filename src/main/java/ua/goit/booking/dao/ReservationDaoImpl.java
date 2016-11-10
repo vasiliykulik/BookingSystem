@@ -9,7 +9,6 @@ import ua.goit.booking.util.DateTime;
 
 import java.io.File;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -28,12 +27,19 @@ public class ReservationDaoImpl extends AbstractDaoImp<Reservation> implements R
         try {
             user = userDao.getById(userId);
         } catch (AbstractDaoException e) {
-            throw new ReservationDaoException("This user is note registered");
+            throw new ReservationDaoException("This user is not registered");
         }
+        Date parsedFromDate = parseDate(fromDate, "yyyy-MM-dd");
+        Date parsedToDate = parseDate(toDate, "yyyy-MM-dd");
 
-        Date startFromDate = DateTime.getInstance(parseDate(fromDate, "yyyy-MM-dd")).getStartOfDay().getDate();
-        Date endToDate = DateTime.getInstance(parseDate(toDate, "yyyy-MM-dd")).getEndOfDay().getDate();
-
+        Date startFromDate;
+        Date endToDate;
+        if (parsedFromDate == null || parsedToDate == null) {
+            throw new ReservationDaoException("The date is wrong");
+        } else {
+            startFromDate = DateTime.getInstance(parsedFromDate).getStartOfDay().getDate();
+            endToDate = DateTime.getInstance(parsedToDate).getEndOfDay().getDate();
+        }
         if (!isFree(roomId, startFromDate, endToDate)) {
             throw new ReservationDaoException("Room is booked");
         }
@@ -48,9 +54,11 @@ public class ReservationDaoImpl extends AbstractDaoImp<Reservation> implements R
     }
 
     private Date parseDate(String date, String format) {
-        SimpleDateFormat sdf = new SimpleDateFormat(format);
+        if (date == null || date.equals("")) {
+            return null;
+        }
         try {
-            return sdf.parse(date);
+            return DateTime.parse(date, format);
         } catch (ParseException e) {
             e.printStackTrace();
             return null;
@@ -100,8 +108,8 @@ public class ReservationDaoImpl extends AbstractDaoImp<Reservation> implements R
         Date endToDate = DateTime.getInstance(parseDate(toDate, "yyyy-MM-dd")).getEndOfDay().getDate();
 
         List<Reservation> reservations = allReservationsByRoom(roomId);
-        reservations.removeIf(reservation -> !(startFromDate.equals(reservation.getFromDate()) && endToDate.equals(reservation.getToDate()))
-                && userId != reservation.getUserId());
+        reservations.removeIf(reservation -> !(startFromDate.equals(reservation.getFromDate()) && endToDate.equals(reservation.getToDate())
+                && userId == reservation.getUserId()));
         if (reservations.isEmpty()) {
             throw new ReservationDaoException("This reservation has not been found!");
         }
@@ -112,5 +120,6 @@ public class ReservationDaoImpl extends AbstractDaoImp<Reservation> implements R
             return false;
         }
     }
+
 
 }

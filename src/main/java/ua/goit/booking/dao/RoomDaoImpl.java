@@ -11,7 +11,6 @@ import ua.goit.booking.util.DateTime;
 
 import java.io.File;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -32,22 +31,22 @@ public class RoomDaoImpl extends AbstractDaoImp<Room> implements RoomDao {
         Date fromDate = parseDate(params.get("fromDate"), "yyyy-MM-dd");
         Date toDate = parseDate(params.get("toDate"), "yyyy-MM-dd");
 
-        Date startFromDate = DateTime.getInstance(fromDate).getStartOfDay().getDate();
-        Date endToDate = DateTime.getInstance(toDate).getEndOfDay().getDate();
+        if (fromDate == null || toDate == null) {
+            System.out.println("Due to the fact that Date is incorrect it winn not be taken into consideration");
+        } else {
+            Date startFromDate = DateTime.getInstance(fromDate).getStartOfDay().getDate();
+            Date endToDate = DateTime.getInstance(toDate).getEndOfDay().getDate();
 
-        System.out.println(startFromDate);
-        System.out.println(endToDate);
-
-        ReservationDao reservationDao = new ReservationDaoImpl();
-        result.removeIf(room -> {
-            try {
-                return !reservationDao.isFree(room.getId(), startFromDate, endToDate);
-            } catch (ReservationDaoException e) {
-                e.printStackTrace();
-                return false;
-            }
-        });
-
+            ReservationDao reservationDao = new ReservationDaoImpl();
+            result.removeIf(room -> {
+                try {
+                    return !reservationDao.isFree(room.getId(), startFromDate, endToDate);
+                } catch (ReservationDaoException e) {
+                    e.printStackTrace();
+                    return false;
+                }
+            });
+        }
         if (params.containsKey("price")) {
             try {
                 int price = Integer.parseInt(params.get("price"));
@@ -93,9 +92,11 @@ public class RoomDaoImpl extends AbstractDaoImp<Room> implements RoomDao {
     }
 
     private Date parseDate(String date, String format) {
-        SimpleDateFormat sdf = new SimpleDateFormat(format);
+        if (date == null || date.equals("")) {
+            return null;
+        }
         try {
-            return sdf.parse(date);
+            return DateTime.parse(date, format);
         } catch (ParseException e) {
             e.printStackTrace();
             return null;

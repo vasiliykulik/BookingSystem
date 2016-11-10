@@ -5,8 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import ua.goit.booking.dao.exception.AbstractDaoException;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -70,6 +68,15 @@ public class AbstractDaoImp<T extends Identity> implements AbstractDao<T> {
         return t;
     }
 
+    private void saveToJson(List<T> list) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            objectMapper.writeValue(file, list);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     private int getIndexOf(List<T> list, T t) {
         for (T element : list) {
             if (element.equals(t)) {
@@ -91,15 +98,6 @@ public class AbstractDaoImp<T extends Identity> implements AbstractDao<T> {
         list.removeIf(element -> element.getId().equals(t.getId()));
         saveToJson(list);
         return true;
-    }
-
-    private void saveToJson(List<T> list) {
-        ObjectMapper objectMapper = new ObjectMapper();
-        try {
-            objectMapper.writeValue(file, list);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     @Override
