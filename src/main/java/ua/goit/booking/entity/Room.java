@@ -2,11 +2,12 @@ package ua.goit.booking.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import ua.goit.booking.dao.*;
+import ua.goit.booking.dao.Identity;
+import ua.goit.booking.dao.UserDaoImpl;
 import ua.goit.booking.dao.exception.AbstractDaoException;
+import ua.goit.booking.util.DateTime;
 
 import java.lang.reflect.Field;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.UUID;
 
@@ -15,8 +16,8 @@ public class Room implements Identity {
     private Long id;
     private int price;
     private int numberOfVisitors;
-    private Date fromDate;
-    private Date toDate;
+//    private Date fromDate;
+//    private Date toDate;
     private Long userId;
     private Long hotelId;
 
@@ -24,32 +25,12 @@ public class Room implements Identity {
     }
 
     public Room(int price, int numberOfVisitors) {
-//        HotelDao hotelDao = new HotelDaoImpl();
-//        if (!hotelDao.isContainId(hotelId)) {
-//            try {
-//                throw new OperationFailException("Hotel with such hotelId doesn't exist.");
-//            } catch (OperationFailException ofe) {
-//                ofe.printStackTrace();
-//            }
-//            return;
-//        }
         this.id = Math.abs(UUID.randomUUID().getLeastSignificantBits());
         this.price = price;
         this.numberOfVisitors = numberOfVisitors;
-        this.fromDate = Calendar.getInstance().getTime();
-        this.toDate = Calendar.getInstance().getTime();
+//        this.fromDate = DateTime.getInstance().getYesterdaysDate().getEndOfDay().getDate();
+//        this.toDate = this.fromDate;
     }
-
-//    public boolean isRoomDataCorrupted() {
-//        return this.getId() == null
-//                || this.getPrice() == 0
-//                || this.getNumberOfVisitors() == 0
-//                || this.getHotelId() == null
-//                || this.getFromDate() == null
-//                || this.getToDate() == null
-//                || !this.getFromDate().before(this.getToDate())
-//                || this.getToDate().after(this.getFromDate()) && this.getUserId() == null;
-//    }
 
     @Override
     public Long getId() {
@@ -77,14 +58,6 @@ public class Room implements Identity {
         return hotelId;
     }
 
-    public Date getFromDate() {
-        return fromDate;
-    }
-
-    public Date getToDate() {
-        return toDate;
-    }
-
     public void setId(Long id) {
         this.id = id;
     }
@@ -97,41 +70,25 @@ public class Room implements Identity {
         this.numberOfVisitors = numberOfVisitors;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
-
-    public void setUser(User user) {
-        this.userId = user.getId();
-    }
-
     public void setHotelId(Long hotelId) {
         this.hotelId = hotelId;
-    }
-
-    public void setFromDate(Date fromDate) {
-        this.fromDate = fromDate;
-    }
-
-    public void setToDate(Date toDate) {
-        this.toDate = toDate;
     }
 
     public static Field[] getFieldsName() {
         return Room.class.getDeclaredFields();
     }
 
-    @JsonIgnore
-    public boolean isBooked(Date fromDate, Date toDate) {
-        if (fromDate == null && toDate == null) {
-            return false;
-        } else if (fromDate == null) {
-            return  !(this.toDate.before(toDate) && this.fromDate.after(toDate));
-        } else if (toDate == null) {
-            return  !(this.toDate.before(fromDate) && this.fromDate.after(fromDate));
-        }
-        return !(this.toDate.before(toDate) && this.fromDate.after(fromDate));
-    }
+//    @JsonIgnore
+//    public boolean isFree(Date fromDate, Date toDate) {
+//        if (fromDate == null && toDate == null) {
+//            return false;
+//        } else if (fromDate == null) {
+//            return toDate.before(this.fromDate) || toDate.after(this.toDate);
+//        } else if (toDate == null) {
+//            return fromDate.before(this.fromDate) || fromDate.after(this.toDate);
+//        }
+//        return toDate.before(this.fromDate) || fromDate.after(this.toDate);
+//    }
 
     @Override
     public boolean equals(Object o) {
@@ -155,8 +112,6 @@ public class Room implements Identity {
                 "id=" + id +
                 ", price=" + price +
                 ", numberOfVisitors=" + numberOfVisitors +
-                ", fromDate=" + fromDate +
-                ", toDate=" + toDate +
                 ", userId=" + userId +
                 ", hotelId=" + hotelId +
                 '}';

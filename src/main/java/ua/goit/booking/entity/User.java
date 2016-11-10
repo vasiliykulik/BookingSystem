@@ -53,12 +53,13 @@ public class User implements Identity {
 
         User user = (User) o;
 
-        return id != null ? id.equals(user.id) : user.id == null;
+        return emailAddress != null ? emailAddress.equals(user.emailAddress) : user.emailAddress == null;
+
     }
 
     @Override
     public int hashCode() {
-        return id != null ? id.hashCode() : 0;
+        return emailAddress != null ? emailAddress.hashCode() : 0;
     }
 
     @Override

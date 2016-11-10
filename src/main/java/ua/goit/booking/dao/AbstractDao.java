@@ -14,13 +14,7 @@ public interface AbstractDao<T> {
 
     T save(T t) throws AbstractDaoException;
 
-    boolean delete(T t);
+    boolean delete(T t) throws AbstractDaoException;
 
-//    void update(T t) throws Exception;
-
-//    void updateBase(List<T> list);
-
-/*    boolean isDataCorrupted(List<T> list);*/
-
-  /*  boolean isContainId(Long id);*/
+    boolean deleteById(long id) throws AbstractDaoException;
 }

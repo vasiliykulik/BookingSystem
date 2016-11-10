@@ -6,16 +6,21 @@ import ua.goit.booking.dao.exception.AbstractDaoException;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class AbstractDaoImp<T extends Identity> implements AbstractDao<T> {
 
-    public static Date currentDate = Calendar.getInstance().getTime();
     private File file;
     private TypeReference<List<T>> objectsFromDB;
 
     public AbstractDaoImp(File file, TypeReference<List<T>> objectsFromDB) {
+        File parentDir = file.getParentFile();
+        if(! parentDir.exists()) {
+            parentDir.mkdirs();
+        }
         this.file = file;
         this.objectsFromDB = objectsFromDB;
     }
@@ -32,64 +37,26 @@ public class AbstractDaoImp<T extends Identity> implements AbstractDao<T> {
 
     @Override
     public T getById(long id) throws AbstractDaoException {
-        List<T> result = null;
-        List<T> tList;
-        T t1 = null;
-        try {
-            tList = getAll();
-//            try {
-//                if (isDataCorrupted(tList)) {
-//                    throw new DataCorruptionException("WARNING! DB contains corrupted data.");
-//                }
-//            } catch (DataCorruptionException dce) {
-//                dce.printStackTrace();
-//            }
-            result = tList.stream()
-                    .filter(t -> t.getId() == id)
-                    .collect(Collectors.toList());
-            if (result.isEmpty()) {
-                throw new AbstractDaoException("Error! No data with such ID");
-            }
-            t1 = result.get(0);
-        } catch (RuntimeException re) {
-            re.printStackTrace();
+        List<T> result = getAll().stream()
+                .filter(t -> t.getId() == id)
+                .collect(Collectors.toList());
+        if (result.isEmpty()) {
+            throw new AbstractDaoException("Error! No data with such ID");
         }
-        return t1;
+        return result.get(0);
     }
 
     @Override
     public List<T> getAllById(List<Long> ids) {
-        List<T> result = null;
-        List<T> allList = getAll();
-//        try {
-//            if (ids.isEmpty()) {
-//                throw new OperationFailException("WARNING! Transferred data is not correct");
-//            }
-//        } catch (RuntimeException rx) {
-//            rx.printStackTrace();
-//        }
-//
-//        if (!isDataCorrupted(allList)) {
-        result = allList.stream()
-                .filter(t -> ids.stream().anyMatch(id -> id.equals(t.getId())))
+        return getAll().stream()
+                .filter(t -> ids.stream().anyMatch(id -> id != null && id.equals(t.getId())))
                 .collect(Collectors.toList());
-//        }
-//        try {
-//            if (result.isEmpty()) {
-//                throw new DataCorruptionException("Error! No data with such IDs");
-//            } else if (result == null) {
-//                throw new DataCorruptionException("WARNING! Data not available");
-//            }
-//        } catch (RuntimeException re) {
-//            re.printStackTrace();
-//        }
-        return result;
     }
 
     @Override
     public T save(T t) throws AbstractDaoException {
         if (t == null) {
-            throw new AbstractDaoException("This element cannot be saved");
+            throw new AbstractDaoException("This element is \"null\" and cannot be saved");
         }
         List<T> list = getAll();
         int index = getIndexOf(list, t);
@@ -112,29 +79,19 @@ public class AbstractDaoImp<T extends Identity> implements AbstractDao<T> {
     }
 
     @Override
-    public boolean delete(T t) {
-      /*  if (t == null || !isContainId(t.getId())) {
-            return false;
+    public boolean delete(T t) throws AbstractDaoException {
+        if (t == null) {
+            throw new AbstractDaoException("This element is \"null\" and cannot be deleted");
         }
-        List<T> all = getAll();
-        try {
-            if (isDataCorrupted(all)) {
-                throw new DataCorruptionException("WARNING! Data not available");
-            }
-        } catch (RuntimeException re) {
-            re.printStackTrace();
+        List<T> list = getAll();
+        if (!list.contains(t)) {
+            throw new AbstractDaoException("This element has not been fount in DB");
         }
-        Iterator<T> iterator = all.iterator();
-        while (iterator.hasNext()) {
-            T element = iterator.next();
-            if (element.getId().equals(t.getId())) {
-                iterator.remove();
-            }
-        }*/
+        list.removeIf(element -> element.getId().equals(t.getId()));
+        saveToJson(list);
         return true;
     }
 
-    //    @Override
     private void saveToJson(List<T> list) {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
@@ -144,40 +101,8 @@ public class AbstractDaoImp<T extends Identity> implements AbstractDao<T> {
         }
     }
 
-/*
-
     @Override
-    public boolean isDataCorrupted(List<T> list) {
-        if (list == null) {
-            return true;
-        }
-        if (list.isEmpty()) {
-            return true;
-        }
-        for (T aList : list) {
-            if (aList == null) {
-                return true;
-            }
-        }
-        return false;
+    public boolean deleteById(long id) throws AbstractDaoException {
+        return delete(getById(id));
     }
-*/
-
-   /* @Override
-    public boolean isContainId(Long id) {
-        if (id == null)
-            return false;
-
-        List<T> all = getAll();
-        try {
-            if (isDataCorrupted(all)) {
-                throw new DataCorruptionException("WARNING! Data not available");
-            }
-        } catch (RuntimeException re) {
-            re.printStackTrace();
-        }
-        return all.stream()
-                .map(Identity::getId)
-                .anyMatch(identity -> identity.equals(id));
-    }*/
 }

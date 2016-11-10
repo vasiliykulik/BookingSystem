@@ -1,13 +1,12 @@
 package ua.goit.booking;
 
 import ua.goit.booking.controller.HotelController;
+import ua.goit.booking.controller.ReservationController;
 import ua.goit.booking.controller.RoomController;
 import ua.goit.booking.controller.UserController;
 import ua.goit.booking.controller.exception.HotelControllerException;
-import ua.goit.booking.controller.exception.RoomControllerExeption;
 import ua.goit.booking.entity.Hotel;
 import ua.goit.booking.entity.Room;
-import ua.goit.booking.entity.User;
 
 import java.util.*;
 
@@ -16,44 +15,52 @@ public class Main {
     public static void main(String[] args) {
 
         HotelController hotelController = new HotelController();
+        RoomController roomController = new RoomController();
+        UserController userController = new UserController();
 
         //Creating new Hotel
-        hotelController.getAll().forEach(System.out::println);
-        System.out.println("________");
-        try {
-            addNewHotel("Test", "Test");
-            addNewHotel("Redisson", "Kiev");
-            addNewHotel("Redisson", "Kharkov");
-        } catch (HotelControllerException e) {
-            e.printStackTrace();
-        }
-        hotelController.getAll().forEach(System.out::println);
-
-        System.out.println("==================");
-//        Add room to the Hotel
+//        hotelController.getAll().forEach(System.out::println);
+//        System.out.println("________");
 //        try {
-//            Hotel hotel = hotelController.findBy("Redisson", "Kiev");
+//            addNewHotel("Test", "Test");
+//            addNewHotel("Redisson", "Kiev");
+//            addNewHotel("Redisson", "Kharkov");
+//        } catch (HotelControllerException e) {
+//            e.printStackTrace();
+//        }
+        hotelController.getAll().forEach(System.out::println);
+        System.out.println(hotelController.getAll().size());
+        roomController.getAll().forEach(System.out::println);
+        System.out.println(roomController.getAll().size());
+        System.out.println("==================");
+
+
+         //Add room to the Hotel
+//        try {
+//            Hotel hotel = hotelController.findBy("Test", "Test");
 //            Room room = new Room(1500, 2);
 //            addRoomToTheHotel(hotel, room);
 //        } catch (HotelControllerException e) {
 //            e.printStackTrace();
 //        }
+//        hotelController.deleteById(6456234449482806504L);
 //        hotelController.getAll().forEach(System.out::println);
+//        System.out.println("==================");
 
-        System.out.println("==================");
+
         //Get all Rooms from The hotel
-        try {
-            Hotel myHotel = hotelController.findBy("Test", "Test");
-            myHotel.getRooms();
-        } catch (HotelControllerException e) {
-            e.printStackTrace();
-        }
-
-        RoomController roomController = new RoomController();
+//        try {
+//            Hotel myHotel = hotelController.findBy("Test", "Test");
+//            myHotel.getRooms();
+//        } catch (HotelControllerException e) {
+//            e.printStackTrace();
+//        }
+//        System.out.println("==================");
 
 
         //Creating new Room
-        roomController.getAllRooms().forEach(System.out::println);
+//        roomController.deleteById(6130684376879051181L);
+//        roomController.getAll().forEach(System.out::println);
 //        Room room = new Room(450, 3);
 //        try {
 //            roomController.save(room);
@@ -62,24 +69,30 @@ public class Main {
 //        }
 
 
-/*        User user = new User("Taras", "Lavrenyuk", "email@gmail.com");
-        UserController userController = new UserController();
-        userController.save(user);*/
-
-        Map<String, String> params = new HashMap<>();
+//        User user = new User("Taras", "Lavrenyuk", "email@gmail.com");
+//        userController.save(user);
+//        System.out.println("==================");
+//        userController.getAll().forEach(System.out::println);
+//
+//        Map<String, String> params = new HashMap<>();
 //        params.put("cityName", "Kiev");
 //        params.put("price", "2000");
 //        params.put("hotelName", "Redisson");
 //        params.put("numberOfVisitors", "2");
-        params.put("fromDate", "2016-11-10");
-        params.put("toDate", "2016-11-10");
+//        params.put("fromDate", "2016-11-20");
+//        params.put("toDate", "2016-11-20");
 
-        System.out.println("================");
-        roomController.findRooms(params).forEach(System.out::println);
-        System.out.println(roomController.bookRoom(5990423274806248131l, "2016-11-11", "2016-11-11", 8045473720571365437l));
+//        System.out.println("================");
 
+        //Recervation Room
+//        ReservationController reservationController = new ReservationController();
+//        roomController.findRooms(params).forEach(System.out::println);
+//            reservationController.cancelReservation(8754584762758627686L, "2016-11-13", "2016-11-13", 7883404493335980445L);
+//            reservationController.bookRoom(8754584762758627686L, "2016-11-14", "2016-11-19", 7883404493335980445L);
+//            reservationController.bookRoom(8754584762758627686L, "2016-11-14", "2016-11-15", 9005465349530730763L);
 
-//        hotelController.getAll().forEach(System.out::println);
+//        System.out.println("================");
+//        reservationController.getAll().forEach(System.out::println);
 
 
 //        Hotel hotel = hotelController.getAll().stream().filter(h -> h.getHotelName().equals("Test")).findFirst().get();
@@ -115,7 +128,7 @@ public class Main {
 //        userDao.getAll().forEach(System.out::println);
 
 //        UserController userController = new UserController();
-//        userController.getAllUsers().forEach(System.out::println);
+//        userController.getAll().forEach(System.out::println);
 
 
 //        Date currentDate = Calendar.getInstance().getTime();
@@ -124,7 +137,7 @@ public class Main {
 //        Date endDate = calendar.getTime();
 
  /*       RoomController roomController = new RoomController();
-//        List<Room> rooms = roomController.getAllRooms();
+//        List<Room> rooms = roomController.getAll();
 //        for (Room room : rooms) {
 //            room.setToDate(currentDate);
 //            room.setFromDate(currentDate);
