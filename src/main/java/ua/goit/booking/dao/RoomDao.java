@@ -1,7 +1,7 @@
 package ua.goit.booking.dao;
 
 import ua.goit.booking.dao.exception.AbstractDaoException;
-import ua.goit.booking.entity.Room;
+import ua.goit.booking.model.entity.Room;
 
 import java.util.List;
 import java.util.Map;

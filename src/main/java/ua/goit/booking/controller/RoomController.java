@@ -4,7 +4,7 @@ import ua.goit.booking.controller.exception.RoomControllerException;
 import ua.goit.booking.dao.RoomDao;
 import ua.goit.booking.dao.RoomDaoImpl;
 import ua.goit.booking.dao.exception.AbstractDaoException;
-import ua.goit.booking.entity.Room;
+import ua.goit.booking.model.entity.Room;
 
 import java.util.List;
 import java.util.Map;

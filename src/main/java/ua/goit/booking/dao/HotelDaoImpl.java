@@ -3,8 +3,8 @@ package ua.goit.booking.dao;
 import com.fasterxml.jackson.core.type.TypeReference;
 import ua.goit.booking.dao.exception.AbstractDaoException;
 import ua.goit.booking.dao.exception.HotelDaoException;
-import ua.goit.booking.entity.Hotel;
-import ua.goit.booking.entity.Room;
+import ua.goit.booking.model.entity.Hotel;
+import ua.goit.booking.model.entity.Room;
 
 import java.io.File;
 import java.util.List;
@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 public class HotelDaoImpl extends AbstractDaoImp<Hotel> implements HotelDao {
 
     public HotelDaoImpl() {
-        super(new File("static/hotels.json"), new TypeReference<List<Hotel>>() {
+        super(new File("db/hotels.json"), new TypeReference<List<Hotel>>() {
         });
     }
 

@@ -5,9 +5,9 @@ import ua.goit.booking.controller.ReservationController;
 import ua.goit.booking.controller.RoomController;
 import ua.goit.booking.controller.UserController;
 import ua.goit.booking.controller.exception.HotelControllerException;
-import ua.goit.booking.entity.Hotel;
-import ua.goit.booking.entity.Room;
-import ua.goit.booking.entity.User;
+import ua.goit.booking.model.entity.Hotel;
+import ua.goit.booking.model.entity.Room;
+import ua.goit.booking.model.entity.User;
 import ua.goit.booking.util.DateTime;
 
 import java.util.*;

@@ -1,4 +1,4 @@
-package ua.goit.booking.entity;
+package ua.goit.booking.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import ua.goit.booking.dao.Identity;

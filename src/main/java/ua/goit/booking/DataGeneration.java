@@ -1,15 +1,11 @@
 package ua.goit.booking;
 
-import sun.security.x509.AttributeNameEnumeration;
 import ua.goit.booking.controller.HotelController;
-import ua.goit.booking.controller.RoomController;
 import ua.goit.booking.controller.UserController;
 import ua.goit.booking.controller.exception.HotelControllerException;
-import ua.goit.booking.dao.AbstractDao;
-import ua.goit.booking.dao.AbstractDaoImp;
-import ua.goit.booking.entity.Hotel;
-import ua.goit.booking.entity.Room;
-import ua.goit.booking.entity.User;
+import ua.goit.booking.model.entity.Hotel;
+import ua.goit.booking.model.entity.Room;
+import ua.goit.booking.model.entity.User;
 
 import java.util.*;
 

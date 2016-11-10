@@ -3,7 +3,7 @@ package ua.goit.booking.controller;
 import ua.goit.booking.dao.UserDao;
 import ua.goit.booking.dao.UserDaoImpl;
 import ua.goit.booking.dao.exception.AbstractDaoException;
-import ua.goit.booking.entity.User;
+import ua.goit.booking.model.entity.User;
 
 import java.util.List;
 

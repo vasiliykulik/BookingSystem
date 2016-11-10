@@ -5,8 +5,8 @@ import ua.goit.booking.dao.exception.AbstractDaoException;
 import ua.goit.booking.dao.exception.HotelDaoException;
 import ua.goit.booking.dao.exception.ReservationDaoException;
 import ua.goit.booking.dao.exception.RoomDaoException;
-import ua.goit.booking.entity.Hotel;
-import ua.goit.booking.entity.Room;
+import ua.goit.booking.model.entity.Hotel;
+import ua.goit.booking.model.entity.Room;
 import ua.goit.booking.util.DateTime;
 
 import java.io.File;
@@ -20,7 +20,7 @@ import java.util.function.Predicate;
 public class RoomDaoImpl extends AbstractDaoImp<Room> implements RoomDao {
 
     public RoomDaoImpl() {
-        super(new File("static/rooms.json"), new TypeReference<List<Room>>() {
+        super(new File("db/rooms.json"), new TypeReference<List<Room>>() {
         });
     }
 

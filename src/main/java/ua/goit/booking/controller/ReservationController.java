@@ -4,8 +4,8 @@ import ua.goit.booking.dao.ReservationDao;
 import ua.goit.booking.dao.ReservationDaoImpl;
 import ua.goit.booking.dao.exception.AbstractDaoException;
 import ua.goit.booking.dao.exception.ReservationDaoException;
-import ua.goit.booking.entity.Reservation;
-import ua.goit.booking.entity.Room;
+import ua.goit.booking.model.entity.Reservation;
+import ua.goit.booking.model.entity.Room;
 
 import java.util.List;
 

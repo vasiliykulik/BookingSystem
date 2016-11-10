@@ -1,7 +1,7 @@
 package ua.goit.booking.dao;
 
 import ua.goit.booking.dao.exception.ReservationDaoException;
-import ua.goit.booking.entity.Reservation;
+import ua.goit.booking.model.entity.Reservation;
 
 import java.util.Date;
 
