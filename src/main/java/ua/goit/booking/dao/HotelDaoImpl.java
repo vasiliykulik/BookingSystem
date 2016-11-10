@@ -66,7 +66,10 @@ public class HotelDaoImpl extends AbstractDaoImp<Hotel> implements HotelDao {
                 || city.equals("")) {
             throw new HotelDaoException("Hotel cannot be with empty fields!");
         }
-        List<Hotel> hotels = findHotelByCity(city).stream().filter(hotel -> hotel.getHotelName().equals(hotelName)).collect(Collectors.toList());
+        List<Hotel> hotels = getAll().stream()
+                .filter(hotel -> hotel.getCityName().equals(city))
+                .filter(hotel -> hotel.getHotelName().equals(hotelName))
+                .collect(Collectors.toList());
         if (hotels.isEmpty()) {
             return null;
         }
