@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>ua.goit.booking.dao</OriginalElement>
+  <nodes>
+    <node x="414.125" y="82.0">ua.goit.booking.dao.RoomDao</node>
+    <node x="127.125" y="82.0">ua.goit.booking.dao.HotelDao</node>
+    <node x="0.0" y="251.0">ua.goit.booking.dao.exception</node>
+    <node x="497.875" y="174.0">ua.goit.booking.dao.ReservationDaoImpl</node>
+    <node x="247.125" y="82.0">ua.goit.booking.dao.AbstractDaoImp</node>
+    <node x="0.0" y="82.0">ua.goit.booking.dao.UserDao</node>
+    <node x="556.375" y="82.0">ua.goit.booking.dao.ReservationDao</node>
+    <node x="334.075" y="174.0">ua.goit.booking.dao.RoomDaoImpl</node>
+    <node x="172.7" y="174.0">ua.goit.booking.dao.HotelDaoImpl</node>
+    <node x="207.0" y="251.0">ua.goit.booking.dao.Identity</node>
+    <node x="260.125" y="0.0">ua.goit.booking.dao.AbstractDao</node>
+    <node x="15.75" y="174.0">ua.goit.booking.dao.UserDaoImpl</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="ua.goit.booking.dao.AbstractDaoImp" target="ua.goit.booking.dao.AbstractDao">
+      <point x="0.0" y="-16.0" />
+      <point x="0.0" y="16.0" />
+    </edge>
+    <edge source="ua.goit.booking.dao.HotelDaoImpl" target="ua.goit.booking.dao.AbstractDaoImp">
+      <point x="32.5" y="-16.0" />
+      <point x="270.2" y="154.0" />
+      <point x="302.25" y="154.0" />
+      <point x="-18.375" y="16.0" />
+    </edge>
+    <edge source="ua.goit.booking.dao.RoomDaoImpl" target="ua.goit.booking.dao.AbstractDaoImp">
+      <point x="-33.0" y="-16.0" />
+      <point x="367.075" y="154.0" />
+      <point x="339.0" y="154.0" />
+      <point x="18.375" y="16.0" />
+    </edge>
+    <edge source="ua.goit.booking.dao.ReservationDaoImpl" target="ua.goit.booking.dao.AbstractDaoImp">
+      <point x="-43.5" y="-16.0" />
+      <point x="541.375" y="144.0" />
+      <point x="375.75" y="144.0" />
+      <point x="55.125" y="16.0" />
+    </edge>
+    <edge source="ua.goit.booking.dao.ReservationDao" target="ua.goit.booking.dao.AbstractDao">
+      <point x="0.0" y="-16.0" />
+      <point x="628.375" y="52.0" />
+      <point x="369.02500000000003" y="52.0" />
+      <point x="48.400000000000034" y="16.0" />
+    </edge>
+    <edge source="ua.goit.booking.dao.RoomDao" target="ua.goit.booking.dao.AbstractDao">
+      <point x="0.0" y="-16.0" />
+      <point x="465.125" y="62.0" />
+      <point x="344.82500000000005" y="62.0" />
+      <point x="24.200000000000045" y="16.0" />
+    </edge>
+    <edge source="ua.goit.booking.dao.UserDaoImpl" target="ua.goit.booking.dao.UserDao">
+      <point x="-30.75" y="-16.0" />
+      <point x="0.0" y="16.0" />
+    </edge>
+    <edge source="ua.goit.booking.dao.HotelDaoImpl" target="ua.goit.booking.dao.HotelDao">
+      <point x="-32.5" y="-16.0" />
+      <point x="205.2" y="134.0" />
+      <point x="177.125" y="134.0" />
+      <point x="0.0" y="16.0" />
+    </edge>
+    <edge source="ua.goit.booking.dao.UserDao" target="ua.goit.booking.dao.AbstractDao">
+      <point x="0.0" y="-16.0" />
+      <point x="46.5" y="52.0" />
+      <point x="272.225" y="52.0" />
+      <point x="-48.39999999999998" y="16.0" />
+    </edge>
+    <edge source="ua.goit.booking.dao.RoomDaoImpl" target="ua.goit.booking.dao.RoomDao">
+      <point x="33.0" y="-16.0" />
+      <point x="433.075" y="154.0" />
+      <point x="465.125" y="154.0" />
+      <point x="0.0" y="16.0" />
+    </edge>
+    <edge source="ua.goit.booking.dao.UserDaoImpl" target="ua.goit.booking.dao.AbstractDaoImp">
+      <point x="30.75" y="-16.0" />
+      <point x="108.0" y="144.0" />
+      <point x="265.5" y="144.0" />
+      <point x="-55.125" y="16.0" />
+    </edge>
+    <edge source="ua.goit.booking.dao.HotelDao" target="ua.goit.booking.dao.AbstractDao">
+      <point x="0.0" y="-16.0" />
+      <point x="177.125" y="62.0" />
+      <point x="296.425" y="62.0" />
+      <point x="-24.19999999999999" y="16.0" />
+    </edge>
+    <edge source="ua.goit.booking.dao.ReservationDaoImpl" target="ua.goit.booking.dao.ReservationDao">
+      <point x="43.5" y="-16.0" />
+      <point x="0.0" y="16.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.5000000000000004" x="350.4999999999999" y="141.5" />
+  <SelectedNodes>
+    <node>ua.goit.booking.dao.UserDaoImpl</node>
+  </SelectedNodes>
+  <Categories />
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
