@@ -5,9 +5,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import ua.goit.booking.dao.exception.AbstractDaoException;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,7 +19,7 @@ public class AbstractDaoImp<T extends Identity> implements AbstractDao<T> {
 
     public AbstractDaoImp(File file, TypeReference<List<T>> objectsFromDB) {
         File parentDir = file.getParentFile();
-        if(! parentDir.exists()) {
+        if (!parentDir.exists()) {
             parentDir.mkdirs();
         }
         this.file = file;
@@ -105,4 +106,5 @@ public class AbstractDaoImp<T extends Identity> implements AbstractDao<T> {
     public boolean deleteById(long id) throws AbstractDaoException {
         return delete(getById(id));
     }
+
 }

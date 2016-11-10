@@ -50,7 +50,6 @@ public class HotelDaoImpl extends AbstractDaoImp<Hotel> implements HotelDao {
         List<Long> roomsId = hotel.getRoomsId();
         if (!roomsId.contains(room.getId())) {
             roomsId.add(room.getId());
-//            hotel.setRoomsId(roomsId);
             save(hotel);
         }
         room.setHotelId(hotel.getId());
@@ -84,12 +83,21 @@ public class HotelDaoImpl extends AbstractDaoImp<Hotel> implements HotelDao {
     }
 
     @Override
-    public List<Hotel> findHotelByName(String name) {
-        return findBy(name, (hotel -> hotel.getHotelName().equals(name)));
+    public List<Hotel> findHotelByName(String name) throws HotelDaoException {
+        List<Hotel> result = findBy(name, (hotel -> hotel.getHotelName().equals(name)));
+        if (result.size() == 0) {
+            throw new HotelDaoException("Wrong hotel name!");
+        }
+        return result;
     }
 
     @Override
-    public List<Hotel> findHotelByCity(String city) {
-        return findBy(city, (hotel -> hotel.getCityName().equals(city)));
+    public List<Hotel> findHotelByCity(String city) throws HotelDaoException {
+        List<Hotel> result = findBy(city, (hotel -> hotel.getCityName().equals(city)));
+        if (result.size() == 0) {
+            throw new HotelDaoException("Wrong city!");
+        }
+        return result;
     }
+
 }

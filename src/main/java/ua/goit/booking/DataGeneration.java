@@ -3,9 +3,13 @@ package ua.goit.booking;
 import sun.security.x509.AttributeNameEnumeration;
 import ua.goit.booking.controller.HotelController;
 import ua.goit.booking.controller.RoomController;
+import ua.goit.booking.controller.UserController;
 import ua.goit.booking.controller.exception.HotelControllerException;
+import ua.goit.booking.dao.AbstractDao;
+import ua.goit.booking.dao.AbstractDaoImp;
 import ua.goit.booking.entity.Hotel;
 import ua.goit.booking.entity.Room;
+import ua.goit.booking.entity.User;
 
 import java.util.*;
 
@@ -45,6 +49,11 @@ public class DataGeneration {
                 }
             }
         }));
+
+        UserController userController = new UserController();
+        userController.save(new User("Taras", "Lavriniuk", "email@gmail.com"));
+        userController.save(new User("Oleg", "Orlov", "example@gmail.com"));
+        userController.save(new User("Dmitriy", "Lesovoy", "test@gmail.com"));
 
 
     }

@@ -8,9 +8,11 @@ import ua.goit.booking.dao.exception.HotelDaoException;
 import ua.goit.booking.entity.Hotel;
 import ua.goit.booking.entity.Room;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class HotelController {
+
     private static HotelDao hotelDao = new HotelDaoImpl();
 
     public Hotel findBy(String hotelName, String city) throws HotelControllerException {
@@ -22,11 +24,21 @@ public class HotelController {
     }
 
     public List<Hotel> findHotelByName(String name) {
-        return hotelDao.findHotelByName(name);
+        try {
+            return hotelDao.findHotelByName(name);
+        } catch (HotelDaoException e) {
+            e.printStackTrace();
+            return new ArrayList<>();
+        }
     }
 
     public List<Hotel> findHotelByCity(String city) {
-        return hotelDao.findHotelByCity(city);
+        try {
+            return hotelDao.findHotelByCity(city);
+        } catch (HotelDaoException e) {
+            e.printStackTrace();
+            return new ArrayList<>();
+        }
     }
 
     public Hotel save(Hotel hotel) throws HotelControllerException {
@@ -69,4 +81,5 @@ public class HotelController {
             return false;
         }
     }
+
 }

@@ -17,4 +17,5 @@ public interface AbstractDao<T> {
     boolean delete(T t) throws AbstractDaoException;
 
     boolean deleteById(long id) throws AbstractDaoException;
+
 }

@@ -1,12 +1,12 @@
 package ua.goit.booking.entity;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import ua.goit.booking.dao.Identity;
 
 import java.util.Date;
 import java.util.UUID;
 
 public class Reservation implements Identity {
+
     private Long id;
     private Long roomId;
     private Long userId;
@@ -97,4 +97,5 @@ public class Reservation implements Identity {
         sb.append('}');
         return sb.toString();
     }
+
 }

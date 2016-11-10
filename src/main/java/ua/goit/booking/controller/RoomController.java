@@ -1,21 +1,21 @@
 package ua.goit.booking.controller;
 
 import ua.goit.booking.controller.exception.RoomControllerException;
-import ua.goit.booking.dao.*;
+import ua.goit.booking.dao.RoomDao;
+import ua.goit.booking.dao.RoomDaoImpl;
 import ua.goit.booking.dao.exception.AbstractDaoException;
 import ua.goit.booking.entity.Room;
 
-import java.util.*;
-
+import java.util.List;
+import java.util.Map;
 
 public class RoomController {
-    // повертає масив усіх номерів
-    // повертає null, якщо в базі немає номерів
+
+    private static RoomDao roomDao = new RoomDaoImpl();
+
     public List<Room> getAll() {
         return roomDao.getAll();
     }
-
-    private static RoomDao roomDao = new RoomDaoImpl();
 
     public Room save(Room room) throws RoomControllerException {
         try {
@@ -37,4 +37,5 @@ public class RoomController {
             return false;
         }
     }
+
 }

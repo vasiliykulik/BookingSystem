@@ -13,7 +13,8 @@ public interface HotelDao extends AbstractDao<Hotel> {
 
     Hotel findBy(String hotelName, String city) throws HotelDaoException;
 
-    List<Hotel> findHotelByCity(String city);
+    List<Hotel> findHotelByCity(String city) throws HotelDaoException;
 
-    List<Hotel> findHotelByName(String name);
+    List<Hotel> findHotelByName(String name) throws HotelDaoException;
+
 }

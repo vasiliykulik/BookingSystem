@@ -12,13 +12,13 @@ import java.util.stream.Collectors;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Hotel implements Identity {
+
     private Long id;
     private String hotelName;
     private String cityName;
     private List<Long> roomsId;
 
     public Hotel() {
-
     }
 
     public Hotel(String hotelName, String cityName) {
@@ -27,14 +27,6 @@ public class Hotel implements Identity {
         this.cityName = cityName;
         this.roomsId = new ArrayList<>();
     }
-//
-//    public Hotel(String hotelName, String cityName, List<Room> roomsId) {
-//        this.id = Math.abs(UUID.randomUUID().getLeastSignificantBits());
-//        this.hotelName = hotelName;
-//        this.cityName = cityName;
-//        this.roomsId = new ArrayList<>();
-//        setRooms(roomsId);
-//    }
 
     @Override
     public Long getId() {
@@ -82,11 +74,8 @@ public class Hotel implements Identity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         Hotel hotel = (Hotel) o;
-
         return id != null ? id.equals(hotel.id) : hotel.id == null;
-
     }
 
     @Override

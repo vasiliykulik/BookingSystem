@@ -1,12 +1,9 @@
 package ua.goit.booking.dao;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import ua.goit.booking.controller.exception.ReservationControllerException;
 import ua.goit.booking.dao.exception.AbstractDaoException;
 import ua.goit.booking.dao.exception.ReservationDaoException;
-import ua.goit.booking.entity.Hotel;
 import ua.goit.booking.entity.Reservation;
-import ua.goit.booking.entity.Room;
 import ua.goit.booking.entity.User;
 import ua.goit.booking.util.DateTime;
 
@@ -115,4 +112,5 @@ public class ReservationDaoImpl extends AbstractDaoImp<Reservation> implements R
             return false;
         }
     }
+
 }

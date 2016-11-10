@@ -12,7 +12,9 @@ import ua.goit.booking.util.DateTime;
 import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 import java.util.function.Predicate;
 
 public class RoomDaoImpl extends AbstractDaoImp<Room> implements RoomDao {
@@ -129,4 +131,5 @@ public class RoomDaoImpl extends AbstractDaoImp<Room> implements RoomDao {
         });
         return true;
     }
+
 }

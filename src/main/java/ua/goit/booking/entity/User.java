@@ -1,6 +1,5 @@
 package ua.goit.booking.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import ua.goit.booking.dao.Identity;
 
@@ -8,6 +7,7 @@ import java.util.UUID;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class User implements Identity {
+
     private Long id;
     private String firstName;
     private String lastName;
@@ -22,12 +22,6 @@ public class User implements Identity {
         this.lastName = lastName;
         this.emailAddress = emailAddress;
     }
-
-//    @JsonIgnore
-//    public boolean isUserDataCorrupted(){
-//        return this.getId() == null || this.getFirstName() == null
-//                || this.getLastName() == null || this.getEmailAddress() == null;
-//    }
 
     @Override
     public Long getId() {
@@ -50,11 +44,8 @@ public class User implements Identity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         User user = (User) o;
-
         return emailAddress != null ? emailAddress.equals(user.emailAddress) : user.emailAddress == null;
-
     }
 
     @Override
@@ -71,4 +62,5 @@ public class User implements Identity {
                 ", emailAddress='" + emailAddress + '\'' +
                 '}';
     }
+
 }
