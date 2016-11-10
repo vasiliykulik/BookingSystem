@@ -30,9 +30,12 @@ public class RoomDaoImpl extends AbstractDaoImp<Room> implements RoomDao {
 
         Date fromDate = parseDate(params.get("fromDate"), "yyyy-MM-dd");
         Date toDate = parseDate(params.get("toDate"), "yyyy-MM-dd");
+        Date currentDate = DateTime.getInstance().getTodaysDate().getStartOfDay().getDate();
 
-        if (fromDate == null || toDate == null) {
-            System.out.println("Due to the fact that Date is incorrect it winn not be taken into consideration");
+        if (fromDate == null || toDate == null ||
+                fromDate.before(currentDate) ||
+                toDate.before(currentDate)) {
+            System.out.println("Due to the fact that Date is incorrect or have not been set We will not check is room booked");
         } else {
             Date startFromDate = DateTime.getInstance(fromDate).getStartOfDay().getDate();
             Date endToDate = DateTime.getInstance(toDate).getEndOfDay().getDate();
@@ -59,7 +62,7 @@ public class RoomDaoImpl extends AbstractDaoImp<Room> implements RoomDao {
             String cityName = params.get("cityName");
             Predicate<Room> predicate = room -> {
                 try {
-                    return !hotelDao.getById(room.getHotelId()).getCityName().equals(cityName);
+                    return !cityName.equals(hotelDao.getById(room.getHotelId()).getCityName());
                 } catch (AbstractDaoException e) {
                     e.printStackTrace();
                     return false;
@@ -71,7 +74,7 @@ public class RoomDaoImpl extends AbstractDaoImp<Room> implements RoomDao {
             String hotelName = params.get("hotelName");
             Predicate<Room> predicate = room -> {
                 try {
-                    return !hotelDao.getById(room.getHotelId()).getHotelName().equals(hotelName);
+                    return !hotelName.equals(hotelDao.getById(room.getHotelId()).getHotelName());
                 } catch (AbstractDaoException e) {
                     e.printStackTrace();
                     return false;

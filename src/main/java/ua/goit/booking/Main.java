@@ -31,7 +31,7 @@ public class Main {
         hotelController.findHotelByName("Test").forEach(System.out::println);
         System.out.println("_______________");
         System.out.println("Find all hotels with empty name:");
-        hotelController.findHotelByName("").forEach(System.out::println);
+        hotelController.findHotelByName(null).forEach(System.out::println);
         System.out.println("======================================\n");
 
         //Find Hotel by city
@@ -114,8 +114,8 @@ public class Main {
         long randomReservationUserId2 = randomReservation2.getUserId();
         System.out.println(String.format("_______________\n" +
                         "Cancel reservation by wrong date: RoomId = %s, FromDate = %s, ToDate = %s, UserId = %s",
-                randomReservationRoomId2, fromDate, toDate, randomReservationUserId2));
-        reservationController.cancelReservation(randomReservationRoomId2, "", "", randomReservationUserId2);
+                randomReservationRoomId2, "2016-12-01", "2016-12-01", randomReservationUserId2));
+        reservationController.cancelReservation(randomReservationRoomId2, "2016-12-01", "2016-12-01", randomReservationUserId2);
         reservationController.getAll().forEach(System.out::println);
 
         Reservation randomReservation3 = reservationController.getAll().stream().findAny().get();
@@ -142,12 +142,12 @@ public class Main {
 
         //Find Room
         Map<String, String> params = new HashMap<>();
-        params.put("cityName", "Kiev");
+//        params.put("Country", "Ukraine");
         params.put("price", "300");
-        params.put("hotelName", "Radisson");
+//        params.put("hotelName", "Test");
         params.put("numberOfVisitors", "3");
-        params.put("fromDate", "2016-11-12");
-        params.put("toDate", "2016-11-12");
+        params.put("fromDate", "2016-11-09");
+        params.put("toDate", "2016-11-09");
 
         System.out.println(String.format("_______________\n" +
                 "Find Room reservation by parameters: " + params));
