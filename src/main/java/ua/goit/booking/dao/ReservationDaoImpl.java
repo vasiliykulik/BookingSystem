@@ -85,8 +85,6 @@ public class ReservationDaoImpl extends AbstractDaoImp<Reservation> implements R
             throw new ReservationDaoException("Incorrect Date for reservation");
         }
 
-        //TODO check on swapped Date
-
         return reservations.stream()
                 .allMatch(reservation -> toDate.before(reservation.getFromDate()) || fromDate.after(reservation.getToDate()));
     }

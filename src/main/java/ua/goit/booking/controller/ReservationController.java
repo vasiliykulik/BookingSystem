@@ -13,11 +13,6 @@ public class ReservationController {
 
     private static ReservationDao reservationDao = new ReservationDaoImpl();
 
-    public List<Room> getAllFreeRoomsFromThisHotel(Long roomId) throws AbstractDaoException {
-        //TODO Logic
-        return null;
-    }
-
     public boolean bookRoom(long roomId, String fromDate, String toDate, long userId) {
         try {
             return reservationDao.bookRoom(roomId, fromDate, toDate, userId);

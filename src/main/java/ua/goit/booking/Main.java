@@ -54,8 +54,8 @@ public class Main {
         List<User> allUsers = userController.getAll();
         long randomUserId = allUsers.get(random.nextInt(allUsers.size())).getId();
 
-        String fromDate = DateTime.getInstance().plusDays(2).toString("yyyy-MM-dd");
-        String toDate = DateTime.getInstance().plusDays(2).toString("yyyy-MM-dd");
+        String fromDate = DateTime.getInstance().plusDays(4).toString("yyyy-MM-dd");
+        String toDate = DateTime.getInstance().plusDays(4).toString("yyyy-MM-dd");
 
         System.out.println(String.format("_______________\n" +
                         "Book room by parameters: RoomId = %s, FromDate = %s, ToDate = %s, UserId = %s",
@@ -69,7 +69,7 @@ public class Main {
         reservationController.bookRoom(randomRoomId, fromDate, toDate, randomUserId);
         reservationController.getAll().forEach(System.out::println);
 
-        String pastDate = DateTime.getInstance().minusDays(1).toString("yyyy-MM-dd");
+        String pastDate = DateTime.getInstance().minusDays(10).toString("yyyy-MM-dd");
         System.out.println(String.format("_______________\n" +
                         "Book room by wrong date: RoomId = %s, FromDate = %s, ToDate = %s, UserId = %s",
                 randomRoomId, pastDate, pastDate, randomUserId));
@@ -142,12 +142,12 @@ public class Main {
 
         //Find Room
         Map<String, String> params = new HashMap<>();
-//        params.put("Country", "Ukraine");
+//        params.put("country", "Ukraine");
         params.put("price", "300");
 //        params.put("hotelName", "Test");
         params.put("numberOfVisitors", "3");
-        params.put("fromDate", "2016-11-09");
-        params.put("toDate", "2016-11-09");
+        params.put("fromDate", "2016-11-15");
+        params.put("toDate", "2016-11-15");
 
         System.out.println(String.format("_______________\n" +
                 "Find Room reservation by parameters: " + params));
