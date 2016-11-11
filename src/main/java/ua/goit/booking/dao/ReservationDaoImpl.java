@@ -23,9 +23,8 @@ public class ReservationDaoImpl extends AbstractDaoImp<Reservation> implements R
     @Override
     public boolean bookRoom(long roomId, String fromDate, String toDate, long userId) throws ReservationDaoException {
         UserDao userDao = new UserDaoImpl();
-        User user;
         try {
-            user = userDao.getById(userId);
+            userDao.getById(userId);
         } catch (AbstractDaoException e) {
             throw new ReservationDaoException("This user is not registered");
         }
