@@ -1,0 +1,3 @@
+c:
+cd C:\Program Files\Java\jdk1.8.0_101\bin
+javadoc -sourcepath D:\IdeaProjects\BookingSystem\src\main\java\ua\goit\booking\*.java D:\IdeaProjects\BookingSystem\src\main\java\ua\goit\booking\controller\*.java D:\IdeaProjects\BookingSystem\src\main\java\ua\goit\booking\controller\exception\*.java D:\IdeaProjects\BookingSystem\src\main\java\ua\goit\booking\dao\*.java D:\IdeaProjects\BookingSystem\src\main\java\ua\goit\booking\dao\exception\*.java D:\IdeaProjects\BookingSystem\src\main\java\ua\goit\booking\model\entity\*.java  -d D:\IdeaProjects\BookingSystem\static\doc\
